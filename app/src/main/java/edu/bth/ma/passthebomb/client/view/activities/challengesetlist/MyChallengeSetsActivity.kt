@@ -1,11 +1,8 @@
 package edu.bth.ma.passthebomb.client.view.activities.challengesetlist
 
-import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.view.adapter.ChallengeSetsAdapter
 
@@ -13,7 +10,7 @@ import edu.bth.ma.passthebomb.client.view.adapter.MyChallengeSetsAdapter
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetListVm
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.MyChallengeSetsVm
 
-class MyChallengeSetList : ChallengeSetList() {
+class MyChallengeSetsActivity : ChallengeSetListActivity() {
 
     override val vm: ChallengeSetListVm by viewModels<MyChallengeSetsVm>()
 

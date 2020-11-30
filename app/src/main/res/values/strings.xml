@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">PassTheBomb-Client</string>
-    <string name="welcome_text">Welcome \n to  \n pass the bomb</string>
+    <string name="tutorial_text">
+        Welcome to the tutorial of <b>Pass the Bomb</b>!
+        If you can read this we forgot to write an actual tutorial...
+        This is some placeholder text with some breakds
+        \n\n\n\n\n\n\n\n\n\n\n
+        text after the break
+        and some more breaks
+        \n\n\n\n\n\n\n\n\n\n\n
+        and some more text
+        \n\n\n\n\n\n\n\n\n\n\n
+        to see, whether scrolling works
+    </string>
+
+
 </resources>
