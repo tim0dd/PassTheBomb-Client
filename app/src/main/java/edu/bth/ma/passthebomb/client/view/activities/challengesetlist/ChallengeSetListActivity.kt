@@ -1,6 +1,7 @@
 package edu.bth.ma.passthebomb.client.view.activities.challengesetlist
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
@@ -23,6 +24,9 @@ abstract class ChallengeSetListActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         initButton()
+
+        val button : Button = findViewById<Button>(R.id.button_add_challenge_set)
+        button.setOnClickListener{vm.onButton(this)}
     }
 
     abstract fun initButton()

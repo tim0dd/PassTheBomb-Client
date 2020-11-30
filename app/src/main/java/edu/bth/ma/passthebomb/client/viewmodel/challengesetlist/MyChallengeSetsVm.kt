@@ -1,5 +1,6 @@
 package edu.bth.ma.passthebomb.client.viewmodel.challengesetlist
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.data.Database
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
@@ -10,7 +11,7 @@ class MyChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
         TODO("Not yet implemented")
     }
 
-    override fun onButton() {
+    override fun onButton(activity: AppCompatActivity) {
         TODO("Not yet implemented")
     }
 }
