@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PassTheBomb-Client</string>
+    <string name="welcome_text">Welcome \n to  \n pass the bomb</string>
 </resources>
