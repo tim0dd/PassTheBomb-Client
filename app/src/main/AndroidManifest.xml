@@ -9,11 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PassTheBombClient">
-        <activity android:name=".view.activities.AddPlayerActivity"></activity>
+        <activity android:name=".view.activities.ChallengeSetActivity"></activity>
+        <activity android:name=".view.activities.AddPlayerActivity" />
         <activity android:name=".view.activities.GameSettingsActivity" />
         <activity android:name=".view.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

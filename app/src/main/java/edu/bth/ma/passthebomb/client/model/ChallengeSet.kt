@@ -12,6 +12,10 @@ data class Challenge (
     val timeLimit: Int
 )
 
-class ChallengeSet(val id: Int, var name: String, var downloads: Int){
+class ChallengeSet(val id: String, var name: String, var downloads: Int){
     var challenges: ArrayList<Challenge> = ArrayList()
+
+    fun getChallengeTextList(): ArrayList<String>{
+        return ArrayList<String>(challenges.map{challenge -> challenge.text})
+    }
 }

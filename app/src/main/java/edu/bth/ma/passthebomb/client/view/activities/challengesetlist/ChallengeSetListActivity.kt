@@ -1,11 +1,14 @@
 package edu.bth.ma.passthebomb.client.view.activities.challengesetlist
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
-import edu.bth.ma.passthebomb.client.view.adapter.ChallengeSetsAdapter
+import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetListVm
 
@@ -32,4 +35,22 @@ abstract class ChallengeSetListActivity : AppCompatActivity() {
     abstract fun initButton()
 
     abstract fun getRecyclerViewAdapter(): ChallengeSetsAdapter
+
+    abstract class ChallengeSetsAdapter(private val context: Context,
+                                        private val dataset: List<ChallengeSetOverview>
+    ) : RecyclerView.Adapter<ChallengeSetsAdapter.ItemViewHolder>(){
+        class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+            val textViewChallengeSetName: TextView = view.findViewWithTag("text_view_challenge_set_name")
+        }
+
+        override fun getItemCount(): Int {
+            return dataset.size
+        }
+
+        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+            val challengeSetOverview = dataset[position]
+            holder.textViewChallengeSetName.text =  challengeSetOverview.name
+        }
+
+    }
 }

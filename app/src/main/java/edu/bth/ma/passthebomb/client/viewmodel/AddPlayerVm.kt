@@ -1,4 +1,4 @@
-package edu.bth.ma.passthebomb.client.viewmodel.challengesetlist
+package edu.bth.ma.passthebomb.client.viewmodel
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
