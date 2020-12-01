@@ -1,4 +1,4 @@
-package edu.bth.ma.passthebomb.client.view.activities.challengesetlist
+package edu.bth.ma.passthebomb.client.view.challengesetlist
 
 import android.content.Context
 import android.os.Bundle

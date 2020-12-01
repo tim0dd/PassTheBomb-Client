@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.data.Database
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
-import edu.bth.ma.passthebomb.client.view.activities.ChallengeSetActivity
+import edu.bth.ma.passthebomb.client.view.ChallengeSetActivity
 
 class MyChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
     override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = Database().loadLocalChallengeSetOverviews()

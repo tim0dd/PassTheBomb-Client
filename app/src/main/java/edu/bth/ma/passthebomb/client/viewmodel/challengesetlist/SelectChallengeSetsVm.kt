@@ -1,15 +1,12 @@
 package edu.bth.ma.passthebomb.client.viewmodel.challengesetlist
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.data.Database
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
-import edu.bth.ma.passthebomb.client.view.activities.GameSettingsActivity
-import edu.bth.ma.passthebomb.client.view.activities.TutorialActivity
+import edu.bth.ma.passthebomb.client.view.GameSettingsActivity
 
 class SelectChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
     override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = Database().loadLocalChallengeSetOverviews()

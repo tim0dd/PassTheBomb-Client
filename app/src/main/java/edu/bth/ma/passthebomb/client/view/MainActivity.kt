@@ -1,13 +1,13 @@
-package edu.bth.ma.passthebomb.client.view.activities
+package edu.bth.ma.passthebomb.client.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import edu.bth.ma.passthebomb.client.R
-import edu.bth.ma.passthebomb.client.view.activities.challengesetlist.DownloadChallengeSetActivity
-import edu.bth.ma.passthebomb.client.view.activities.challengesetlist.MyChallengeSetsActivity
-import edu.bth.ma.passthebomb.client.view.activities.challengesetlist.SelectChallengeSetsActivity
+import edu.bth.ma.passthebomb.client.view.challengesetlist.DownloadChallengeSetActivity
+import edu.bth.ma.passthebomb.client.view.challengesetlist.MyChallengeSetsActivity
+import edu.bth.ma.passthebomb.client.view.challengesetlist.SelectChallengeSetsActivity
 
 class MainActivity : AppCompatActivity() {
 

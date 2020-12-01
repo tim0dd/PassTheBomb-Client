@@ -9,20 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PassTheBombClient">
-        <activity android:name=".view.activities.ChallengeSetActivity"></activity>
-        <activity android:name=".view.activities.AddPlayerActivity" />
-        <activity android:name=".view.activities.GameSettingsActivity" />
-        <activity android:name=".view.activities.MainActivity">
+        <activity android:name=".view.EditChallengeActivity"></activity>
+        <activity android:name=".view.ChallengeSetActivity" />
+        <activity android:name=".view.AddPlayerActivity" />
+        <activity android:name=".view.GameSettingsActivity" />
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.challengesetlist.MyChallengeSetsActivity" />
-        <activity android:name=".view.activities.challengesetlist.DownloadChallengeSetActivity" />
-        <activity android:name=".view.activities.challengesetlist.SelectChallengeSetsActivity" />
-        <activity android:name=".view.activities.TutorialActivity" />
+        <activity android:name=".view.challengesetlist.MyChallengeSetsActivity" />
+        <activity android:name=".view.challengesetlist.DownloadChallengeSetActivity" />
+        <activity android:name=".view.challengesetlist.SelectChallengeSetsActivity" />
+        <activity android:name=".view.TutorialActivity" />
     </application>
 
 </manifest>

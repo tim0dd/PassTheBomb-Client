@@ -1,4 +1,4 @@
-package edu.bth.ma.passthebomb.client.view.activities
+package edu.bth.ma.passthebomb.client.view
 
 import android.content.Context
 import android.os.Bundle
@@ -26,7 +26,11 @@ class AddPlayerActivity : AppCompatActivity() {
 
         val vm: AddPlayerVm by viewModels()
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_add_player)
-        val adapter = PlayerListAdapter(this, vm)
+        val adapter =
+            PlayerListAdapter(
+                this,
+                vm
+            )
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
@@ -73,7 +77,9 @@ class AddPlayerActivity : AppCompatActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
             val adapterLayout = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item_player, parent, false)
-            return ItemViewHolder(adapterLayout)
+            return ItemViewHolder(
+                adapterLayout
+            )
         }
 
     }

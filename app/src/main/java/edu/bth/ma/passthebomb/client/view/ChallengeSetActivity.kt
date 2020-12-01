@@ -1,4 +1,4 @@
-package edu.bth.ma.passthebomb.client.view.activities
+package edu.bth.ma.passthebomb.client.view
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +31,11 @@ class ChallengeSetActivity : AppCompatActivity() {
         val challengeTexts = vm.challengeSet.getChallengeTextList()
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_challenge_list)
-        recyclerView.adapter = ChallengeListAdapter(this, challengeTexts)
+        recyclerView.adapter =
+            ChallengeListAdapter(
+                this,
+                challengeTexts
+            )
         recyclerView.setHasFixedSize(true)
     }
 
@@ -53,7 +57,9 @@ class ChallengeSetActivity : AppCompatActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
             val adapterLayout = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item_challenge, parent, false)
-            return ItemViewHolder(adapterLayout)
+            return ItemViewHolder(
+                adapterLayout
+            )
         }
 
     }

@@ -1,4 +1,4 @@
-package edu.bth.ma.passthebomb.client.view.activities
+package edu.bth.ma.passthebomb.client.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
