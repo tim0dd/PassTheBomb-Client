@@ -24,7 +24,7 @@ class SelectChallengeSetsActivity : ChallengeSetListActivity() {
         return SelectChallengeSetsAdapter(this, vm.challengeSetOverviews)
     }
 
-    class SelectChallengeSetsAdapter(private val context: Context,
+    inner class SelectChallengeSetsAdapter(private val context: Context,
                                      private val dataset: List<ChallengeSetOverview>
     ) : ChallengeSetsAdapter(context, dataset){
 

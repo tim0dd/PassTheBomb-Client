@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="600dp"
             android:scrollbars="vertical"
-            app:layoutManagyouter="LinearLayoutManager" />
+            app:layoutManager="LinearLayoutManager" />
 
         <Button
             android:id="@+id/button_add_challenge"

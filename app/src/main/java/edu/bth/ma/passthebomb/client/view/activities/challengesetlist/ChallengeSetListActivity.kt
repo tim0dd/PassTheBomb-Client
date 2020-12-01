@@ -36,10 +36,10 @@ abstract class ChallengeSetListActivity : AppCompatActivity() {
 
     abstract fun getRecyclerViewAdapter(): ChallengeSetsAdapter
 
-    abstract class ChallengeSetsAdapter(private val context: Context,
+    abstract inner class ChallengeSetsAdapter(private val context: Context,
                                         private val dataset: List<ChallengeSetOverview>
     ) : RecyclerView.Adapter<ChallengeSetsAdapter.ItemViewHolder>(){
-        class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val textViewChallengeSetName: TextView = view.findViewWithTag("text_view_challenge_set_name")
         }
 
@@ -50,6 +50,9 @@ abstract class ChallengeSetListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             val challengeSetOverview = dataset[position]
             holder.textViewChallengeSetName.text =  challengeSetOverview.name
+            holder.view.setOnClickListener{
+                vm.onChallengeSetClick(position, this@ChallengeSetListActivity)
+            }
         }
 
     }

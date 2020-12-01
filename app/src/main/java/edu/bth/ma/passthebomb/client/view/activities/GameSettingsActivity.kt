@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import edu.bth.ma.passthebomb.client.R
-import edu.bth.ma.passthebomb.client.view.adapter.PlayerListAdapter
 
 class GameSettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

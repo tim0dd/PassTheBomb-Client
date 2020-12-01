@@ -24,7 +24,7 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
         return DownloadChallengeSetsAdapter(this, vm.challengeSetOverviews)
     }
 
-    class DownloadChallengeSetsAdapter(private val context: Context,
+    inner class DownloadChallengeSetsAdapter(private val context: Context,
                                        private val dataset: List<ChallengeSetOverview>
     ) : ChallengeSetsAdapter(context, dataset){
 

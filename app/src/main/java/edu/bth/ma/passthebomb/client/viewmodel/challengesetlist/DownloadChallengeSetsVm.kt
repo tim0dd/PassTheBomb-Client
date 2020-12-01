@@ -1,5 +1,6 @@
 package edu.bth.ma.passthebomb.client.viewmodel.challengesetlist
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.data.Rest
@@ -7,7 +8,7 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
 class DownloadChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
     override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = Rest().loadOnlineChallengeSetOverviews()
-    override fun onChallengeSetClick(index: Int) {
+    override fun onChallengeSetClick(index: Int, context: Context) {
         TODO("Not yet implemented")
     }
 

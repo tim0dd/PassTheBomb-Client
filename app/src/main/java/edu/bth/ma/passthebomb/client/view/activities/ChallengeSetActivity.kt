@@ -17,7 +17,7 @@ class ChallengeSetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_challenge_set)
 
-        val challengeSetIdUnsafe: String? = getIntent().getStringExtra("EXTRA_SESSION_ID")
+        val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
         lateinit var challengeSetId: String
         if (challengeSetIdUnsafe == null) {
             finish()
@@ -38,7 +38,7 @@ class ChallengeSetActivity : AppCompatActivity() {
     class ChallengeListAdapter(private val context: Context, val challengeTexts: List<String>) :
         RecyclerView.Adapter<ChallengeListAdapter.ItemViewHolder>() {
         class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-            val textViewChallengeText: TextView = view.findViewById(R.id.text_view_player_name)
+            val textViewChallengeText: TextView = view.findViewById(R.id.text_view_challenge_list_challenge)
         }
 
         override fun getItemCount(): Int {

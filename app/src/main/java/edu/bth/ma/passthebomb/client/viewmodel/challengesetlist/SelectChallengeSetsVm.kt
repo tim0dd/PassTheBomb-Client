@@ -1,6 +1,7 @@
 package edu.bth.ma.passthebomb.client.viewmodel.challengesetlist
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
@@ -12,7 +13,7 @@ import edu.bth.ma.passthebomb.client.view.activities.TutorialActivity
 
 class SelectChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
     override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = Database().loadLocalChallengeSetOverviews()
-    override fun onChallengeSetClick(index: Int) {
+    override fun onChallengeSetClick(index: Int, context: Context) {
         TODO("Not yet implemented")
     }
 
