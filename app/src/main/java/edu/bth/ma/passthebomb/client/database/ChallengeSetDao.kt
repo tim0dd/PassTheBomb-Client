@@ -8,12 +8,22 @@ import edu.bth.ma.passthebomb.client.database.DbConstants.CHALLENGESET_COLUMN
 @Dao
 interface ChallengeSetDao {
 
-    @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addChallengeSet(challengeSetEntity: ChallengeSetEntity)
+    fun addChallengeSet(challengeSetEntity: ChallengeSetEntity)
 
-    @Transaction
+    @Update
+    fun updateChallengeSet(challengeSetEntity: ChallengeSetEntity)
+
+    @Delete
+    fun deleteChallengeSet(challengeSetEntity: ChallengeSetEntity)
+
+    @Query("DELETE FROM $CHALLENGESET_COLUMN")
+    fun deleteAllChallengeSets()
+
     @Query("SELECT * FROM $CHALLENGESET_COLUMN ORDER BY addedDate ASC")
-    fun getChallenges(): LiveData<List<ChallengeSetEntity>>
+    fun getChallengeSets(): LiveData<List<ChallengeSetEntity>>
+
+    @Query("SELECT * FROM $CHALLENGESET_COLUMN WHERE id =:id")
+    fun getChallengeSet(id: Int): LiveData<ChallengeSetEntity>
 
 }

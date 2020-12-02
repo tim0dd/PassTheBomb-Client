@@ -4,10 +4,25 @@ import androidx.lifecycle.LiveData
 
 class ChallengeSetRepository(private val challengeSetDao: ChallengeSetDao) {
 
-    val readAllData: LiveData<List<ChallengeSetEntity>> = challengeSetDao.getChallenges()
+    val readAllData: LiveData<List<ChallengeSetEntity>> = challengeSetDao.getChallengeSets()
 
-    suspend fun addChallengeSet(challengeSetEntity: ChallengeSetEntity) {
+    fun getChallengeSet(id: Int) : LiveData<ChallengeSetEntity>  {
+        return challengeSetDao.getChallengeSet(id)
+    }
+
+    fun addChallengeSet(challengeSetEntity: ChallengeSetEntity) {
         challengeSetDao.addChallengeSet(challengeSetEntity)
     }
 
+    fun updateChallengeSet(challengeSetEntity: ChallengeSetEntity) {
+        challengeSetDao.updateChallengeSet(challengeSetEntity)
+    }
+
+    fun deleteChallengeSet(challengeSetEntity: ChallengeSetEntity) {
+        challengeSetDao.deleteChallengeSet(challengeSetEntity)
+    }
+
+    fun deleteAllChallengeSets() {
+        challengeSetDao.deleteAllChallengeSets()
+    }
 }
