@@ -22,7 +22,7 @@ class AddPlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_player)
+        setContentView(R.layout.screen_add_player)
 
         val vm: AddPlayerVm by viewModels()
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_add_player)

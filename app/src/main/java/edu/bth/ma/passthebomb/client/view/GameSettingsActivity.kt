@@ -9,7 +9,7 @@ import edu.bth.ma.passthebomb.client.R
 class GameSettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game_settings)
+        setContentView(R.layout.screen_game_settings)
 
         val button = findViewById<Button>(R.id.button_game_settings_start_game)
         button.setOnClickListener {

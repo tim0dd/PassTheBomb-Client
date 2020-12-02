@@ -15,7 +15,7 @@ import edu.bth.ma.passthebomb.client.viewmodel.ChallengeSetVm
 class ChallengeSetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_challenge_set)
+        setContentView(R.layout.screen_challenge_set)
 
         val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
         lateinit var challengeSetId: String
