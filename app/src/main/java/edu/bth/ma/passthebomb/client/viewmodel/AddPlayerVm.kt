@@ -1,10 +1,7 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import edu.bth.ma.passthebomb.client.data.Database
-import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
 class AddPlayerVm() : ViewModel() {
     var playerNames = MutableLiveData<ArrayList<String>>(arrayListOf("karl", "Bernd", "Harald"))

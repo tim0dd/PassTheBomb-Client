@@ -6,12 +6,6 @@ data class ChallengeSetOverview (
     val downloads: Int
 )
 
-data class Challenge (
-    val name: String,
-    val text: String,
-    val timeLimit: Int
-)
-
 class ChallengeSet(val id: String, var name: String, var downloads: Int){
     var challenges: ArrayList<Challenge> = ArrayList()
 

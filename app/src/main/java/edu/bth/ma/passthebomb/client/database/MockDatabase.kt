@@ -1,11 +1,14 @@
-package edu.bth.ma.passthebomb.client.data
+package edu.bth.ma.passthebomb.client.database
 
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
+/**
+ * Only created for testing purposes, later we will be using ChallengeSetDatabase
+ */
+class MockDatabase {
 
-class Database{
     //TODO
     fun loadLocalChallengeSetOverviews(): ArrayList<ChallengeSetOverview>{
         return arrayListOf<ChallengeSetOverview>(
