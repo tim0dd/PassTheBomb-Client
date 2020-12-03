@@ -1,8 +1,8 @@
-package edu.bth.ma.passthebomb.client.data
+package edu.bth.ma.passthebomb.client.remote
 
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
-class Rest {
+class MockRest {
 
     //TODO
     fun loadOnlineChallengeSetOverviews(): ArrayList<ChallengeSetOverview>{
@@ -12,4 +12,6 @@ class Rest {
             ChallengeSetOverview("2", "online test3", 3)
         )
     }
+
+
 }
