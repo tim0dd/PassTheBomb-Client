@@ -19,22 +19,22 @@ class MainActivity : AppCompatActivity() {
 
         val buttonMyChallengeSets: Button = findViewById(R.id.buttonMyChallengeSets)
         buttonMyChallengeSets.setOnClickListener {
-            val intent = Intent(this, MyChallengeSetsActivity::class.java).apply {  }
+            val intent = Intent(this, MyChallengeSetsActivity::class.java)
             startActivity(intent)
         }
         val buttonDownloadChallengeSets: Button = findViewById(R.id.buttonDownloadChallengeSets)
         buttonDownloadChallengeSets.setOnClickListener {
-            val intent = Intent(this, DownloadChallengeSetActivity::class.java).apply {  }
+            val intent = Intent(this, DownloadChallengeSetActivity::class.java)
             startActivity(intent)
         }
         val buttonStartGame: Button = findViewById(R.id.buttonStartGame)
         buttonStartGame.setOnClickListener {
-            val intent = Intent(this, SelectChallengeSetsActivity::class.java).apply {  }
+            val intent = Intent(this, SelectChallengeSetsActivity::class.java)
             startActivity(intent)
         }
         val buttonTutorial: Button = findViewById(R.id.buttonTutorialAndRules)
         buttonTutorial.setOnClickListener {
-            val intent = Intent(this, TutorialActivity::class.java).apply {  }
+            val intent = Intent(this, TutorialActivity::class.java)
             startActivity(intent)
         }
     }

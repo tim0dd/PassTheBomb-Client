@@ -41,10 +41,10 @@
         app:layout_constraintTop_toBottomOf="@+id/multiline_text_challenge_text" />
 
     <TextView
-        android:id="@+id/text_view_challenge_time_limit"
+        android:id="@+id/text_view_challenge_time_limit_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time Limit"
+        android:text="Time Limit:"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,15 +57,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider5"
-        app:srcCompat="@drawable/ic_time"
-        tools:layout_editor_absoluteX="114dp" />
+        app:srcCompat="@drawable/ic_time" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/seek_bar_challenge_time"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:max="@integer/MAXIMUM_CHALLENGE_TIME"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -90,7 +93,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_challenge_time" />
 
     <Button
         android:id="@+id/button_challenge_cancel"
@@ -117,5 +120,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider6"
         app:layout_constraintVertical_bias="0.93" />
+
+    <TextView
+        android:id="@+id/text_view_challenge_time_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0 sec"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_challenge_time_limit_label"
+        app:layout_constraintStart_toEndOf="@+id/text_view_challenge_time_limit_label"
+        app:layout_constraintTop_toTopOf="@+id/text_view_challenge_time_limit_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

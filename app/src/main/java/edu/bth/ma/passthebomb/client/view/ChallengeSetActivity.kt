@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,8 @@ import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.viewmodel.ChallengeSetVm
 
 class ChallengeSetActivity : AppCompatActivity() {
+    val vm: ChallengeSetVm by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_challenge_set)
@@ -25,7 +28,6 @@ class ChallengeSetActivity : AppCompatActivity() {
         } else {
             challengeSetId = challengeSetIdUnsafe
         }
-        val vm: ChallengeSetVm by viewModels()
         vm.initChallengeSet(challengeSetId)
 
         val challengeTexts = vm.challengeSet.getChallengeTextList()
@@ -37,11 +39,16 @@ class ChallengeSetActivity : AppCompatActivity() {
                 challengeTexts
             )
         recyclerView.setHasFixedSize(true)
+
+        val addChallengeButton:Button = findViewById(R.id.button_add_challenge)
+        addChallengeButton.setOnClickListener{
+            vm.onCreateNewChallenge(this)
+        }
     }
 
-    class ChallengeListAdapter(private val context: Context, val challengeTexts: List<String>) :
+    inner class ChallengeListAdapter(private val context: Context, val challengeTexts: List<String>) :
         RecyclerView.Adapter<ChallengeListAdapter.ItemViewHolder>() {
-        class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val textViewChallengeText: TextView = view.findViewById(R.id.text_view_challenge_list_challenge)
         }
 
@@ -52,6 +59,9 @@ class ChallengeSetActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             val text = challengeTexts.get(position)
             holder.textViewChallengeText.text = text
+            holder.view.setOnClickListener{
+                vm.selectChallenge(position, this@ChallengeSetActivity)
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

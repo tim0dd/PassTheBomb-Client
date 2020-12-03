@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="MAXIMUM_CHALLENGE_TIME">100</integer>
+</resources>

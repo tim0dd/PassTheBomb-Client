@@ -7,9 +7,10 @@ data class ChallengeSetOverview (
 )
 
 data class Challenge (
-    val name: String,
-    val text: String,
-    val timeLimit: Int
+        var id: String,
+        var challengeSetId: String,
+        var text: String,
+        var timeLimit: Int
 )
 
 class ChallengeSet(val id: String, var name: String, var downloads: Int){
