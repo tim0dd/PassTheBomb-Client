@@ -22,7 +22,7 @@
             android:textSize="20sp" />
 
         <SeekBar
-            android:id="@+id/seekBar2"
+            android:id="@+id/seek_bar_time_modifier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -121,7 +121,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal2" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_maximum_rounds" />
 
         <TextView
             android:id="@+id/text_view_enable_sound"
@@ -142,7 +142,7 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:textAlignment="textEnd"
-            app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimal2"
+            app:layout_constraintStart_toStartOf="@+id/edit_text_maximum_rounds"
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
         <TextView
@@ -151,11 +151,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:text="Choose Players Randomly:"
+            android:text="Number of Rounds"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextNumberDecimal2"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_text_maximum_rounds"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editTextNumberDecimal2" />
+            app:layout_constraintTop_toTopOf="@+id/edit_text_maximum_rounds" />
 
         <Switch
             android:id="@+id/switch_choose_player_randomly"
@@ -164,7 +164,7 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:textAlignment="textEnd"
-            app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimal2"
+            app:layout_constraintStart_toStartOf="@+id/edit_text_maximum_rounds"
             app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
         <TextView
@@ -172,14 +172,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Maximum Roungs:"
+            android:text="Choose Players Randomly:"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/switch_choose_player_randomly"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/switch_choose_player_randomly" />
 
         <EditText
-            android:id="@+id/editTextNumberDecimal2"
+            android:id="@+id/edit_text_maximum_rounds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -11,9 +11,13 @@ class GameSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_game_settings)
 
+        val challengeSetIds: ArrayList<String>? = intent.getStringArrayListExtra("CHALLENGE_SET_IDS")
+
         val button = findViewById<Button>(R.id.button_game_settings_start_game)
         button.setOnClickListener {
-            val intent = Intent(this, AddPlayerActivity::class.java).apply {  }
+
+            val gameSettings = GameSettings
+            val intent = Intent(this, AddPlayerActivity::class.java)
             startActivity(intent)
         }
     }

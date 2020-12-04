@@ -4,31 +4,37 @@ import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import edu.bth.ma.passthebomb.client.data.Database
+import edu.bth.ma.passthebomb.client.database.MockDatabase
 import edu.bth.ma.passthebomb.client.model.Challenge
-import edu.bth.ma.passthebomb.client.model.MAXIMUM_CHALLENGE_TIME
 
 class EditChallengeVm: ViewModel() {
-    lateinit var challenge: MutableLiveData<Challenge>
+    var challenge: MutableLiveData<Challenge> = MutableLiveData()
 
-    fun initChallenge(challengeSetId: String,challengeId:String){
-        if(!this::challenge.isInitialized){
-            challenge.value = Database().loadChallenge(challengeSetId, challengeId)
+    fun initChallenge(challengeSetId: String,challengeId:Int){
+        if(challengeId==-1){
+            challenge.value = Challenge("TODO", "", 0)
+        }else{
+            challenge.value = MockDatabase().loadChallenge(challengeSetId, challengeId)
         }
     }
 
-    fun onTimeSlider(progress: Int){
-        challenge.value?.timeLimit = progress
-    }
-
-
     fun onSave(context: Activity){
-        Database().storeChallenge(challenge.value)
+        MockDatabase().storeChallenge(challenge.value)
         context.finish()
     }
 
     fun onCancel(context: Activity){
         context.finish()
+    }
+
+    fun setTimeLimit(timeLimit: Int){
+        val oldChallenge = challenge.value!!
+        challenge.value = Challenge(oldChallenge.name, oldChallenge.text, timeLimit)
+    }
+
+    fun setChallengeText(challengeText: String){
+        val oldChallenge = challenge.value!!
+        challenge.value = Challenge(oldChallenge.name, challengeText, oldChallenge.timeLimit)
     }
 
 
