@@ -29,6 +29,13 @@
         <activity android:name=".view.challengesetlist.DownloadChallengeSetActivity" />
         <activity android:name=".view.challengesetlist.SelectChallengeSetsActivity" />
         <activity android:name=".view.TutorialActivity" />
+        <activity android:name=".view.DbTestActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
     </application>
 
 </manifest>

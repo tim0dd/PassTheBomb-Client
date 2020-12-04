@@ -17,6 +17,9 @@ interface ChallengeSetDao {
     @Delete
     fun deleteChallengeSet(challengeSetEntity: ChallengeSetEntity)
 
+    @Query("DELETE FROM $CHALLENGESET_COLUMN WHERE id = :id")
+    fun deleteChallengeSet(id: Int)
+
     @Query("DELETE FROM $CHALLENGESET_COLUMN")
     fun deleteAllChallengeSets()
 
