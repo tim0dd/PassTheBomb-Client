@@ -22,6 +22,10 @@ class ChallengeSetRepository(private val challengeSetDao: ChallengeSetDao) {
         challengeSetDao.deleteChallengeSet(challengeSetEntity)
     }
 
+    fun deleteChallengeSet(id: Int) {
+        challengeSetDao.deleteChallengeSet(id)
+    }
+
     fun deleteAllChallengeSets() {
         challengeSetDao.deleteAllChallengeSets()
     }

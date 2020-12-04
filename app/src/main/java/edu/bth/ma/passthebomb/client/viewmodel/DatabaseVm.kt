@@ -35,21 +35,26 @@ class DatabaseVm(application: Application) : AndroidViewModel(application) {
         return currentChallengeSetList.filter { c -> c.id == id }.getOrNull(0)
     }
 
-    fun addChallengeSet(ChallengeSet: ChallengeSetEntity) {
+    fun addChallengeSet(challengeSet: ChallengeSetEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addChallengeSet(ChallengeSet)
+            repository.addChallengeSet(challengeSet)
         }
     }
 
-    fun updateChallengeSet(ChallengeSet: ChallengeSetEntity) {
+    fun updateChallengeSet(challengeSet: ChallengeSetEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateChallengeSet(ChallengeSet)
+            repository.updateChallengeSet(challengeSet)
         }
     }
 
-    fun deleteChallengeSet(ChallengeSet: ChallengeSetEntity) {
+    fun deleteChallengeSet(challengeSet: ChallengeSetEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteChallengeSet(ChallengeSet)
+            repository.deleteChallengeSet(challengeSet)
+        }
+    }
+    fun deleteChallengeSet(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteChallengeSet(id)
         }
     }
 
