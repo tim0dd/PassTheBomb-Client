@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import edu.bth.ma.passthebomb.client.database.ChallengeSetDatabase
 import edu.bth.ma.passthebomb.client.database.ChallengeSetEntity
 import edu.bth.ma.passthebomb.client.database.ChallengeSetRepository
+import edu.bth.ma.passthebomb.client.model.Challenge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -52,6 +53,14 @@ class DatabaseVm(application: Application) : AndroidViewModel(application) {
             repository.deleteChallengeSet(challengeSet)
         }
     }
+
+    fun getChallenges(challengeSetId: Int): List<Challenge>? {
+        val challengeSet =
+            currentChallengeSetList.filter { c -> c.id == challengeSetId }.getOrNull(0) ?: return null
+        return challengeSet.challenges
+    }
+
+
     fun deleteChallengeSet(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteChallengeSet(id)
