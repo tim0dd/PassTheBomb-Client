@@ -12,11 +12,11 @@ import java.util.*
 data class ChallengeSetEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
-    val creatorId: Int,
-    val name: String,
+    var creatorId: Int,
+    var name: String,
     val createdDate: Date,
-    val modifiedDate: Date,
-    val addedDate: Date,
-    val downloads: Int,
-    val challenges: List<Challenge>
+    var modifiedDate: Date,
+    var addedDate: Date,
+    var downloads: Int,
+    var challenges: List<Challenge>
 )
