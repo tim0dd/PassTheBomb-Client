@@ -13,16 +13,25 @@ class RestService constructor(context: Context) {
 
     private val queue = Volley.newRequestQueue(context)
     private val localhostInEmulator = "http://10.0.2.2:8080"
+    private val getAllAPI = "/api/challengeSets/getAll"
+    private val uploadAPI = "/api/challengeSets/upload"
 
 
     fun getChallengeSets(onSuccess: (result: JSONArray) -> Unit, onFail: (error: String) -> Unit) {
         val request = JsonArrayRequest(Request.Method.GET,
-            localhostInEmulator,
+            localhostInEmulator + getAllAPI,
             null,
             { response -> onSuccess(response) },
             { error: VolleyError? -> (onFail(error.toString())) })
         queue.add(request)
     }
+    fun uploadChallengeSet(
+
+    ) {
+        //TODO download single challenge set
+        // store directly into db
+    }
+
 
     fun uploadChallengeSet(
         challengeSet: JSONObject,
@@ -30,7 +39,7 @@ class RestService constructor(context: Context) {
         onFail: (error: String) -> Unit
     ) {
         val request = JsonObjectRequest(Request.Method.POST,
-            localhostInEmulator,
+            localhostInEmulator + uploadAPI,
             challengeSet,
             { response -> onSuccess() },
             { error: VolleyError? -> (onFail(error.toString())) })
