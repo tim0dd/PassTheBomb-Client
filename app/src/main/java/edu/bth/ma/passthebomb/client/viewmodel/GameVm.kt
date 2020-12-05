@@ -20,14 +20,15 @@ enum class GameState{
 
 class GameVm: ViewModel() {
     lateinit var gameSettings: GameSettings
-    lateinit var challenges: ArrayList<Challenge>
+    val challenges = ArrayList<Challenge>()
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val nextPlayer: MutableLiveData<String> = MutableLiveData()
-    val secondsLeft: MutableLiveData<Float> = MutableLiveData()
+    val playerName: MutableLiveData<String> = MutableLiveData()
+    var secondsLeft: MutableLiveData<Float> = MutableLiveData()
     val currentChallenge: MutableLiveData<Challenge> = MutableLiveData()
     val gameState = MutableLiveData<GameState>()
     var currentPlayerPosition = 0
+    var previousPlayerId: Int = 0
     lateinit var playerOrder: ArrayList<Int>
     lateinit var countDownTimer: BombCountDownTimer
     lateinit var playerScores: ArrayList<Int>
@@ -41,16 +42,17 @@ class GameVm: ViewModel() {
         }
         playerScores = ArrayList(MutableList(gameSettings.playerList.size) { 0 })
         isLoading.value = false
+        start()
     }
 
     fun start(){
         newRound()
-        nextPlayer.value = gameSettings.playerList[currentPlayerId()]
+        playerName.value = gameSettings.playerList[currentPlayerId()]
         gameState.value = GameState.START
     }
 
     fun newRound(){
-        playerOrder = (0..gameSettings.playerList.size).shuffled().toCollection(ArrayList<Int>())
+        playerOrder = (0..gameSettings.playerList.size-1).shuffled().toCollection(ArrayList<Int>())
         currentPlayerPosition = 0;
     }
 
@@ -61,6 +63,7 @@ class GameVm: ViewModel() {
         }else{
             currentPlayerPosition++
         }
+        playerName.value = gameSettings.playerList[currentPlayerId()]
     }
 
     fun explode(){
@@ -72,6 +75,7 @@ class GameVm: ViewModel() {
         gameState.value = GameState.CHALLENGE
         val currentChallenge = challenges[Random.nextInt(challenges.size)]
         this.currentChallenge.value = currentChallenge
+        secondsLeft.value = currentChallenge.timeLimit.toFloat()
         val millisForChallenge: Long = (currentChallenge.timeLimit * 1000 * gameSettings.timeModifier).toLong()
         countDownTimer = BombCountDownTimer(millisForChallenge)
         countDownTimer.start()
@@ -87,7 +91,9 @@ class GameVm: ViewModel() {
 
     fun onRightButtonDown(){
         when(gameState.value){
+            GameState.START -> startNewChallenge()
             GameState.CHALLENGE -> {
+                previousPlayerId = currentPlayerId()
                 gameState.value = GameState.RIGHT_PRESSED
                 countDownTimer.pause()
                 nextPlayer()
@@ -99,6 +105,7 @@ class GameVm: ViewModel() {
     fun onRightButtonUp(){
         when(gameState.value){
             GameState.RIGHT_PRESSED -> {
+                playerName.value = gameSettings.playerList[previousPlayerId]
                 gameState.value = GameState.CHALLENGE
                 countDownTimer.start()
             }
@@ -109,7 +116,9 @@ class GameVm: ViewModel() {
 
     fun onLeftButtonDown(){
         when(gameState.value){
+            GameState.START -> startNewChallenge()
             GameState.CHALLENGE -> {
+                previousPlayerId = currentPlayerId()
                 gameState.value = GameState.LEFT_PRESSED
                 countDownTimer.pause()
                 nextPlayer()
@@ -121,12 +130,17 @@ class GameVm: ViewModel() {
     fun onLeftButtonUp(){
         when(gameState.value){
             GameState.LEFT_PRESSED -> {
+                playerName.value = gameSettings.playerList[previousPlayerId]
                 gameState.value = GameState.CHALLENGE
                 countDownTimer.start()
             }
             GameState.RIGHT_LEFT_PRESSED -> explode()
             GameState.LEFT_RIGHT_PRESSED -> startNewChallenge()
         }
+    }
+
+    fun onKaboomClick(){
+        start()
     }
 
 

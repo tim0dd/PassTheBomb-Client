@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.GameSettings
@@ -20,7 +21,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_game)
 
-        val gameSettings: GameSettings? = getIntent().getSerializableExtra("GAME_SETTINGS") as GameSettings?
+        val gameSettings: GameSettings? = intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
         if(gameSettings==null) {
             Toast.makeText(this, "No game settings, cannot start game this way", Toast.LENGTH_SHORT).show()
             finish()
@@ -32,8 +33,7 @@ class GameActivity : AppCompatActivity() {
         val textViewPlayer = findViewById<TextView>(R.id.text_view_game_player)
         val textViewChallenge = findViewById<TextView>(R.id.text_view_game_challenge)
         val progressBarTime = findViewById<ProgressBar>(R.id.prograss_bar_game_time)
-        val imageViewBoom = findViewById<ImageView>(R.id.image_view_boom)
-        val textViewBoom = findViewById<TextView>(R.id.text_view_tap_to_continue)
+        val constraint_layout_kaboom = findViewById<ConstraintLayout>(R.id.constraint_layout_boom)
 
         val timeObserver = Observer<Float> {
             progressBarTime.max = (vm.currentTimeLimit() * 10).toInt()
@@ -43,11 +43,9 @@ class GameActivity : AppCompatActivity() {
 
         val stateObserver = Observer<GameState> {state ->
             if(state == GameState.KABOOM){
-                imageViewBoom.visibility = View.VISIBLE
-                textViewBoom.visibility = View.VISIBLE
+                constraint_layout_kaboom.visibility = View.VISIBLE
             }else{
-                imageViewBoom.visibility = View.INVISIBLE
-                textViewBoom.visibility = View.INVISIBLE
+                constraint_layout_kaboom.visibility = View.INVISIBLE
                 if(state == GameState.CHALLENGE){
                     textViewChallenge.visibility = View.VISIBLE
                 }else{
@@ -60,6 +58,7 @@ class GameActivity : AppCompatActivity() {
         val nextPlayerObserver = Observer<String> { player ->
             textViewPlayer.text = "It's " + player + "'s turn" //TODO
         }
+        vm.playerName.observe(this, nextPlayerObserver)
 
         buttonLeft.setOnTouchListener{
         _, event ->
@@ -77,6 +76,10 @@ class GameActivity : AppCompatActivity() {
                 MotionEvent.ACTION_UP -> vm.onRightButtonUp()
             }
             true
+        }
+
+        constraint_layout_kaboom.setOnClickListener{
+            vm.onKaboomClick()
         }
 
     }

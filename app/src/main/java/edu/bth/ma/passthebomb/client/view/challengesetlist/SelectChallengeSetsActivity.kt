@@ -14,7 +14,7 @@ import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetList
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.SelectChallengeSetsVm
 
 class SelectChallengeSetsActivity : ChallengeSetListActivity() {
-    override val vm: ChallengeSetListVm by viewModels<SelectChallengeSetsVm>()
+    override val vm: SelectChallengeSetsVm by viewModels()
 
     override fun initButton(){
         val startButton = findViewById<Button>(R.id.button_add_challenge_set)
@@ -38,11 +38,14 @@ class SelectChallengeSetsActivity : ChallengeSetListActivity() {
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            val challengeSetIncludedObserver = Observer<Set<Int>>{set ->
-                val checkBox: CheckBox = holder.view.findViewById(R.id.check_box_challenge_set_selected_for_game)
-                checkBox.isSelected = set.contains(position)
+            val checkBox: CheckBox = holder.view.findViewById(R.id.check_box_challenge_set_selected_for_game)
+            checkBox.setOnClickListener{
+                vm.onChallengeSetClick(position, this@SelectChallengeSetsActivity)
             }
-
+            val challengeSetIncludedObserver = Observer<Set<Int>>{set ->
+                checkBox.isChecked = set.contains(position)
+            }
+            vm.selectedChallengeSetIndices.observe(this@SelectChallengeSetsActivity, challengeSetIncludedObserver)
         }
     }
 }

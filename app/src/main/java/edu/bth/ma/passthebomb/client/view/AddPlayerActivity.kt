@@ -15,16 +15,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
+import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.viewmodel.AddPlayerVm
 
 
 class AddPlayerActivity : AppCompatActivity() {
+    val vm: AddPlayerVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_add_player)
 
-        val vm: AddPlayerVm by viewModels()
+        val gameSettings = intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
+        vm.init(gameSettings)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_add_player)
         val adapter =
             PlayerListAdapter(
@@ -42,6 +46,11 @@ class AddPlayerActivity : AppCompatActivity() {
             showInputDialog {
                 vm.addPlayer(it)
             }
+        }
+
+        val startGameButton = findViewById<Button>(R.id.button_start_game_for_real)
+        startGameButton.setOnClickListener{
+            vm.startGame(this)
         }
     }
 
