@@ -1,11 +1,13 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.database.MockDatabase
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.utils.CountDownTimerPausable
+import edu.bth.ma.passthebomb.client.utils.RoundRobinScheduler
 import kotlin.random.Random
 
 enum class GameState{
@@ -15,8 +17,12 @@ enum class GameState{
     LEFT_RIGHT_PRESSED,
     RIGHT_PRESSED,
     RIGHT_LEFT_PRESSED,
-    KABOOM
+    KABOOM,
+    GAME_OVER
 }
+
+const val ACCELERATION_THRESH_MULTIPLIER = 1.5
+var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLIER
 
 class GameVm: ViewModel() {
     lateinit var gameSettings: GameSettings
@@ -27,11 +33,10 @@ class GameVm: ViewModel() {
     var secondsLeft: MutableLiveData<Float> = MutableLiveData()
     val currentChallenge: MutableLiveData<Challenge> = MutableLiveData()
     val gameState = MutableLiveData<GameState>()
-    var currentPlayerPosition = 0
-    var previousPlayerId: Int = 0
-    lateinit var playerOrder: ArrayList<Int>
     lateinit var countDownTimer: BombCountDownTimer
     lateinit var playerScores: ArrayList<Int>
+    lateinit var playerScheduler: RoundRobinScheduler
+    var relativeAcceleration = MutableLiveData<Double>(0.0)
 
     fun init(gameSettings: GameSettings){
         this.gameSettings = gameSettings
@@ -41,48 +46,36 @@ class GameVm: ViewModel() {
             challenges.addAll(challengeSet.challenges)
         }
         playerScores = ArrayList(MutableList(gameSettings.playerList.size) { 0 })
+        accelerationThresh = ACCELERATION_THRESH_MULTIPLIER * gameSettings.bombSensitivity
         isLoading.value = false
         start()
     }
 
     fun start(){
-        newRound()
-        playerName.value = gameSettings.playerList[currentPlayerId()]
-        gameState.value = GameState.START
-    }
-
-    fun newRound(){
-        playerOrder = (0..gameSettings.playerList.size-1).shuffled().toCollection(ArrayList<Int>())
-        currentPlayerPosition = 0;
-    }
-
-    fun nextPlayer(){
-        currentPlayerPosition ++
-        if(currentPlayerPosition == gameSettings.playerList.size){
-            newRound()
-        }else{
-            currentPlayerPosition++
+        playerScheduler = RoundRobinScheduler(gameSettings.playerList.size,
+                                                gameSettings.randomScheduling){ round ->
+            if(round >= gameSettings.numberRounds){
+                gameState.value = GameState.GAME_OVER
+            }
         }
-        playerName.value = gameSettings.playerList[currentPlayerId()]
+        playerName.value = gameSettings.playerList[playerScheduler.peekNextElement()]
+        gameState.value = GameState.START
     }
 
     fun explode(){
         gameState.value = GameState.KABOOM
-        playerScores[currentPlayerId()] -= 100
+        playerScores[playerScheduler.currentValue] -= 100
     }
 
     fun startNewChallenge(){
         gameState.value = GameState.CHALLENGE
         val currentChallenge = challenges[Random.nextInt(challenges.size)]
         this.currentChallenge.value = currentChallenge
-        secondsLeft.value = currentChallenge.timeLimit.toFloat()
+        secondsLeft.value = (currentChallenge.timeLimit * gameSettings.timeModifier).toFloat()
         val millisForChallenge: Long = (currentChallenge.timeLimit * 1000 * gameSettings.timeModifier).toLong()
         countDownTimer = BombCountDownTimer(millisForChallenge)
+        playerScheduler.nextElement()
         countDownTimer.start()
-    }
-
-    private fun currentPlayerId(): Int{
-        return playerOrder[currentPlayerPosition]
     }
 
     fun currentTimeLimit(): Double {
@@ -93,10 +86,9 @@ class GameVm: ViewModel() {
         when(gameState.value){
             GameState.START -> startNewChallenge()
             GameState.CHALLENGE -> {
-                previousPlayerId = currentPlayerId()
+                playerName.value = gameSettings.playerList[playerScheduler.peekNextElement()]
                 gameState.value = GameState.RIGHT_PRESSED
                 countDownTimer.pause()
-                nextPlayer()
             }
             GameState.LEFT_PRESSED -> gameState.value = GameState.LEFT_RIGHT_PRESSED
         }
@@ -105,7 +97,7 @@ class GameVm: ViewModel() {
     fun onRightButtonUp(){
         when(gameState.value){
             GameState.RIGHT_PRESSED -> {
-                playerName.value = gameSettings.playerList[previousPlayerId]
+                playerName.value = gameSettings.playerList[playerScheduler.currentValue]
                 gameState.value = GameState.CHALLENGE
                 countDownTimer.start()
             }
@@ -118,10 +110,9 @@ class GameVm: ViewModel() {
         when(gameState.value){
             GameState.START -> startNewChallenge()
             GameState.CHALLENGE -> {
-                previousPlayerId = currentPlayerId()
+                playerName.value = gameSettings.playerList[playerScheduler.peekNextElement()]
                 gameState.value = GameState.LEFT_PRESSED
                 countDownTimer.pause()
-                nextPlayer()
             }
             GameState.RIGHT_PRESSED -> gameState.value = GameState.RIGHT_LEFT_PRESSED
         }
@@ -130,7 +121,7 @@ class GameVm: ViewModel() {
     fun onLeftButtonUp(){
         when(gameState.value){
             GameState.LEFT_PRESSED -> {
-                playerName.value = gameSettings.playerList[previousPlayerId]
+                playerName.value = gameSettings.playerList[playerScheduler.currentValue]
                 gameState.value = GameState.CHALLENGE
                 countDownTimer.start()
             }
@@ -141,6 +132,15 @@ class GameVm: ViewModel() {
 
     fun onKaboomClick(){
         start()
+    }
+
+    fun onLinearAcceleration(x:Float, y:Float, z:Float){
+        val absoluteValue = Math.sqrt((x*x + y*y + z*z).toDouble())
+        val relativeAcceleration = absoluteValue / accelerationThresh
+        this.relativeAcceleration.value = relativeAcceleration
+        if(relativeAcceleration > 1.0){
+            explode()
+        }
     }
 
 

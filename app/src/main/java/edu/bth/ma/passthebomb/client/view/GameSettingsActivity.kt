@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.SeekBar
+import android.widget.Switch
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.GameSettings
 
@@ -22,16 +24,26 @@ class GameSettingsActivity : AppCompatActivity() {
 
         val seekBarTimeModifier = findViewById<SeekBar>(R.id.seek_bar_time_modifier)
         seekBarTimeModifier.max = SEEK_BAR_MAX
+        seekBarTimeModifier.progress = SEEK_BAR_DIVIDER.toInt()
         val seekBarBombSensetivity = findViewById<SeekBar>(R.id.seek_bar_bomb_sensitivity)
         seekBarBombSensetivity.max = SEEK_BAR_MAX
+        seekBarBombSensetivity.progress = SEEK_BAR_DIVIDER.toInt()
+        val switchRandomPlayerOrder = findViewById<Switch>(R.id.switch_choose_player_randomly)
+        val switchEnableSound = findViewById<Switch>(R.id.switch_enable_sound)
+        val editTextNumberRounds = findViewById<EditText>(R.id.edit_text_maximum_rounds)
 
 
 
         val button = findViewById<Button>(R.id.button_game_settings_start_game)
         button.setOnClickListener {
-            val timeModifier: Double = seekBarTimeModifier.progress / SEEK_BAR_DIVIDER
-            val bombSensitivity: Double = seekBarBombSensetivity.progress / SEEK_BAR_DIVIDER
-            val gameSettings = GameSettings(challengeSetIds, ArrayList<String>(), timeModifier, bombSensitivity)
+            val timeModifier: Double = (SEEK_BAR_MAX - seekBarTimeModifier.progress)/ SEEK_BAR_DIVIDER
+            val bombSensitivity: Double = (SEEK_BAR_MAX - seekBarBombSensetivity.progress) / SEEK_BAR_DIVIDER
+            val shuffleRandomly: Boolean = switchRandomPlayerOrder.isChecked
+            val enableSound: Boolean = switchEnableSound.isChecked
+            val numberRounds: Int = editTextNumberRounds.text.toString().toInt()
+
+            val gameSettings = GameSettings(challengeSetIds, ArrayList(), timeModifier,
+                    bombSensitivity, shuffleRandomly, enableSound, numberRounds)
             val intent = Intent(this, AddPlayerActivity::class.java)
             intent.putExtra("GAME_SETTINGS", gameSettings)
             startActivity(intent)
