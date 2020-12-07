@@ -9,7 +9,7 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.view.ChallengeSetActivity
 
 class MyChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
-    override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = MockDatabase().loadLocalChallengeSetOverviews()
+    override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = MockDatabase().loadLocalChallengeSets()
     override fun onChallengeSetClick(index: Int, context: Context){
         val intent = Intent(context, ChallengeSetActivity::class.java)
         intent.putExtra("CHALLENGE_SET_ID", challengeSetOverviews[index].id)

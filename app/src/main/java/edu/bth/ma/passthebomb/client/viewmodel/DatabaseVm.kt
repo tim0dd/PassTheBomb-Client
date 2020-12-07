@@ -1,76 +1,96 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
 import android.app.Application
-import androidx.annotation.Nullable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import edu.bth.ma.passthebomb.client.database.ChallengeSetDatabase
-import edu.bth.ma.passthebomb.client.database.ChallengeSetEntity
+import edu.bth.ma.passthebomb.client.database.ChallengeRepository
+import edu.bth.ma.passthebomb.client.database.AppDb
 import edu.bth.ma.passthebomb.client.database.ChallengeSetRepository
+import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.Challenge
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class DatabaseVm(application: Application) : AndroidViewModel(application) {
+open class DatabaseVm(application: Application) : AndroidViewModel(application) {
 
-    val readAllData: LiveData<List<ChallengeSetEntity>>
-    private val repository: ChallengeSetRepository
-    private var currentChallengeSetList = listOf<ChallengeSetEntity>()
+    private val challengeSetRepo: ChallengeSetRepository
+    private val challengeRepo: ChallengeRepository
 
     init {
-        val challengeSetDao = ChallengeSetDatabase.getDatabase(
-            application
-        ).challengeSetDao()
-        repository = ChallengeSetRepository(challengeSetDao)
-        readAllData = repository.readAllData
-        readAllData.observeForever {
-            if (it != null) currentChallengeSetList = it
-        }
+        val challengeDao = AppDb.getDatabase(application).challengeDao()
+        val challengeSetDao = AppDb.getDatabase(application).challengeSetDao()
+        challengeSetRepo = ChallengeSetRepository(challengeSetDao)
+        challengeRepo = ChallengeRepository(challengeDao)
     }
 
-
-    fun getChallengeSet(id: Int): ChallengeSetEntity? {
-        return currentChallengeSetList.filter { c -> c.id == id }.getOrNull(0)
+    fun getAllChallenges(): LiveData<List<Challenge>> {
+        return challengeRepo.getAllChallenges()
     }
 
-    fun addChallengeSet(challengeSet: ChallengeSetEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addChallengeSet(challengeSet)
-        }
+    fun getChallenge(id: Int): LiveData<Challenge?> {
+        return challengeRepo.getChallenge(id)
     }
 
-    fun updateChallengeSet(challengeSet: ChallengeSetEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateChallengeSet(challengeSet)
-        }
+    fun getChallenges(challengeSetId: Int): LiveData<List<Challenge>> {
+        return challengeRepo.getAllChallenges(challengeSetId)
     }
 
-    fun deleteChallengeSet(challengeSet: ChallengeSetEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteChallengeSet(challengeSet)
-        }
+    fun getChallenges(idList: List<Int>): LiveData<List<Challenge>> {
+        return challengeRepo.getChallenges(idList)
     }
 
-    fun getChallenges(challengeSetId: Int): List<Challenge>? {
-        val challengeSet =
-            currentChallengeSetList.filter { c -> c.id == challengeSetId }.getOrNull(0) ?: return null
-        return challengeSet.challenges
+    fun getAllChallengeSets(): LiveData<List<ChallengeSetOverview>> {
+        return challengeSetRepo.getAllChallengeSetOverviews()
+    }
+
+    fun getChallengeSetOverview(id: Int): LiveData<ChallengeSetOverview> {
+        return challengeSetRepo.getChallengeSetOverview(id)
+    }
+
+    fun getChallengeSet(id: Int): LiveData<ChallengeSet?> {
+        return challengeSetRepo.getChallengeSet(id)
+    }
+
+    fun addChallengeSet(challengeSetOverview: ChallengeSetOverview) {
+        runCoroutine { challengeSetRepo.addChallengeSetOverview(challengeSetOverview) }
+    }
+
+    fun addChallenge(challenge: Challenge) {
+        runCoroutine { challengeRepo.addChallenge(challenge) }
+    }
+
+    fun updateChallengeSet(challengeSetOverview: ChallengeSetOverview) {
+        runCoroutine { challengeSetRepo.updateChallengeSetOverview(challengeSetOverview) }
+    }
+
+    fun updateChallengeSet(challengeSet: ChallengeSet) {
+        runCoroutine { challengeSetRepo.updateChallengeSetOverview(challengeSet.challengeSetOverview) }
+        challengeSet.challenges.forEach { runCoroutine { challengeRepo.updateChallenge(it) } }
+    }
+
+    fun deleteChallengeSet(challengeSet: ChallengeSet) {
+        runCoroutine { challengeSetRepo.deleteChallengeSetOverview(challengeSet.challengeSetOverview) }
+    }
+
+    fun deleteChallengeSet(challengeSetOverview: ChallengeSetOverview) {
+        runCoroutine { challengeSetRepo.deleteChallengeSetOverview(challengeSetOverview) }
     }
 
 
     fun deleteChallengeSet(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteChallengeSet(id)
-        }
+        runCoroutine { challengeSetRepo.deleteChallengeSetOverview(id) }
     }
 
     fun deleteAllChallengeSets() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllChallengeSets()
-        }
+        runCoroutine { challengeSetRepo.deleteAllChallengeSetOverviews() }
     }
 
+    private fun runCoroutine(function: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            function()
+        }
+    }
 }

@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
-import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetListVm
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.SelectChallengeSetsVm
 
 class SelectChallengeSetsActivity : ChallengeSetListActivity() {

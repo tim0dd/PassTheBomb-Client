@@ -7,7 +7,7 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.remote.MockRest
 
 class DownloadChallengeSetsVm() : ViewModel(), ChallengeSetListVm {
-    override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = MockRest().loadOnlineChallengeSetOverviews()
+    override val challengeSetOverviews: ArrayList<ChallengeSetOverview> = MockRest().loadOnlineChallengeSets()
     override fun onChallengeSetClick(index: Int, context: Context) {
         TODO("Not yet implemented")
     }

@@ -48,8 +48,8 @@ abstract class ChallengeSetListActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            val challengeSetOverview = dataset[position]
-            holder.textViewChallengeSetName.text =  challengeSetOverview.name
+            val challengeSet = dataset[position]
+            holder.textViewChallengeSetName.text =  challengeSet.name
             holder.view.setOnClickListener{
                 vm.onChallengeSetClick(position, this@ChallengeSetListActivity)
             }

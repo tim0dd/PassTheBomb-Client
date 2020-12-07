@@ -2,18 +2,16 @@ package edu.bth.ma.passthebomb.client.view
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
-import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.GameSettings
-import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetListVm
 
 class GameOverActivity : AppCompatActivity() {
 

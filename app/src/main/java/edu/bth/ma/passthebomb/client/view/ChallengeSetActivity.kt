@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.viewmodel.ChallengeSetVm
+import kotlin.streams.toList
 
 class ChallengeSetActivity : AppCompatActivity() {
     val vm: ChallengeSetVm by viewModels()
@@ -20,6 +21,7 @@ class ChallengeSetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_challenge_set)
 
+        //TODO: refactor to Int
         val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
         lateinit var challengeSetId: String
         if (challengeSetIdUnsafe == null) {
@@ -30,7 +32,7 @@ class ChallengeSetActivity : AppCompatActivity() {
         }
         vm.initChallengeSet(challengeSetId)
 
-        val challengeTexts = vm.challengeSet.getChallengeTextList()
+        val challengeTexts = vm.challengeSet.challenges.stream().map { c -> c.text }.toList()
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_challenge_list)
         recyclerView.adapter =

@@ -1,8 +1,10 @@
 package edu.bth.ma.passthebomb.client.database
 
 import edu.bth.ma.passthebomb.client.model.Challenge
-import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Only created for testing purposes, later we will be using ChallengeSetDatabase
@@ -10,26 +12,32 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 class MockDatabase {
 
     //TODO
-    fun loadLocalChallengeSetOverviews(): ArrayList<ChallengeSetOverview>{
+    fun loadLocalChallengeSets(): ArrayList<ChallengeSetOverview>{
+        val now = Date(System.currentTimeMillis())
+
+        val challenge1 = Challenge(0, 0, now, "First challenge text", 100)
+        val challenge2 = Challenge(1, 0, now, "First challenge text", 100)
+        val challengeList = listOf(challenge1, challenge2)
+        val challengeSet = ChallengeSetOverview(0, 0, "Animals", now, now, now, 1337)
         return arrayListOf<ChallengeSetOverview>(
-            ChallengeSetOverview("0", "test1", 0),
-            ChallengeSetOverview("1", "test2", 42),
-            ChallengeSetOverview("2", "test3", 3)
+            challengeSet
         )
     }
 
     //TODO
     fun loadChallengeSet(challengeSetId: String): ChallengeSet{
-        val challengeSet = ChallengeSet(challengeSetId, "AnimalChallengeSet", 42)
-        challengeSet.challenges.add(Challenge("Name it", "AnimalChallengeSet", 20))
-        challengeSet.challenges.add(Challenge("Do it", "AnimalChallengeSet",5))
-        challengeSet.challenges.add(Challenge("Move it", "AnimalChallengeSet", 15))
-        return challengeSet
+        val now = Date(System.currentTimeMillis())
+        val challenge1 = Challenge(0, 0, now, "First challenge text", 100)
+        val challenge2 = Challenge(1, 0, now, "First challenge text", 100)
+        val challengeList = listOf(challenge1, challenge2)
+        val challengeSet = ChallengeSetOverview(0, 0, "Animals", now, now, now, 1337)
+        return ChallengeSet(challengeSet,challengeList)
     }
 
     //TODO
-    fun loadChallenge(challengeSetId: String, challengeId: Int): Challenge{
-        return Challenge("ChallengeId", "ChallengeSetId",  20)
+    fun loadChallenge(challengeId: Int): Challenge{
+        val now = Date(System.currentTimeMillis())
+        return Challenge(0, 0, now, "First challenge text", 100)
     }
 
     fun deleteChallenge(challenge: Challenge){

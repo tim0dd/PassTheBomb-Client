@@ -6,24 +6,27 @@ import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import edu.bth.ma.passthebomb.client.database.DbConstants.DATABASE_NAME
+import edu.bth.ma.passthebomb.client.model.Challenge
+import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
 @Database(
-    entities = [ChallengeSetEntity::class],
+    entities = [ChallengeSetOverview::class, Challenge::class],
     version = 4,
     exportSchema = false
 )
 
-//TODO: look into caching
 @TypeConverters(Converters::class)
-abstract class ChallengeSetDatabase : RoomDatabase() {
+abstract class AppDb : RoomDatabase() {
 
     abstract fun challengeSetDao(): ChallengeSetDao
 
+    abstract fun challengeDao(): ChallengeDao
+
     companion object {
         @Volatile
-        private var INSTANCE: ChallengeSetDatabase? = null
+        private var INSTANCE: AppDb? = null
 
-        fun getDatabase(context: Context): ChallengeSetDatabase {
+        fun getDatabase(context: Context): AppDb {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -31,7 +34,7 @@ abstract class ChallengeSetDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = databaseBuilder(
                     context.applicationContext,
-                    ChallengeSetDatabase::class.java,
+                    AppDb::class.java,
                     DATABASE_NAME
                 ).build()
                 INSTANCE = instance

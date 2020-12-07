@@ -1,15 +1,13 @@
 package edu.bth.ma.passthebomb.client.model
 
-data class ChallengeSetOverview (
-    val id: String,
-    val name: String,
-    val downloads: Int
+import androidx.room.Embedded
+import androidx.room.Relation
+
+data class ChallengeSet(
+    @Embedded val challengeSetOverview: ChallengeSetOverview,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "challengeSetId"
+    )
+    var challenges: List<Challenge>
 )
-
-class ChallengeSet(val id: String, var name: String, var downloads: Int){
-    var challenges: ArrayList<Challenge> = ArrayList()
-
-    fun getChallengeTextList(): ArrayList<String>{
-        return ArrayList<String>(challenges.map{challenge -> challenge.text})
-    }
-}

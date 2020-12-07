@@ -19,7 +19,7 @@ class Converters {
         return date?.time
     }
 
-    @TypeConverter
+  /*  @TypeConverter
     fun jsonToChallengeList(value: String?): List<Challenge>? {
         val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val listType = Types.newParameterizedType(List::class.java, Challenge::class.java)
@@ -33,5 +33,5 @@ class Converters {
         val listType = Types.newParameterizedType(List::class.java, Challenge::class.java)
         val adapter: JsonAdapter<List<Challenge>> = moshi.adapter(listType)
         return challengeList?.let { adapter.toJson(challengeList) }
-    }
+    }*/
 }

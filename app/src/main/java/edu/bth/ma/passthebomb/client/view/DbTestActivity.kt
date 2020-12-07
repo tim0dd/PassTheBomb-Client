@@ -1,18 +1,15 @@
 package edu.bth.ma.passthebomb.client.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.bth.ma.passthebomb.client.R
-import edu.bth.ma.passthebomb.client.database.ChallengeSetEntity
+import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.Challenge
-import edu.bth.ma.passthebomb.client.view.challengesetlist.DownloadChallengeSetActivity
-import edu.bth.ma.passthebomb.client.view.challengesetlist.MyChallengeSetsActivity
-import edu.bth.ma.passthebomb.client.view.challengesetlist.SelectChallengeSetsActivity
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
@@ -26,7 +23,7 @@ class DbTestActivity : AppCompatActivity() {
         setContentView(R.layout.screen_main)
         databaseVm = ViewModelProvider(this).get(DatabaseVm::class.java)
 
-        getSupportActionBar()?.hide();
+        getSupportActionBar()?.hide()
 
         val buttonMyChallengeSets: Button = findViewById(R.id.buttonMyChallengeSets)
         buttonMyChallengeSets.text = "Add ChallengeSet"
@@ -52,41 +49,75 @@ class DbTestActivity : AppCompatActivity() {
     }
 
     private fun addChallengeSet() {
-        val challenge1 = Challenge("First Challenge", "First challenge text", 100)
-        val challenge2 = Challenge("First Challenge", "First challenge text", 100)
-        val challengeList = listOf(challenge1, challenge2)
         val now = Date(System.currentTimeMillis())
+        val challenge1 = Challenge(0, 0, now, "First challenge text", 100)
+        val challenge2 = Challenge(1, 0, now, "First challenge text", 100)
+        val challengeList = listOf(challenge1, challenge2)
         val challengeSet =
-            ChallengeSetEntity(0, 0, "Animals", now, now, now, 1337, challengeList)
+            ChallengeSetOverview(0, 0, "Animals", now, now, now, 1337)
         databaseVm.addChallengeSet(challengeSet)
+        databaseVm.addChallenge(challenge1)
+        databaseVm.addChallenge(challenge2)
         Toast.makeText(this, "ChallengeSet added!", Toast.LENGTH_SHORT).show()
     }
 
     private fun getChallengeSet() {
-        val challengeSet = databaseVm.getChallengeSet(0)
-        Toast.makeText(this, challengeSet.toString(), Toast.LENGTH_SHORT).show()
+
+        val liveData = databaseVm.getChallengeSet(0)
+        liveData.observe(
+            this,
+            Observer { challengeSet: ChallengeSet? ->
+                liveData.removeObservers(this)
+                Toast.makeText(
+                    this,
+                    challengeSet.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            })
+        val liveDataChallenge = databaseVm.getChallenge(0)
+        liveDataChallenge.observe(
+            this,
+            Observer { challenge: Challenge? ->
+                liveDataChallenge.removeObservers(this)
+                Toast.makeText(
+                    this,
+                    challenge.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            })
     }
 
     private fun deleteChallengeSet() {
-        val challengeSet = databaseVm.getChallengeSet(0)
-        if (challengeSet != null) {
-            databaseVm.deleteChallengeSet(challengeSet)
-            Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
-        } else Toast.makeText(this, "ChallengeSet not found!", Toast.LENGTH_SHORT)
-            .show()
-
+        val liveData = databaseVm.getChallengeSet(0)
+        liveData.observe(
+            this,
+            Observer { challengeSet: ChallengeSet? ->
+                if(challengeSet != null) {
+                    liveData.removeObservers(this)
+                    databaseVm.deleteChallengeSet(challengeSet)
+                    Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     private fun updateChallengeSet() {
-        val challengeSet = databaseVm.getChallengeSet(0)
-
-        if (challengeSet != null) {
-            challengeSet.name = "ALIENS"
-            challengeSet.modifiedDate = Date(System.currentTimeMillis())
-            challengeSet.downloads++
-            databaseVm.updateChallengeSet(challengeSet)
-            Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
-        } else Toast.makeText(this, "ChallengeSet not found!", Toast.LENGTH_SHORT)
-            .show()
+        val liveData = databaseVm.getChallengeSet(0)
+        liveData.observe(
+            this,
+            Observer { challengeSet: ChallengeSet? ->
+                if(challengeSet == null) return@Observer
+                liveData.removeObservers(this)
+                val now =  Date(System.currentTimeMillis())
+                val overview = challengeSet.challengeSetOverview
+                overview.name = "ALIENS"
+                overview.modifiedDate = now
+                overview.downloads++
+                val challenge = Challenge(3,  overview.id, now, "Third challenge text", 100)
+                val list = mutableListOf<Challenge>()
+                list.addAll(challengeSet.challenges)
+                list.add(challenge)
+                databaseVm.updateChallengeSet(challengeSet)
+                Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
+            })
     }
 }

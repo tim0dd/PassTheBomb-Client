@@ -2,31 +2,43 @@ package edu.bth.ma.passthebomb.client.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import edu.bth.ma.passthebomb.client.database.DbConstants.CHALLENGESET_COLUMN
+import edu.bth.ma.passthebomb.client.database.DbConstants.CHALLENGESETOVERVIEW_COLUMN
+import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
 
 
 @Dao
 interface ChallengeSetDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addChallengeSet(challengeSetEntity: ChallengeSetEntity)
+    fun addChallengeSetOverview(challengeSetOverview: ChallengeSetOverview)
 
     @Update
-    fun updateChallengeSet(challengeSetEntity: ChallengeSetEntity)
+    fun updateChallengeSetOverview(challengeSetOverview: ChallengeSetOverview)
 
     @Delete
-    fun deleteChallengeSet(challengeSetEntity: ChallengeSetEntity)
+    fun deleteChallengeSetOverview(challengeSetOverview: ChallengeSetOverview)
 
-    @Query("DELETE FROM $CHALLENGESET_COLUMN WHERE id = :id")
-    fun deleteChallengeSet(id: Int)
+    @Query("DELETE FROM $CHALLENGESETOVERVIEW_COLUMN WHERE id = :id")
+    fun deleteChallengeSetOverview(id: Int)
 
-    @Query("DELETE FROM $CHALLENGESET_COLUMN")
-    fun deleteAllChallengeSets()
+    @Query("DELETE FROM $CHALLENGESETOVERVIEW_COLUMN")
+    fun deleteAllChallengeSetOverviews()
 
-    @Query("SELECT * FROM $CHALLENGESET_COLUMN ORDER BY addedDate ASC")
-    fun getChallengeSets(): LiveData<List<ChallengeSetEntity>>
+    @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN ORDER BY addedDate ASC")
+    fun getAllChallengeSetOverviews(): LiveData<List<ChallengeSetOverview>>
 
-    @Query("SELECT * FROM $CHALLENGESET_COLUMN WHERE id =:id")
-    fun getChallengeSet(id: Int): LiveData<ChallengeSetEntity>
+    @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN WHERE id =:id")
+    fun getChallengeSetOverview(id: Int): LiveData<ChallengeSetOverview>
+
+    //has to be annotated with transaction since it's querying two tables
+    @Transaction
+    @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN ORDER BY addedDate ASC")
+    fun getAllChallengeSets():  LiveData<List<ChallengeSet>>
+
+    //has to be annotated with transaction since it's querying two tables
+    @Transaction
+    @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN  WHERE id =:id")
+    fun getChallengeSet(id: Int):  LiveData<ChallengeSet?>
 
 }
