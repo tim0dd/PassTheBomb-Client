@@ -33,6 +33,6 @@ interface ChallengeDao {
     @Query("SELECT * FROM $CHALLENGE_COLUMN WHERE id =:id")
     fun getChallenge(id: Int): LiveData<Challenge?>
 
-    @Query("SELECT * FROM $CHALLENGE_COLUMN where id In (:idList)")
+    @Query("SELECT * FROM $CHALLENGE_COLUMN where challengeSetId In (:idList)")
     fun getChallenges(idList: List<Int>): LiveData<List<Challenge>>
 }
