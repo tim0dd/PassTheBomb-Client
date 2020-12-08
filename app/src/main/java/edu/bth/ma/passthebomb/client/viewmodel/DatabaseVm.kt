@@ -34,12 +34,12 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application) 
         return challengeRepo.getChallenge(id)
     }
 
-    fun getChallenges(challengeSetId: Int): LiveData<List<Challenge>> {
-        return challengeRepo.getAllChallenges(challengeSetId)
+    fun getChallengesByOverviewId(overviewId: Int): LiveData<List<Challenge>> {
+        return challengeRepo.getChallengesByOverviewId(overviewId)
     }
 
-    fun getChallenges(idList: List<Int>): LiveData<List<Challenge>> {
-        return challengeRepo.getChallenges(idList)
+    fun getChallengesByOverviewIds(idList: List<Int>): LiveData<List<Challenge>> {
+        return challengeRepo.getChallengesByOverviewIds(idList)
     }
 
     fun getAllChallengeSets(): LiveData<List<ChallengeSetOverview>> {
