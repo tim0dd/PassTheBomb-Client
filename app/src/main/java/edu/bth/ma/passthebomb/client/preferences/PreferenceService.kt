@@ -6,19 +6,18 @@ import android.content.SharedPreferences
 import java.util.*
 
 
-class PreferenceService constructor(context: Context) {
+const val PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
+
+class PreferenceService constructor(private val context: Context) {
     private var uniqueID: String? = null
-    private val PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
 
     init {
-        initID(context)
+        getUniqueId()
     }
 
 
-    //TODO functions for get / set game settings
-
     @SuppressLint("ApplySharedPref")
-    private fun initID(context: Context) {
+    private fun getUniqueId() : String {
         if (uniqueID == null) {
             val sharedPrefs: SharedPreferences = context.getSharedPreferences(
                 PREF_UNIQUE_ID, Context.MODE_PRIVATE
@@ -31,6 +30,7 @@ class PreferenceService constructor(context: Context) {
                 editor.commit()
             }
         }
+        return uniqueID as String
     }
 
 
