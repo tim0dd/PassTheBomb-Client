@@ -10,6 +10,7 @@ import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
+import edu.bth.ma.passthebomb.client.remote.RestService
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
@@ -105,14 +106,15 @@ class DbTestActivity : AppCompatActivity() {
         liveData.observe(
             this,
             Observer { challengeSet: ChallengeSet? ->
-                if(challengeSet == null) return@Observer
+                if (challengeSet == null) return@Observer
+                RestService.getInstance(this).uploadChallengeSet(challengeSet, {}, {})
                 liveData.removeObservers(this)
-                val now =  Date(System.currentTimeMillis())
+                val now = Date(System.currentTimeMillis())
                 val overview = challengeSet.challengeSetOverview
                 overview.name = "ALIENS"
                 overview.modifiedDate = now
                 overview.downloads++
-                val challenge = Challenge(3,  overview.id, now, "Third challenge text", 100)
+                val challenge = Challenge(3, overview.id, now, "Third challenge text", 100)
                 val list = mutableListOf<Challenge>()
                 list.addAll(challengeSet.challenges)
                 list.add(challenge)
