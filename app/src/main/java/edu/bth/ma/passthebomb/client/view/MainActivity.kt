@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import edu.bth.ma.passthebomb.client.R
+import edu.bth.ma.passthebomb.client.database.AppDb
+import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import edu.bth.ma.passthebomb.client.view.challengesetlist.DownloadChallengeSetActivity
 import edu.bth.ma.passthebomb.client.view.challengesetlist.MyChallengeSetsActivity
 import edu.bth.ma.passthebomb.client.view.challengesetlist.SelectChallengeSetsActivity
@@ -14,6 +16,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_main)
+
+        //initialize singletons
+        PreferenceService(this)
 
         getSupportActionBar()?.hide();
 

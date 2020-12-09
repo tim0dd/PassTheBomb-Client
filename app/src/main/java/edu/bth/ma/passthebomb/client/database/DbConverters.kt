@@ -8,7 +8,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import edu.bth.ma.passthebomb.client.model.Challenge
 import java.util.*
 
-class Converters {
+class DbConverters {
     @TypeConverter
     fun timeStampToDate(value: Long?): Date? {
         return value?.let { Date(it) }

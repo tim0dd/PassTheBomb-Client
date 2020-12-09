@@ -4,6 +4,8 @@ import com.squareup.moshi.*
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
+import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
@@ -32,6 +34,26 @@ class JsonConverters {
 
         fun jsonToChallengeSet(json: JSONObject): ChallengeSet? {
             return getChallengeSetAdapter().fromJson(json.toString())
+        }
+
+        fun challengeSetOverviewListToJson(challengeSetOverviewList: List<ChallengeSetOverview>): JSONArray {
+            val string = getChallengeSetOverviewListAdapter().toJson(challengeSetOverviewList)
+            return JSONArray(string)
+        }
+
+        fun jsonToChallengeSetOverviewList(json: JSONArray): List<ChallengeSetOverview>? {
+            return getChallengeSetOverviewListAdapter().fromJson(json.toString())
+        }
+
+
+        private fun getChallengeSetOverviewListAdapter(): JsonAdapter<List<ChallengeSetOverview>> {
+            val moshi = Moshi.Builder()
+                .add(DateAdapter())
+                .addLast(KotlinJsonAdapterFactory())
+                .build()
+            val listType =
+                Types.newParameterizedType(List::class.java, ChallengeSetOverview::class.java)
+            return moshi.adapter(listType)
         }
 
         private fun getChallengeSetAdapter(): JsonAdapter<ChallengeSet> {

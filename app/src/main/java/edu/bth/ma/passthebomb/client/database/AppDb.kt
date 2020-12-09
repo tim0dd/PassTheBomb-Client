@@ -11,16 +11,24 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
 @Database(
     entities = [ChallengeSetOverview::class, Challenge::class],
-    version = 4,
+    version = 1337,
     exportSchema = false
 )
 
-@TypeConverters(Converters::class)
+@TypeConverters(DbConverters::class)
 abstract class AppDb : RoomDatabase() {
 
     abstract fun challengeSetDao(): ChallengeSetDao
 
     abstract fun challengeDao(): ChallengeDao
+
+    public fun getChallengeSetRepository() :ChallengeSetRepository {
+        return ChallengeSetRepository(challengeSetDao())
+    }
+
+    public fun getChallengeRepository() :ChallengeRepository {
+        return ChallengeRepository(challengeDao())
+    }
 
     companion object {
         @Volatile

@@ -20,7 +20,7 @@ interface ChallengeSetDao {
     fun deleteChallengeSetOverview(challengeSetOverview: ChallengeSetOverview)
 
     @Query("DELETE FROM $CHALLENGESETOVERVIEW_COLUMN WHERE id = :id")
-    fun deleteChallengeSetOverview(id: Int)
+    fun deleteChallengeSetOverview(id: String)
 
     @Query("DELETE FROM $CHALLENGESETOVERVIEW_COLUMN")
     fun deleteAllChallengeSetOverviews()
@@ -29,7 +29,7 @@ interface ChallengeSetDao {
     fun getAllChallengeSetOverviews(): LiveData<List<ChallengeSetOverview>>
 
     @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN WHERE id =:id")
-    fun getChallengeSetOverview(id: Int): LiveData<ChallengeSetOverview>
+    fun getChallengeSetOverview(id: String): LiveData<ChallengeSetOverview>
 
     //has to be annotated with transaction since it's querying two tables
     @Transaction
@@ -39,6 +39,6 @@ interface ChallengeSetDao {
     //has to be annotated with transaction since it's querying two tables
     @Transaction
     @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN  WHERE id =:id")
-    fun getChallengeSet(id: Int):  LiveData<ChallengeSet?>
+    fun getChallengeSet(id: String):  LiveData<ChallengeSet?>
 
 }

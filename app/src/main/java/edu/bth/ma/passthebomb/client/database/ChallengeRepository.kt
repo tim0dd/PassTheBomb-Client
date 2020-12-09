@@ -9,11 +9,11 @@ class ChallengeRepository(private val challengeDao: ChallengeDao) {
         return challengeDao.getAllChallenges()
     }
 
-    fun getChallengesByOverviewId(challengeSetId: Int): LiveData<List<Challenge>> {
+    fun getChallengesByOverviewId(challengeSetId: String): LiveData<List<Challenge>> {
         return challengeDao.getChallengesByOverviewId(challengeSetId)
     }
 
-    fun getChallengesByOverviewIds(idList: List<Int>): LiveData<List<Challenge>> {
+    fun getChallengesByOverviewIds(idList: List<String>): LiveData<List<Challenge>> {
         return challengeDao.getChallengesByOverviewIds(idList)
     }
 
