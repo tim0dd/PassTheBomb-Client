@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import edu.bth.ma.passthebomb.client.R
 
 
-class TutorialActivity : AppCompatActivity() {
+class TutorialActivity : ActionBarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_tutorial)
+
+        title = "Tutorial"
 
         val textView: TextView = findViewById(R.id.text_view_tutorial)
         textView.setMovementMethod(ScrollingMovementMethod())

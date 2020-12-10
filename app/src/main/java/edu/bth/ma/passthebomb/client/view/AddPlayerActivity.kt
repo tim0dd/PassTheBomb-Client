@@ -19,12 +19,14 @@ import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.viewmodel.AddPlayerVm
 
 
-class AddPlayerActivity : AppCompatActivity() {
+class AddPlayerActivity : ActionBarActivity() {
     val vm: AddPlayerVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_add_player)
+
+        title = "Add Players"
 
         val gameSettings = intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
         vm.init(gameSettings)

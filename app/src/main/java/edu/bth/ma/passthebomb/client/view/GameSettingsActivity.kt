@@ -13,11 +13,13 @@ import edu.bth.ma.passthebomb.client.model.GameSettings
 const val SEEK_BAR_MAX = 200
 const val SEEK_BAR_DIVIDER = 100.0
 
-class GameSettingsActivity : AppCompatActivity() {
+class GameSettingsActivity : ActionBarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_game_settings)
+
+        title = "Game Settings"
 
         val challengeSetIds: ArrayList<String> = intent.getStringArrayListExtra("CHALLENGE_SET_IDS") ?: ArrayList<String>()
 

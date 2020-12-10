@@ -13,13 +13,16 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.GameSettings
 
-class GameOverActivity : AppCompatActivity() {
+class GameOverActivity : ActionBarActivity() {
 
     lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_game_over)
+
+        title = "Results"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
         val gameSettings: GameSettings = intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
                 ?: GameSettings()

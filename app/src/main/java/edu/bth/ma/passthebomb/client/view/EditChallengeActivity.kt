@@ -2,6 +2,7 @@ package edu.bth.ma.passthebomb.client.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
@@ -12,13 +13,16 @@ import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.viewmodel.EditChallengeVm
 
-class EditChallengeActivity : AppCompatActivity(){
+class EditChallengeActivity : ActionBarActivity(){
 
     val vm:EditChallengeVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_edit_challenge)
+
+        title = "Edit Challenge"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
         val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
         val challengeId: Int = getIntent().getIntExtra("CHALLENGE_ID", -1)
@@ -62,6 +66,17 @@ class EditChallengeActivity : AppCompatActivity(){
             seekBarChallengeTime.progress = it.timeLimit
         }
         vm.challenge.observe(this, challengeObserver)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.getItemId()) {
+            android.R.id.home -> {
+                // API 5+ solution
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 

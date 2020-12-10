@@ -2,6 +2,7 @@ package edu.bth.ma.passthebomb.client.view.challengesetlist
 
 import android.content.Context
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -9,10 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
+import edu.bth.ma.passthebomb.client.view.ActionBarActivity
 
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetListVm
 
-abstract class ChallengeSetListActivity : AppCompatActivity() {
+abstract class ChallengeSetListActivity : ActionBarActivity() {
 
     lateinit var recyclerView: RecyclerView
 
@@ -54,6 +56,5 @@ abstract class ChallengeSetListActivity : AppCompatActivity() {
                 vm.onChallengeSetClick(position, this@ChallengeSetListActivity)
             }
         }
-
     }
 }

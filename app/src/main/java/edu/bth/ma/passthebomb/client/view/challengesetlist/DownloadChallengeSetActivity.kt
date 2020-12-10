@@ -1,6 +1,7 @@
 package edu.bth.ma.passthebomb.client.view.challengesetlist
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,12 @@ import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetList
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.DownloadChallengeSetsVm
 
 class DownloadChallengeSetActivity : ChallengeSetListActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Download Challenge Sets"
+    }
+
     override val vm: ChallengeSetListVm by viewModels<DownloadChallengeSetsVm>()
 
     override fun initButton(){

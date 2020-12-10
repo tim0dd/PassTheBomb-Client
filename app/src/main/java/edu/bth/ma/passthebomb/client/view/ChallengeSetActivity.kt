@@ -14,12 +14,14 @@ import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.viewmodel.ChallengeSetVm
 import kotlin.streams.toList
 
-class ChallengeSetActivity : AppCompatActivity() {
+class ChallengeSetActivity : ActionBarActivity() {
     val vm: ChallengeSetVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_challenge_set)
+
+        title = "Challenge Set" //TODO: add challenge set name in title
 
         //TODO: refactor to Int
         val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
