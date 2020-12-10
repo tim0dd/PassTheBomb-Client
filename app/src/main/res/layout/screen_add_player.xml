@@ -11,6 +11,9 @@
         android:id="@+id/recycler_view_add_player"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="300dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
@@ -23,18 +26,25 @@
 
     <Button
         android:id="@+id/button_start_game_for_real"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:height="@dimen/button_height"
         android:text="Start Game For Real"
+        android:textSize="18sp"
+        app:icon="@drawable/arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_add_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:height="@dimen/button_height"
         android:text="Add Player"
+        android:textSize="18sp"
         app:icon="@drawable/ic_plus"
         app:layout_constraintBottom_toTopOf="@+id/button_start_game_for_real"
         app:layout_constraintEnd_toEndOf="parent"

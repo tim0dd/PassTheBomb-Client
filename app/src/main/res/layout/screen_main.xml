@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/ic_background"
+    android:backgroundTint="#6DFFFFFF"
+    android:backgroundTintMode="add"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/buttonStartGame"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:height="@dimen/button_height"
         android:text="Start Game"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/buttonMyChallengeSets"
         app:layout_constraintStart_toStartOf="@+id/buttonMyChallengeSets"
@@ -22,7 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:height="@dimen/button_height"
         android:text="Download Challenge Sets"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonMyChallengeSets" />
@@ -32,7 +39,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:height="@dimen/button_height"
         android:text="My Challenge Sets"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/buttonDownloadChallengeSets"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="@+id/buttonDownloadChallengeSets"
@@ -43,7 +52,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:height="@dimen/button_height"
         android:text="Tutorial And Rules"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/buttonDownloadChallengeSets"
         app:layout_constraintStart_toStartOf="@+id/buttonDownloadChallengeSets"
         app:layout_constraintTop_toBottomOf="@+id/buttonDownloadChallengeSets" />

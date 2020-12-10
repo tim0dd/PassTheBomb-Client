@@ -6,53 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".view.ChallengeSetActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linear_layout_challenge_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/button_sync_challenge_set"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:height="@dimen/button_height"
             android:text="not synced"
-            app:icon="@drawable/ic_no_sync" />
+            android:textSize="18sp"
+            app:icon="@drawable/ic_no_sync"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button_delete_challenge_set"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_delete_challenge_set"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Delete"
-            app:icon="@drawable/ic_trash" />
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:height="@dimen/button_height"
+            android:minWidth="0dp"
+            android:textSize="18sp"
+            app:icon="@drawable/ic_trash"
+            app:iconGravity="end|textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout_challenge_set"
-        tools:layout_editor_absoluteX="147dp">
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout_challenge_set">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_challenge_list"
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="90dp"
             android:scrollbars="vertical"
-            app:layoutManager="LinearLayoutManager" />
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/button_add_challenge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_add_challenge"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:height="@dimen/button_height"
             android:text="Create New Challenge"
-            app:icon="@drawable/ic_plus" />
-    </LinearLayout>
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_challenge_list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

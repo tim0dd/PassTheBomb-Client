@@ -225,6 +225,7 @@
             android:id="@+id/button_game_settings_start_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:height="@dimen/button_height"
             android:text="Just Start the Game"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
