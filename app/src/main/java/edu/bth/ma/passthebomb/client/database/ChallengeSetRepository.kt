@@ -10,15 +10,15 @@ class ChallengeSetRepository(private val challengeSetDao: ChallengeSetDao) {
         return challengeSetDao.getAllChallengeSetOverviews()
     }
 
-    fun getChallengeSetOverview(id: Int): LiveData<ChallengeSetOverview> {
+    fun getChallengeSetOverview(id: String): LiveData<ChallengeSetOverview> {
         return challengeSetDao.getChallengeSetOverview(id)
     }
 
-    fun getAllChallengeSets(id: Int): LiveData<List<ChallengeSet>> {
+    fun getAllChallengeSets(id: String): LiveData<List<ChallengeSet>> {
         return challengeSetDao.getAllChallengeSets()
     }
 
-    fun getChallengeSet(id: Int): LiveData<ChallengeSet?> {
+    fun getChallengeSet(id: String): LiveData<ChallengeSet?> {
         return challengeSetDao.getChallengeSet(id)
     }
 
@@ -34,7 +34,7 @@ class ChallengeSetRepository(private val challengeSetDao: ChallengeSetDao) {
         challengeSetDao.deleteChallengeSetOverview(challengeSetOverview)
     }
 
-    fun deleteChallengeSetOverview(id: Int) {
+    fun deleteChallengeSetOverview(id: String) {
         challengeSetDao.deleteChallengeSetOverview(id)
     }
 

@@ -10,6 +10,7 @@ import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
+import edu.bth.ma.passthebomb.client.remote.RestService
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
@@ -17,6 +18,8 @@ class DbTestActivity : AppCompatActivity() {
 
 
     private lateinit var databaseVm: DatabaseVm
+
+    val uuid = UUID.randomUUID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,20 +53,19 @@ class DbTestActivity : AppCompatActivity() {
 
     private fun addChallengeSet() {
         val now = Date(System.currentTimeMillis())
-        val challenge1 = Challenge(0, 0, now, "First challenge text", 100)
-        val challenge2 = Challenge(1, 0, now, "First challenge text", 100)
-        val challengeList = listOf(challenge1, challenge2)
-        val challengeSet =
-            ChallengeSetOverview(0, 0, "Animals", now, now, now, 1337)
-        databaseVm.addChallengeSet(challengeSet)
-        databaseVm.addChallenge(challenge1)
-        databaseVm.addChallenge(challenge2)
+        val challenge1 = Challenge(null, uuid, now, "First challenge text", 100)
+        val challenge2 = Challenge(null, uuid, now, "First challenge text", 100)
+        val challenges = listOf(challenge1, challenge2)
+        val overview = ChallengeSetOverview(uuid, "0", "Animals", now, now, now, 1337)
+        databaseVm.addChallengeSet(ChallengeSet(overview, challenges))
+        /*   databaseVm.addChallenge(challenge1)
+           databaseVm.addChallenge(challenge2)*/
         Toast.makeText(this, "ChallengeSet added!", Toast.LENGTH_SHORT).show()
     }
 
     private fun getChallengeSet() {
 
-        val liveData = databaseVm.getChallengeSet(0)
+        val liveData = databaseVm.getChallengeSet(uuid)
         liveData.observe(
             this,
             Observer { challengeSet: ChallengeSet? ->
@@ -88,31 +90,49 @@ class DbTestActivity : AppCompatActivity() {
     }
 
     private fun deleteChallengeSet() {
-        val liveData = databaseVm.getChallengeSet(0)
-        liveData.observe(
-            this,
-            Observer { challengeSet: ChallengeSet? ->
-                if(challengeSet != null) {
-                    liveData.removeObservers(this)
-                    databaseVm.deleteChallengeSet(challengeSet)
-                    Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
-                }
-            })
+        val liveData = databaseVm.getChallengeSet(uuid)
+        RestService.getInstance(this).getChallengeSetOverviews(
+            { response: List<ChallengeSetOverview> ->
+                Toast.makeText(
+                    this,
+                    response.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            { Toast.makeText(this, "FAIL!", Toast.LENGTH_SHORT).show() })
+        RestService.getInstance(this).getChallengeSet(uuid,
+            { response: ChallengeSet ->
+                Toast.makeText(
+                    this,
+                    response.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            { Toast.makeText(this, "FAIL!", Toast.LENGTH_SHORT).show() })
+        /*  liveData.observe(
+              this,
+              Observer { challengeSet: ChallengeSet? ->
+                  if (challengeSet != null) {
+                      liveData.removeObservers(this)
+                      databaseVm.deleteChallengeSet(challengeSet)
+                      Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
+                  }
+              })*/
     }
 
     private fun updateChallengeSet() {
-        val liveData = databaseVm.getChallengeSet(0)
+        val liveData = databaseVm.getChallengeSet(uuid)
         liveData.observe(
             this,
             Observer { challengeSet: ChallengeSet? ->
-                if(challengeSet == null) return@Observer
+                if (challengeSet == null) return@Observer
+                RestService.getInstance(this).uploadChallengeSet(challengeSet, {}, {})
                 liveData.removeObservers(this)
-                val now =  Date(System.currentTimeMillis())
+                val now = Date(System.currentTimeMillis())
                 val overview = challengeSet.challengeSetOverview
                 overview.name = "ALIENS"
                 overview.modifiedDate = now
-                overview.downloads++
-                val challenge = Challenge(3,  overview.id, now, "Third challenge text", 100)
+                val challenge = Challenge(null, overview.id, now, "Third challenge text", 100)
                 val list = mutableListOf<Challenge>()
                 list.addAll(challengeSet.challenges)
                 list.add(challenge)

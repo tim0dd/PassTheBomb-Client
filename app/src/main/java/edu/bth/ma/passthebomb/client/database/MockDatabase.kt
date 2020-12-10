@@ -15,10 +15,10 @@ class MockDatabase {
     fun loadLocalChallengeSets(): ArrayList<ChallengeSetOverview>{
         val now = Date(System.currentTimeMillis())
 
-        val challenge1 = Challenge(0, 0, now, "First challenge text", 100)
-        val challenge2 = Challenge(1, 0, now, "First challenge text", 100)
+        val challenge1 = Challenge(0, "0", now, "First challenge text", 100)
+        val challenge2 = Challenge(1, "0", now, "First challenge text", 100)
         val challengeList = listOf(challenge1, challenge2)
-        val challengeSet = ChallengeSetOverview(0, 0, "Animals", now, now, now, 1337)
+        val challengeSet = ChallengeSetOverview("0", "0", "Animals", now, now, now, 1337)
         return arrayListOf<ChallengeSetOverview>(
             challengeSet
         )
@@ -27,17 +27,17 @@ class MockDatabase {
     //TODO
     fun loadChallengeSet(challengeSetId: String): ChallengeSet{
         val now = Date(System.currentTimeMillis())
-        val challenge1 = Challenge(0, 0, now, "First challenge text", 100)
-        val challenge2 = Challenge(1, 0, now, "First challenge text", 100)
+        val challenge1 = Challenge(0, "0", now, "First challenge text", 100)
+        val challenge2 = Challenge(1, "0", now, "First challenge text", 100)
         val challengeList = listOf(challenge1, challenge2)
-        val challengeSet = ChallengeSetOverview(0, 0, "Animals", now, now, now, 1337)
+        val challengeSet = ChallengeSetOverview("0", "0", "Animals", now, now, now, 1337)
         return ChallengeSet(challengeSet,challengeList)
     }
 
     //TODO
     fun loadChallenge(challengeId: Int): Challenge{
         val now = Date(System.currentTimeMillis())
-        return Challenge(0, 0, now, "First challenge text", 100)
+        return Challenge(0, "0", now, "First challenge text", 100)
     }
 
     fun deleteChallenge(challenge: Challenge){

@@ -16,15 +16,10 @@ import kotlinx.coroutines.launch
 
 open class DatabaseVm(application: Application) : AndroidViewModel(application) {
 
-    private val challengeSetRepo: ChallengeSetRepository
-    private val challengeRepo: ChallengeRepository
-
-    init {
-        val challengeDao = AppDb.getDatabase(application).challengeDao()
-        val challengeSetDao = AppDb.getDatabase(application).challengeSetDao()
-        challengeSetRepo = ChallengeSetRepository(challengeSetDao)
-        challengeRepo = ChallengeRepository(challengeDao)
-    }
+    private val challengeSetRepo: ChallengeSetRepository =
+        AppDb.getDatabase(application).getChallengeSetRepository()
+    private val challengeRepo: ChallengeRepository =
+        AppDb.getDatabase(application).getChallengeRepository()
 
     fun getAllChallenges(): LiveData<List<Challenge>> {
         return challengeRepo.getAllChallenges()
@@ -34,28 +29,34 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application) 
         return challengeRepo.getChallenge(id)
     }
 
-    fun getChallenges(challengeSetId: Int): LiveData<List<Challenge>> {
-        return challengeRepo.getAllChallenges(challengeSetId)
+    fun getChallengesByOverviewId(overviewId: String): LiveData<List<Challenge>> {
+        return challengeRepo.getChallengesByOverviewId(overviewId)
     }
 
-    fun getChallenges(idList: List<Int>): LiveData<List<Challenge>> {
-        return challengeRepo.getChallenges(idList)
+    fun getChallengesByOverviewIds(idList: List<String>): LiveData<List<Challenge>> {
+        return challengeRepo.getChallengesByOverviewIds(idList)
     }
 
     fun getAllChallengeSets(): LiveData<List<ChallengeSetOverview>> {
         return challengeSetRepo.getAllChallengeSetOverviews()
     }
 
-    fun getChallengeSetOverview(id: Int): LiveData<ChallengeSetOverview> {
+    fun getChallengeSetOverview(id: String): LiveData<ChallengeSetOverview> {
         return challengeSetRepo.getChallengeSetOverview(id)
     }
 
-    fun getChallengeSet(id: Int): LiveData<ChallengeSet?> {
+    fun getChallengeSet(id: String): LiveData<ChallengeSet?> {
         return challengeSetRepo.getChallengeSet(id)
     }
 
-    fun addChallengeSet(challengeSetOverview: ChallengeSetOverview) {
+    fun addChallengeSetOverview(challengeSetOverview: ChallengeSetOverview) {
         runCoroutine { challengeSetRepo.addChallengeSetOverview(challengeSetOverview) }
+    }
+
+
+    fun addChallengeSet(challengeSet: ChallengeSet) {
+        runCoroutine { challengeSetRepo.addChallengeSetOverview(challengeSet.challengeSetOverview) }
+        challengeSet.challenges.forEach { runCoroutine { challengeRepo.addChallenge(it) } }
     }
 
     fun addChallenge(challenge: Challenge) {
@@ -80,7 +81,7 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application) 
     }
 
 
-    fun deleteChallengeSet(id: Int) {
+    fun deleteChallengeSet(id: String) {
         runCoroutine { challengeSetRepo.deleteChallengeSetOverview(id) }
     }
 

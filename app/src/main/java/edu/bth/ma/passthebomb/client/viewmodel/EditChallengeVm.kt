@@ -15,7 +15,7 @@ class EditChallengeVm : ViewModel() {
         if (challengeId == -1) {
             val now = Date(System.currentTimeMillis())
 
-            challenge.value = Challenge(0, 0, now, "First challenge text", 100)
+            challenge.value = Challenge(0, "0", now, "First challenge text", 100)
         } else {
             challenge.value = MockDatabase().loadChallenge(challengeId)
         }
