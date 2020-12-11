@@ -16,27 +16,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PassTheBombClient"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.GameOverActivity"></activity>
+        <activity android:name=".view.GameOverActivity"
+            android:screenOrientation="sensorPortrait">
+        </activity>
         <activity
             android:name=".view.GameActivity"
             android:screenOrientation="sensorLandscape">
         </activity>
-        <activity android:name=".view.EditChallengeActivity" />
-        <activity android:name=".view.ChallengeSetActivity" />
-        <activity android:name=".view.AddPlayerActivity" />
-        <activity android:name=".view.GameSettingsActivity" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.EditChallengeActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.ChallengeSetActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.AddPlayerActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.GameSettingsActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.MainActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.challengesetlist.MyChallengeSetsActivity" />
-        <activity android:name=".view.challengesetlist.DownloadChallengeSetActivity" />
-        <activity android:name=".view.challengesetlist.SelectChallengeSetsActivity" />
-        <activity android:name=".view.TutorialActivity" />
-        <activity android:name=".view.DbTestActivity">
+        <activity android:name=".view.challengesetlist.MyChallengeSetsActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.challengesetlist.DownloadChallengeSetActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.challengesetlist.SelectChallengeSetsActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.TutorialActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.DbTestActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
