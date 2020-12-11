@@ -216,4 +216,11 @@
   <path
       android:pathData="m742.83,1307.33c-0,0 -63.39,214.46 -233.26,187.51 -106.29,-16.99 -159.34,-87.11 -184.04,-137.12 -12.26,-25 4.21,-54.69 31.41,-57.23l-0,0c14.94,-1.37 29.3,6.25 36.96,19.34 19.73,33.99 65.69,96.68 141.53,106.45 104.76,13.28 207.41,-118.95 207.41,-118.95z"
       android:fillColor="#FFFFFF"/>
+
+  <path
+      android:pathData="M1,1 H2160 V3840 H1 Z"
+      android:strokeColor="?android:attr/colorAccent"
+      android:strokeWidth="2"
+      android:fillColor="#D0FFFFFF">
+  </path>
 </vector>

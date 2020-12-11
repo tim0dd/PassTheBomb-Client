@@ -17,11 +17,14 @@ enum class GameState{
     RIGHT_PRESSED,
     RIGHT_LEFT_PRESSED,
     KABOOM,
+    PAUSED,
     GAME_OVER
 }
 
-const val ACCELERATION_THRESH_MULTIPLIER = 1.5
-var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLIER
+const val ACCELERATION_THRESH_MULTIPLYER = 2.0
+const val ATTENUATION_FACTOR = 0.5
+var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLYER
+lateinit var previousGameState: GameState
 
 class GameVm: ViewModel() {
     lateinit var gameSettings: GameSettings
@@ -45,7 +48,7 @@ class GameVm: ViewModel() {
             challenges.addAll(challengeSet.challenges)
         }
         playerScores = ArrayList(MutableList(gameSettings.playerList.size) { 0 })
-        accelerationThresh = ACCELERATION_THRESH_MULTIPLIER * gameSettings.bombSensitivity
+        accelerationThresh = ACCELERATION_THRESH_MULTIPLYER / (gameSettings.bombSensitivity + 0.01)
         isLoading.value = false
         start()
     }
@@ -62,6 +65,10 @@ class GameVm: ViewModel() {
     }
 
     fun explode(){
+        if(gameState.value == GameState.START || gameState.value == GameState.PAUSED
+            || gameState.value == GameState.KABOOM){
+            return
+        }
         gameState.value = GameState.KABOOM
         playerScores[playerScheduler.currentValue] -= 100
     }
@@ -136,10 +143,29 @@ class GameVm: ViewModel() {
     fun onLinearAcceleration(x:Float, y:Float, z:Float){
         val absoluteValue = Math.sqrt((x*x + y*y + z*z).toDouble())
         val relativeAcceleration = absoluteValue / accelerationThresh
-        this.relativeAcceleration.value = relativeAcceleration
+    this.relativeAcceleration.value = relativeAcceleration * ATTENUATION_FACTOR +
+            (this.relativeAcceleration.value?.times((1.0 - ATTENUATION_FACTOR)) ?: 0.0)
         if(relativeAcceleration > 1.0){
             explode()
         }
+    }
+
+    fun pauseGame(){
+        if(gameState.value == GameState.PAUSED || gameState.value == GameState.START
+            || gameState.value == GameState.KABOOM){
+            return
+        }
+        previousGameState = gameState.value!!
+        gameState.value = GameState.PAUSED
+        countDownTimer.pause()
+    }
+
+    fun resumeGame(){
+        if(gameState.value != GameState.PAUSED){
+            return
+        }
+        gameState.value = previousGameState
+        countDownTimer.start()
     }
 
 

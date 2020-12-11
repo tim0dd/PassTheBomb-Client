@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".view.GameActivity"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape"
+            android:windowBackground="@color/white">
         </activity>
         <activity android:name=".view.EditChallengeActivity"
             android:screenOrientation="sensorPortrait"/>

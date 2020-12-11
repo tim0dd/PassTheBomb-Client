@@ -10,7 +10,7 @@ import android.widget.Switch
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.GameSettings
 
-const val SEEK_BAR_MAX = 200
+const val SEEK_BAR_MAX = 100
 const val SEEK_BAR_DIVIDER = 100.0
 
 class GameSettingsActivity : ActionBarActivity() {
@@ -38,8 +38,10 @@ class GameSettingsActivity : ActionBarActivity() {
 
         val button = findViewById<Button>(R.id.button_game_settings_start_game)
         button.setOnClickListener {
-            val timeModifier: Double = (SEEK_BAR_MAX - seekBarTimeModifier.progress)/ SEEK_BAR_DIVIDER
-            val bombSensitivity: Double = (SEEK_BAR_MAX - seekBarBombSensetivity.progress) / SEEK_BAR_DIVIDER
+            var timeModifier: Double = (SEEK_BAR_MAX - seekBarTimeModifier.progress)/ SEEK_BAR_DIVIDER
+            timeModifier *= 2;
+            var bombSensitivity: Double = seekBarBombSensetivity.progress / SEEK_BAR_DIVIDER
+            bombSensitivity *= 2;
             val shuffleRandomly: Boolean = switchRandomPlayerOrder.isChecked
             val enableSound: Boolean = switchEnableSound.isChecked
             val numberRounds: Int = editTextNumberRounds.text.toString().toInt()

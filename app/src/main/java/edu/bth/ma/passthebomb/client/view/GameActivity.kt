@@ -3,13 +3,11 @@ package edu.bth.ma.passthebomb.client.view
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Interpolator
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
@@ -20,6 +18,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.viewmodel.GameState
@@ -59,6 +58,11 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val progressBarTime = findViewById<ProgressBar>(R.id.prograss_bar_game_time)
         val constraint_layout_kaboom = findViewById<ConstraintLayout>(R.id.constraint_layout_boom)
         val constraintLayoutGame = findViewById<ConstraintLayout>(R.id.constraint_layout_game)
+        val slidingUpLayout = findViewById<SlidingUpPanelLayout>(R.id.sliding_up_layout_game)
+        val buttonResume = findViewById<Button>(R.id.button_pause_resume)
+        val buttonTutorial = findViewById<Button>(R.id.button_pause_tutorial)
+        val buttonQuit = findViewById<Button>(R.id.button_pause_quit)
+
 
         val timeObserver = Observer<Float> {
             progressBarTime.max = (vm.currentTimeLimit() * 10).toInt()
@@ -77,6 +81,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                 }else{
                     textViewChallenge.visibility = View.INVISIBLE
                 }
+            }
+            if(slidingUpLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED &&
+                state != GameState.PAUSED){
+                slidingUpLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             }
             //button descriptions
             when(state){
@@ -110,7 +118,11 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                     val intent = Intent(this, GameOverActivity::class.java)
                     intent.putExtra("GAME_SETTINGS", vm.gameSettings)
                     intent.putExtra("SCORES", vm.playerScores)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
+                }
+                GameState.PAUSED -> {
+                    slidingUpLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
                 }
             }
         }
@@ -149,6 +161,39 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             vm.onKaboomClick()
         }
 
+        slidingUpLayout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener{
+            override fun onPanelSlide(p0: View?, p1: Float) {}
+
+            override fun onPanelStateChanged(
+                p0: View?,
+                previousState: SlidingUpPanelLayout.PanelState?,
+                newState: SlidingUpPanelLayout.PanelState?
+            ) {
+                if(newState == SlidingUpPanelLayout.PanelState.EXPANDED){
+                    vm.pauseGame()
+                }
+                if(newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                    vm.resumeGame()
+                }
+            }
+
+        })
+
+        buttonTutorial.setOnClickListener(){
+            val intent = Intent(this, TutorialActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonResume.setOnClickListener(){
+            vm.resumeGame()
+        }
+
+        buttonQuit.setOnClickListener(){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+        }
+
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -168,13 +213,15 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
+        super.onPause()
+        sensorManager.unregisterListener(this)
+        vm.pauseGame()
     }
 
     override fun onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        super.onResume()
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        vm.resumeGame()
     }
 
 }
