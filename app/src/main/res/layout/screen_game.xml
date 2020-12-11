@@ -1,140 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout_game"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:alpha="1"
-    tools:context=".view.GameActivity">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:alpha="0.3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_bomb_color" />
-
-    <Button
-        android:id="@+id/button_game_left"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:text="Press One Side When Finished"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_game_right"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:text="Press One Side When Finished"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/text_view_game_challenge"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:width="300dp"
-        android:gravity="center_vertical"
-        android:text="Make loud monkey noises"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/prograss_bar_game_time"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintEnd_toStartOf="@+id/button_game_right"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.68" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_game_left"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_game_challenge"
-        app:layout_constraintVertical_bias="0.74"
-        app:srcCompat="@drawable/ic_time" />
-
-    <TextView
-        android:id="@+id/text_view_game_player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="It's Obama's turn:"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_game_challenge"
-        app:layout_constraintEnd_toStartOf="@+id/button_game_right"
-        app:layout_constraintStart_toEndOf="@+id/button_game_left" />
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:sothree="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/sliding_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="bottom"
+sothree:umanoDragView="@+id/dragView"
+sothree:umanoOverlay="true"
+sothree:umanoPanelHeight="30dp"
+sothree:umanoScrollableView="@+id/listView"
+sothree:umanoShadowHeight="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_boom"
+        android:id="@+id/constraint_layout_game"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:translationZ="10dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:alpha="1"
+        android:visibility="visible">
 
         <ImageView
-            android:id="@+id/image_view_boom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="#FFFFFF"
-            android:backgroundTint="#E8F80505"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_boom" />
+            android:id="@+id/imageView4"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:alpha="0.3"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintHorizontal_bias="0.56"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toTopOf="parent"
+            sothree:layout_constraintVertical_bias="0.0"
+            sothree:srcCompat="@drawable/ic_bomb_color" />
 
+        <Button
+            android:id="@+id/button_game_left"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:text="Press One Side When Finished"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_view_tap_to_continue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap Anywhere to Continue"
+        <Button
+            android:id="@+id/button_game_right"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:text="Press One Side When Finished"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintTop_toTopOf="parent"
+            sothree:layout_constraintVertical_bias="0.0" /><![CDATA[
+
+        //android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="30sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.814" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        ]]>
+
+        <ProgressBar
+            android:id="@+id/prograss_bar_game_time"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="30dp"
+            sothree:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            sothree:layout_constraintEnd_toStartOf="@+id/button_game_right"
+            sothree:layout_constraintStart_toEndOf="@+id/imageView3"
+            sothree:layout_constraintTop_toTopOf="@+id/imageView3"
+            sothree:layout_constraintVertical_bias="0.68" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintStart_toEndOf="@+id/button_game_left"
+            sothree:layout_constraintTop_toBottomOf="@+id/text_view_game_challenge"
+            sothree:layout_constraintVertical_bias="0.74"
+            sothree:srcCompat="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/text_view_game_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="It's Obama's turn:"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            sothree:layout_constraintBottom_toTopOf="@+id/text_view_game_challenge"
+            sothree:layout_constraintEnd_toStartOf="@+id/button_game_right"
+            sothree:layout_constraintStart_toEndOf="@+id/button_game_left" />
+
+        <TextView
+            android:id="@+id/text_view_game_challenge"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:width="300dp"
+            android:gravity="center_vertical"
+            android:text="Make loud monkey noises"
+            sothree:layout_constraintBottom_toBottomOf="@+id/constraint_layout_boom"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_boom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="10dp"
+            android:visibility="invisible"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/image_view_boom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="#FFFFFF"
+                android:backgroundTint="#E8F80505"
+                sothree:layout_constraintBottom_toBottomOf="parent"
+                sothree:layout_constraintEnd_toEndOf="parent"
+                sothree:layout_constraintHorizontal_bias="1.0"
+                sothree:layout_constraintStart_toStartOf="parent"
+                sothree:layout_constraintTop_toTopOf="parent"
+                sothree:layout_constraintVertical_bias="0.0"
+                sothree:srcCompat="@drawable/ic_boom" />
+
+
+            <TextView
+                android:id="@+id/text_view_tap_to_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap Anywhere to Continue"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                sothree:layout_constraintBottom_toBottomOf="parent"
+                sothree:layout_constraintEnd_toEndOf="parent"
+                sothree:layout_constraintStart_toStartOf="parent"
+                sothree:layout_constraintTop_toTopOf="parent"
+                sothree:layout_constraintVertical_bias="0.814" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include android:id="@+id/constraint_layout_pause" layout="@layout/layout_pause" />
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

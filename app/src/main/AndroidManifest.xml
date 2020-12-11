@@ -19,7 +19,8 @@
         <activity android:name=".view.GameOverActivity"></activity>
         <activity
             android:name=".view.GameActivity"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape">
+        </activity>
         <activity android:name=".view.EditChallengeActivity" />
         <activity android:name=".view.ChallengeSetActivity" />
         <activity android:name=".view.AddPlayerActivity" />

@@ -12,6 +12,9 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.koin:koin-gradle-plugin:$koin_version"
 
+        //classpath "com.github.hannesa2:AndroidSlidingUpPanel:4.2.1"
+        //classpath 'com.github.hannesa2:AndroidSlidingUpPanel:3.5.0'
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -23,7 +26,15 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
+
+    //dependencies {
+       // implementation "com.github.hannesa2:AndroidSlidingUpPanel:3.5.0" // Android X
+
+        // or
+       // implementation 'com.github.hannesa2:AndroidSlidingUpPanel:3.5.0' // supportLib
+   // }
 }
 
 task clean(type: Delete) {
