@@ -26,10 +26,10 @@ class GameSettingsActivity : ActionBarActivity() {
 
         val seekBarTimeModifier = findViewById<SeekBar>(R.id.seek_bar_time_modifier)
         seekBarTimeModifier.max = SEEK_BAR_MAX
-        seekBarTimeModifier.progress = SEEK_BAR_DIVIDER.toInt()
+        seekBarTimeModifier.progress = SEEK_BAR_MAX / 2
         val seekBarBombSensetivity = findViewById<SeekBar>(R.id.seek_bar_bomb_sensitivity)
         seekBarBombSensetivity.max = SEEK_BAR_MAX
-        seekBarBombSensetivity.progress = SEEK_BAR_DIVIDER.toInt()
+        seekBarBombSensetivity.progress = SEEK_BAR_MAX / 2
         val switchRandomPlayerOrder = findViewById<Switch>(R.id.switch_choose_player_randomly)
         val switchEnableSound = findViewById<Switch>(R.id.switch_enable_sound)
         val editTextNumberRounds = findViewById<EditText>(R.id.edit_text_maximum_rounds)
