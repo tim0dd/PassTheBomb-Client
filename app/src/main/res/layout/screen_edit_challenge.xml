@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.EditChallengeActivity">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/other_screens_bg" />
     <Button
         android:id="@+id/button_challenge_delete"
         android:layout_width="wrap_content"

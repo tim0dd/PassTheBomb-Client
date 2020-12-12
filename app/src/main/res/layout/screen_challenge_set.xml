@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.ChallengeSetActivity">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/other_screens_bg" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linear_layout_challenge_set"
         android:layout_width="match_parent"

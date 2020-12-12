@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/main_menu_background"
-    android:backgroundTintMode="add"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/main_screen_bg" />
+
+    <ImageView
+        android:layout_width="314dp"
+        android:layout_height="314dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/passthebomb_logo"
+        ads:layout_constraintBottom_toTopOf="@+id/buttonDownloadChallengeSets"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="@+id/imageView5"/>
 
     <Button
         android:id="@+id/buttonStartGame"
