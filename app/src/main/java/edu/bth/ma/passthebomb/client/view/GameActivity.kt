@@ -7,6 +7,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -126,6 +127,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val stateObserver = Observer<GameState> { state ->
             //kaboom and challenge visibility
             if (state == GameState.KABOOM) {
+                val kaboomSound: MediaPlayer = MediaPlayer.create(this, R.raw.bomb)
+                kaboomSound.start()
                 constraint_layout_kaboom.visibility = View.VISIBLE
             } else {
                 constraint_layout_kaboom.visibility = View.INVISIBLE
