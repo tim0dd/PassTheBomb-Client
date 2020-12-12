@@ -9,6 +9,7 @@ import edu.bth.ma.passthebomb.client.utils.CountDownTimerPausable
 import edu.bth.ma.passthebomb.client.utils.RoundRobinScheduler
 import kotlin.random.Random
 
+
 enum class GameState{
     START,
     CHALLENGE,
@@ -54,9 +55,11 @@ class GameVm: ViewModel() {
     }
 
     fun start(){
-        playerScheduler = RoundRobinScheduler(gameSettings.playerList.size,
-                                                gameSettings.randomScheduling){ round ->
-            if(round >= gameSettings.numberRounds){
+        playerScheduler = RoundRobinScheduler(
+            gameSettings.playerList.size,
+            gameSettings.randomScheduling
+        ) { round ->
+            if (round >= gameSettings.numberRounds) {
                 gameState.value = GameState.GAME_OVER
             }
         }
@@ -136,21 +139,22 @@ class GameVm: ViewModel() {
         }
     }
 
-    fun onKaboomClick(){
+    fun onKaboomClick() {
         start()
     }
 
-    fun onLinearAcceleration(x:Float, y:Float, z:Float){
-        val absoluteValue = Math.sqrt((x*x + y*y + z*z).toDouble())
+    fun onLinearAcceleration(x: Float, y: Float, z: Float): Double {
+        val absoluteValue = Math.sqrt((x * x + y * y + z * z).toDouble())
         val relativeAcceleration = absoluteValue / accelerationThresh
-    this.relativeAcceleration.value = relativeAcceleration * ATTENUATION_FACTOR +
-            (this.relativeAcceleration.value?.times((1.0 - ATTENUATION_FACTOR)) ?: 0.0)
-        if(relativeAcceleration > 1.0){
+        this.relativeAcceleration.value = relativeAcceleration * ATTENUATION_FACTOR +
+                (this.relativeAcceleration.value?.times((1.0 - ATTENUATION_FACTOR)) ?: 0.0)
+        if (relativeAcceleration > 1.0) {
             explode()
         }
+        return relativeAcceleration
     }
 
-    fun pauseGame(){
+    fun pauseGame() {
         if(gameState.value == GameState.PAUSED || gameState.value == GameState.START
             || gameState.value == GameState.KABOOM){
             return

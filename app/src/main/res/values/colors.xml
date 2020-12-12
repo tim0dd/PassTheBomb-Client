@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="orange_main">#F59D39</color>
-    <color name="orange_variant">#F59D39</color>
+    <color name="orange_variant">#A85B03</color>
     <color name="orange2_main">#FF9C19</color>
     <color name="orange2_variant">#B37229</color>
     <color name="teal_main">#0578A8</color>

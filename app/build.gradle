@@ -97,4 +97,7 @@ dependencies {
 
     // or
     //implementation 'com.github.hannesa2:AndroidSlidingUpPanel:3.5.0' // supportLib
+
+    // graph view library
+    implementation 'com.jjoe64:graphview:4.2.2'
 }
