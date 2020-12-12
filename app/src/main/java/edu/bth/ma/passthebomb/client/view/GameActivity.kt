@@ -109,7 +109,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         bombGraph.viewport.setMinX(0.0)
         bombGraph.viewport.setMaxX(1.0)
         val orange = resources.getColor(R.color.orange_main, theme)
-        val orange2 = resources.getColor(R.color.orange_variant, theme)
         val bgColor = Color.argb(120, Color.red(orange), Color.green(orange), Color.blue(orange))
         //for some reason the java functions have to be used here
         series.isDrawBackground = true
