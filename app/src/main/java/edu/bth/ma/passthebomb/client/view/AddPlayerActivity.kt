@@ -45,7 +45,8 @@ class AddPlayerActivity : ActionBarActivity() {
 
         val addPlayerButton = findViewById<Button>(R.id.button_add_player)
         addPlayerButton.setOnClickListener {
-            showInputDialog() {
+            val dia = Dialogs(this)
+            dia.showStringInputDialog("Player Name") {
                 vm.addPlayer(it)
             }
         }
@@ -54,16 +55,6 @@ class AddPlayerActivity : ActionBarActivity() {
         startGameButton.setOnClickListener{
             vm.startGame(this)
         }
-    }
-
-    fun showInputDialog(block: (String) -> Unit){
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Player Name")
-        val input = EditText(this)
-        input.inputType = InputType.TYPE_CLASS_TEXT
-        builder.setView(input)
-        builder.setPositiveButton("OK", { dialog, which -> block(input.text.toString()) })
-        builder.show()
     }
 
     class PlayerListAdapter(private val context: Context, var vm: AddPlayerVm)

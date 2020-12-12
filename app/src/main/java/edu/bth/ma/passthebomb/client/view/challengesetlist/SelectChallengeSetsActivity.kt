@@ -11,25 +11,29 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
+import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.SelectChallengeSetsVm
 
 class SelectChallengeSetsActivity : ChallengeSetListActivity() {
 
+    override val vm: SelectChallengeSetsVm by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Select Challenge Sets"
+        vm.getAllChallengeSets().observe(this,
+            Observer {
+                val myChallengeSetsAdapter = SelectChallengeSetsAdapter(this@SelectChallengeSetsActivity, it)
+                this@SelectChallengeSetsActivity.challengeSetsAdapter = myChallengeSetsAdapter
+                vm.init(it)
+            })
     }
 
-    override val vm: SelectChallengeSetsVm by viewModels()
 
     override fun initButton(){
         val startButton = findViewById<Button>(R.id.button_add_challenge_set)
         startButton.text = "Start Game!"
         startButton.visibility = View.VISIBLE
-    }
-
-    override fun getRecyclerViewAdapter(): ChallengeSetsAdapter {
-        return SelectChallengeSetsAdapter(this, vm.challengeSetOverviews)
     }
 
     inner class SelectChallengeSetsAdapter(private val context: Context,

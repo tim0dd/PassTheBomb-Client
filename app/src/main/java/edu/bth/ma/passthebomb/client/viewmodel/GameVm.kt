@@ -1,9 +1,16 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
+import android.app.Activity
+import android.app.Application
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.observe
 import edu.bth.ma.passthebomb.client.database.MockDatabase
 import edu.bth.ma.passthebomb.client.model.Challenge
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.utils.CountDownTimerPausable
 import edu.bth.ma.passthebomb.client.utils.RoundRobinScheduler
@@ -26,7 +33,7 @@ const val ATTENUATION_FACTOR = 0.5
 var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLYER
 lateinit var previousGameState: GameState
 
-class GameVm: ViewModel() {
+class GameVm(application: Application): DatabaseVm(application) {
     lateinit var gameSettings: GameSettings
     val challenges = ArrayList<Challenge>()
 
@@ -40,17 +47,17 @@ class GameVm: ViewModel() {
     lateinit var playerScheduler: RoundRobinScheduler
     var relativeAcceleration = MutableLiveData<Double>(0.0)
 
-    fun init(gameSettings: GameSettings){
+    fun init(activity: AppCompatActivity, gameSettings: GameSettings){
         this.gameSettings = gameSettings
         isLoading.value = true
-        for(id in gameSettings.challengeSetIds){
-            val challengeSet = MockDatabase().loadChallengeSet(id)
-            challenges.addAll(challengeSet.challenges)
-        }
         playerScores = ArrayList(MutableList(gameSettings.playerList.size) { 0 })
         accelerationThresh = ACCELERATION_THRESH_MULTIPLYER / (gameSettings.bombSensitivity + 0.01)
-        isLoading.value = false
-        start()
+
+        getChallengesByOverviewIds(gameSettings.challengeSetIds).observe(activity, Observer {
+            challenges.addAll(it)
+            isLoading.value = false
+            start()
+        })
     }
 
     fun start(){

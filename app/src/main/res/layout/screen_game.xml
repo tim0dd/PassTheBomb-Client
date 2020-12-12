@@ -112,6 +112,16 @@
             sothree:layout_constraintStart_toStartOf="parent"
             sothree:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar_game"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintEnd_toEndOf="@+id/button_game_right"
+            sothree:layout_constraintStart_toStartOf="@+id/button_game_left"
+            sothree:layout_constraintTop_toTopOf="@+id/constraint_layout_boom" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_boom"
             android:layout_width="match_parent"

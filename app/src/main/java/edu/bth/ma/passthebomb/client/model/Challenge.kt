@@ -19,8 +19,8 @@ import java.util.*
 )
 
 data class Challenge(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int?,
+    @PrimaryKey(autoGenerate = false)
+    val id: String,
     val challengeSetId: String,
     val createdDate: Date,
     val text: String,

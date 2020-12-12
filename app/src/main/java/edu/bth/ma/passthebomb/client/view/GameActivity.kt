@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import edu.bth.ma.passthebomb.client.R
+import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.viewmodel.GameState
 import edu.bth.ma.passthebomb.client.viewmodel.GameVm
@@ -48,8 +49,9 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         if(gameSettings==null) {
             Toast.makeText(this, "No game settings, cannot start game this way", Toast.LENGTH_SHORT).show()
             finish()
+            return;
         }
-        vm.init(gameSettings!!)
+        vm.init(this, gameSettings!!)
 
         val buttonLeft = findViewById<Button>(R.id.button_game_left)
         val buttonRight = findViewById<Button>(R.id.button_game_right)
@@ -62,6 +64,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val buttonResume = findViewById<Button>(R.id.button_pause_resume)
         val buttonTutorial = findViewById<Button>(R.id.button_pause_tutorial)
         val buttonQuit = findViewById<Button>(R.id.button_pause_quit)
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar_game)
+
 
 
         val timeObserver = Observer<Float> {
@@ -138,6 +142,20 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             textViewPlayer.text = "It's " + player + "'s turn" //TODO
         }
         vm.playerName.observe(this, nextPlayerObserver)
+
+        val challengeObserver = Observer<Challenge>{
+            textViewChallenge.text = it.text
+        }
+        vm.currentChallenge.observe(this, challengeObserver)
+
+        val loadingObserver = Observer<Boolean> {
+            if(it){
+                progressBar.visibility = View.VISIBLE
+            }else{
+                progressBar.visibility = View.GONE
+            }
+        }
+        vm.isLoading.observe(this, loadingObserver)
 
         buttonLeft.setOnTouchListener{
         _, event ->

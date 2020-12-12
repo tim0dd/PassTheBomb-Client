@@ -27,10 +27,6 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
         addButton.visibility = View.GONE
     }
 
-    override fun getRecyclerViewAdapter(): ChallengeSetsAdapter {
-        return DownloadChallengeSetsAdapter(this, vm.challengeSetOverviews)
-    }
-
     inner class DownloadChallengeSetsAdapter(private val context: Context,
                                        private val dataset: List<ChallengeSetOverview>
     ) : ChallengeSetsAdapter(context, dataset){

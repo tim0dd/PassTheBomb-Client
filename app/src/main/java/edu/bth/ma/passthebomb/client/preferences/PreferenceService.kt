@@ -9,28 +9,23 @@ import java.util.*
 const val PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
 
 class PreferenceService constructor(private val context: Context) {
-    private var uniqueID: String? = null
-
-    init {
-        getUniqueId()
-    }
-
+    var uniqueId: String? = null
 
     @SuppressLint("ApplySharedPref")
-    private fun getUniqueId() : String {
-        if (uniqueID == null) {
+     fun getUniqueUserId() : String {
+        if (uniqueId == null) {
             val sharedPrefs: SharedPreferences = context.getSharedPreferences(
                 PREF_UNIQUE_ID, Context.MODE_PRIVATE
             )
-            uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null)
-            if (uniqueID == null) {
-                uniqueID = UUID.randomUUID().toString()
+            uniqueId = sharedPrefs.getString(PREF_UNIQUE_ID, null)
+            if (uniqueId == null) {
+                uniqueId = UUID.randomUUID().toString()
                 val editor = sharedPrefs.edit()
-                editor.putString(PREF_UNIQUE_ID, uniqueID)
+                editor.putString(PREF_UNIQUE_ID, uniqueId)
                 editor.commit()
             }
         }
-        return uniqueID as String
+        return uniqueId as String
     }
 
 

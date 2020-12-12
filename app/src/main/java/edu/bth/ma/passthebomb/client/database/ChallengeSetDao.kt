@@ -3,6 +3,7 @@ package edu.bth.ma.passthebomb.client.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import edu.bth.ma.passthebomb.client.database.DbConstants.CHALLENGESETOVERVIEW_COLUMN
+import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 
@@ -40,5 +41,4 @@ interface ChallengeSetDao {
     @Transaction
     @Query("SELECT * FROM $CHALLENGESETOVERVIEW_COLUMN  WHERE id =:id")
     fun getChallengeSet(id: String):  LiveData<ChallengeSet?>
-
 }

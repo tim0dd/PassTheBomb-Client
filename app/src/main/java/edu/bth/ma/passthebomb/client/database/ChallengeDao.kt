@@ -19,7 +19,7 @@ interface ChallengeDao {
     fun deleteChallenge(challenge: Challenge)
 
     @Query("DELETE FROM $CHALLENGE_COLUMN WHERE id = :id")
-    fun deleteChallenge(id: Int)
+    fun deleteChallenge(id: String)
 
     @Query("DELETE FROM $CHALLENGE_COLUMN")
     fun deleteAllChallenges()
@@ -31,7 +31,7 @@ interface ChallengeDao {
     fun getChallengesByOverviewId(overviewId: String): LiveData<List<Challenge>>
 
     @Query("SELECT * FROM $CHALLENGE_COLUMN WHERE id =:id")
-    fun getChallenge(id: Int): LiveData<Challenge?>
+    fun getChallenge(id: String): LiveData<Challenge?>
 
     @Query("SELECT * FROM $CHALLENGE_COLUMN where challengeSetId In (:idList)")
     fun getChallengesByOverviewIds(idList: List<String>): LiveData<List<Challenge>>

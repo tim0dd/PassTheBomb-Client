@@ -14,7 +14,7 @@ class ChallengeSetRepository(private val challengeSetDao: ChallengeSetDao) {
         return challengeSetDao.getChallengeSetOverview(id)
     }
 
-    fun getAllChallengeSets(id: String): LiveData<List<ChallengeSet>> {
+    fun getAllChallengeSets(): LiveData<List<ChallengeSet>> {
         return challengeSetDao.getAllChallengeSets()
     }
 

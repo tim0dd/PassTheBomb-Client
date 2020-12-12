@@ -9,7 +9,7 @@ object DbConstants {
     const val MIN_PASSWORD_LENGTH = 8
 */
 
-    const val DATABASE_NAME = "pass_the_bomb_db"
+    const val DATABASE_NAME = "pass_the_bomb_db2"
     const val CHALLENGESETOVERVIEW_COLUMN = "challenge_set_overview"
     const val CHALLENGE_COLUMN = "challenge"
 }

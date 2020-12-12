@@ -11,6 +11,7 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.remote.RestService
+import edu.bth.ma.passthebomb.client.utils.IdGenerator
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
@@ -53,8 +54,8 @@ class DbTestActivity : AppCompatActivity() {
 
     private fun addChallengeSet() {
         val now = Date(System.currentTimeMillis())
-        val challenge1 = Challenge(null, uuid, now, "First challenge text", 100)
-        val challenge2 = Challenge(null, uuid, now, "First challenge text", 100)
+        val challenge1 = Challenge("0", uuid, now, "First challenge text", 100)
+        val challenge2 = Challenge("1", uuid, now, "First challenge text", 100)
         val challenges = listOf(challenge1, challenge2)
         val overview = ChallengeSetOverview(uuid, "0", "Animals", now, now, now, 1337)
         databaseVm.addChallengeSet(ChallengeSet(overview, challenges))
@@ -76,7 +77,7 @@ class DbTestActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             })
-        val liveDataChallenge = databaseVm.getChallenge(0)
+        val liveDataChallenge = databaseVm.getChallenge("0")
         liveDataChallenge.observe(
             this,
             Observer { challenge: Challenge? ->
@@ -132,7 +133,7 @@ class DbTestActivity : AppCompatActivity() {
                 val overview = challengeSet.challengeSetOverview
                 overview.name = "ALIENS"
                 overview.modifiedDate = now
-                val challenge = Challenge(null, overview.id, now, "Third challenge text", 100)
+                val challenge = Challenge("2", overview.id, now, "Third challenge text", 100)
                 val list = mutableListOf<Challenge>()
                 list.addAll(challengeSet.challenges)
                 list.add(challenge)

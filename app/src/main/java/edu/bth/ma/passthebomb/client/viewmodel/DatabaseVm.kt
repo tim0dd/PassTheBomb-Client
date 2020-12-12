@@ -25,7 +25,7 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application) 
         return challengeRepo.getAllChallenges()
     }
 
-    fun getChallenge(id: Int): LiveData<Challenge?> {
+    fun getChallenge(id: String): LiveData<Challenge?> {
         return challengeRepo.getChallenge(id)
     }
 
@@ -65,6 +65,14 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application) 
 
     fun updateChallengeSet(challengeSetOverview: ChallengeSetOverview) {
         runCoroutine { challengeSetRepo.updateChallengeSetOverview(challengeSetOverview) }
+    }
+
+    fun updateChallenge(challenge: Challenge){
+        runCoroutine { challengeRepo.updateChallenge(challenge) }
+    }
+
+    fun deleteChallenge(challengeId: String){
+        runCoroutine { challengeRepo.deleteChallenge(challengeId) }
     }
 
     fun updateChallengeSet(challengeSet: ChallengeSet) {

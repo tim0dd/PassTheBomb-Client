@@ -17,7 +17,7 @@ class ChallengeRepository(private val challengeDao: ChallengeDao) {
         return challengeDao.getChallengesByOverviewIds(idList)
     }
 
-    fun getChallenge(id: Int): LiveData<Challenge?> {
+    fun getChallenge(id: String): LiveData<Challenge?> {
         return challengeDao.getChallenge(id)
     }
 
@@ -33,7 +33,7 @@ class ChallengeRepository(private val challengeDao: ChallengeDao) {
         challengeDao.deleteChallenge(challenge)
     }
 
-    fun deleteChallenge(id: Int) {
+    fun deleteChallenge(id: String) {
         challengeDao.deleteChallenge(id)
     }
 
