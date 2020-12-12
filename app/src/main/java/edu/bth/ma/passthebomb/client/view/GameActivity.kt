@@ -13,6 +13,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -35,14 +36,13 @@ import edu.bth.ma.passthebomb.client.viewmodel.GameVm
 import java.util.*
 
 
-const val BOMB_GRAPH_UPDATE_INTERVAL: Long = 1000
-const val BOMB_GRAPH_NUMBER_OF_VALUES: Int = 20
+const val BOMB_GRAPH_UPDATE_INTERVAL: Long = 100
+const val BOMB_GRAPH_NUMBER_OF_VALUES: Int = 200
 
 class GameActivity : AppCompatActivity(), SensorEventListener {
 
 
     val vm: GameVm by viewModels()
-
     //Acceleration Sensor
     lateinit var sensorManager: SensorManager
     lateinit var mainHandler: Handler
@@ -66,6 +66,9 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_game)
+
+        //prevent screen sleep during game
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         //Wo do not want an action bar in the main game
         supportActionBar!!.hide()
@@ -323,7 +326,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         //rotate forward (last var becomes first one, others are shifted by 1)
         Collections.rotate(list, 1)
         relativeAccelerations = list.toDoubleArray()
-        relativeAccelerations[0] = lastAccelerationValue
+        relativeAccelerations[0] = (lastAccelerationValue + relativeAccelerations[1])/2
         series.resetData(relativeAccelerations.map { acc -> DataPoint(count++, acc) }
             .toTypedArray())
     }
