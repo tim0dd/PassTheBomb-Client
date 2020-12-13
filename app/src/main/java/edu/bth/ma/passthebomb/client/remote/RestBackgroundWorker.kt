@@ -21,6 +21,7 @@ const val NOTIFICATION_CHANNEL_ID = "passthebomb_notification_channel"
 class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
     override fun doWork(): Result {
+        notifyNewChallengeSets(context, 1)
         val lastDownloadOverviewsDate = PreferenceService(context).getLastDownloadOverviewsDate()
         val future: RequestFuture<JSONObject> = RequestFuture.newFuture()
         val request = JsonObjectRequest(
@@ -58,7 +59,7 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
         fun registerWork(context: Context) {
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 WORKER_TAG,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.REPLACE,
                 getWorkRequest()
             )
         }
@@ -66,7 +67,7 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
         private fun getWorkRequest(): PeriodicWorkRequest {
             return PeriodicWorkRequestBuilder<RestBackgroundWorker>(
                 REPEAT_PERIOD_DAYS,
-                TimeUnit.DAYS
+                TimeUnit.SECONDS
             ).addTag(WORKER_TAG).build()
         }
     }
