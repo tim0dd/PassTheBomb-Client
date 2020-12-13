@@ -42,7 +42,7 @@ abstract class ChallengeSetListActivity : ActionBarActivity() {
     abstract inner class ChallengeSetsAdapter(private val context: Context,
                                         private val dataset: List<ChallengeSetOverview>
     ) : RecyclerView.Adapter<ChallengeSetsAdapter.ItemViewHolder>(){
-        inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ItemViewHolder(public val view: View) : RecyclerView.ViewHolder(view) {
             val textViewChallengeSetName: TextView = view.findViewWithTag("text_view_challenge_set_name")
         }
 

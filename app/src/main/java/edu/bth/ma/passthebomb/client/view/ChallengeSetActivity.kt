@@ -8,16 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.Challenge
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
+import edu.bth.ma.passthebomb.client.remote.RestService
 import edu.bth.ma.passthebomb.client.utils.IdGenerator
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
 class ChallengeSetActivity : ActionBarActivity() {
     val vm: DatabaseVm by viewModels()
+    var challengeSet: ChallengeSet? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,7 @@ class ChallengeSetActivity : ActionBarActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_challenge_list)
 
         vm.getChallengeSet(challengeSetId).observe(this, androidx.lifecycle.Observer {
+            challengeSet = it
             if(it!=null){
                 recyclerView.adapter =
                     ChallengeListAdapter(
@@ -57,6 +62,22 @@ class ChallengeSetActivity : ActionBarActivity() {
             vm.addChallenge(challenge)
             intent.putExtra("CHALLENGE_ID", newChallengeId)
             this.startActivity(intent)
+        }
+
+        val buttonUploadChallenge = findViewById<Button>(R.id.button_upload_challenge_set)
+        buttonUploadChallenge.setOnClickListener {
+            if(challengeSet!=null){
+                val restService = RestService(this)
+                restService.uploadChallengeSet(challengeSet!!, {
+                    Toast.makeText(this,
+                        "Successfully uploaded challenge set.",
+                        Toast.LENGTH_SHORT).show()
+                },{
+                    Toast.makeText(this,
+                        "Could not upload the challenge set.",
+                        Toast.LENGTH_SHORT).show()
+                })
+            }
         }
     }
 

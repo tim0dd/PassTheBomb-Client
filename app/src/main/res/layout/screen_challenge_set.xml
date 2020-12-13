@@ -19,13 +19,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button_sync_challenge_set"
+            android:id="@+id/button_upload_challenge_set"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:height="@dimen/button_height"
-            android:text="not synced"
+            android:text="upload"
             android:textSize="18sp"
-            app:icon="@drawable/ic_no_sync"
+            app:icon="@drawable/ic_upload"
             app:layout_constraintBaseline_toBaselineOf="@+id/button_delete_challenge_set"
             app:layout_constraintStart_toStartOf="parent" />
 

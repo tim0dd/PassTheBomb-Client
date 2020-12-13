@@ -18,7 +18,7 @@
         android:textSize="30sp" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/image_view_item_online_challenge_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -15,7 +15,7 @@ import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import java.util.*
 
 // 10.0.2.2 maps to localhost when using android emulator
-const val REST_URL = "http://10.0.2.2:8080"
+const val REST_URL = "http://192.168.0.101:8080"
 const val API_GET_ALL = "/api/downloadOverviews"
 const val API_GET = "/api/download?globalId="
 const val API_UPLOAD = "/api/upload"
