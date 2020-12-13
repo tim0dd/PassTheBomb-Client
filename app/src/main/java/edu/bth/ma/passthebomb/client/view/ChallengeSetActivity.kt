@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
@@ -40,6 +41,9 @@ class ChallengeSetActivity : ActionBarActivity() {
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_challenge_list)
+        val buttonUploadChallenge = findViewById<MaterialButton>(R.id.button_upload_challenge_set)
+        val addChallengeButton: Button = findViewById(R.id.button_add_challenge)
+        val buttonDeleteChallengeSet = findViewById<Button>(R.id.button_delete_challenge_set)
 
         vm.getChallengeSet(challengeSetId).observe(this, androidx.lifecycle.Observer {
             challengeSet = it
@@ -50,11 +54,20 @@ class ChallengeSetActivity : ActionBarActivity() {
                         it.challenges
                     )
                 recyclerView.setHasFixedSize(true)
+                if(it.isOwnChallengeSet(this)){
+                    if(it.challengeSetOverview.uploadedDate!=null){
+                        buttonUploadChallenge.text = "Reupload"
+                    }else{
+                        buttonUploadChallenge.text = "Upload"
+                    }
+                    buttonUploadChallenge.setIconResource(R.drawable.ic_upload)
+                }else{
+                    buttonUploadChallenge.text = "Redownload"
+                    buttonUploadChallenge.setIconResource(R.drawable.ic_download)
+                }
             }
         })
 
-
-        val addChallengeButton: Button = findViewById(R.id.button_add_challenge)
         addChallengeButton.setOnClickListener {
             val intent = Intent(this, EditChallengeActivity::class.java)
             val newChallengeId = IdGenerator().generateDbId()
@@ -64,34 +77,53 @@ class ChallengeSetActivity : ActionBarActivity() {
             this.startActivity(intent)
         }
 
-        val buttonUploadChallenge = findViewById<Button>(R.id.button_upload_challenge_set)
         buttonUploadChallenge.setOnClickListener {
             if (challengeSet != null) {
                 val restService = RestService(this)
-                restService.uploadChallengeSet(challengeSet!!, {
-                    Toast.makeText(
-                        this,
-                        "Successfully uploaded challenge set.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if(challengeSet!!.isOwnChallengeSet(this)){
+                    restService.uploadChallengeSet(challengeSet!!, {
+                        Toast.makeText(
+                            this,
+                            "Successfully uploaded challenge set.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        //set new uploaded date
+                        challengeSet!!.challengeSetOverview.uploadedDate = Date()
+                        vm.updateChallengeSet(challengeSet!!)
+                    }, {
+                        Toast.makeText(
+                            this,
+                            "Could not upload the challenge set.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
+                }else{
+                    restService.getChallengeSet(challengeSet!!.challengeSetOverview.id,{
+                        vm.updateChallengeSet(it)
+                        Toast.makeText(
+                            this,
+                            "Updated challenge set from server.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },{
+                        Toast.makeText(
+                            this,
+                            "Could not update challenge set from server.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
+                }
 
-                    //set new uploaded date
-                    val liveData = vm.getChallengeSet(challengeSet!!.challengeSetOverview.id)
-                    liveData.observeOnce {
-                        if (it != null) {
-                            it.challengeSetOverview.uploadedDate = Date(System.currentTimeMillis())
-                            vm.updateChallengeSet(it.challengeSetOverview)
-                        }
 
-                    }
-                }, {
-                    Toast.makeText(
-                        this,
-                        "Could not upload the challenge set.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
+
             }
+        }
+
+        buttonDeleteChallengeSet.setOnClickListener{
+            if(challengeSet!=null){
+                vm.deleteChallengeSet(this.challengeSet!!)
+            }
+            finish()
         }
     }
 
@@ -113,9 +145,11 @@ class ChallengeSetActivity : ActionBarActivity() {
             val text = challenges.get(position).text
             holder.textViewChallengeText.text = text
             holder.view.setOnClickListener {
-                val intent = Intent(context, EditChallengeActivity::class.java)
-                intent.putExtra("CHALLENGE_ID", challenges.get(position).id)
-                context.startActivity(intent)
+                if(challengeSet?.isOwnChallengeSet(this@ChallengeSetActivity) == true){
+                    val intent = Intent(context, EditChallengeActivity::class.java)
+                    intent.putExtra("CHALLENGE_ID", challenges[position].id)
+                    context.startActivity(intent)
+                }
             }
         }
 

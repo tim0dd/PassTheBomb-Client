@@ -64,10 +64,12 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
             })
             holder.view.setOnClickListener{
                 progressBar.visibility = View.VISIBLE
+                imageView.setImageResource(0)
                 val restService = RestService(this@DownloadChallengeSetActivity)
                 val challengSet = dataset[position]
                 restService.getChallengeSet(challengSet.id,{
                     vm.addChallengeSet(it)
+                    imageView.setImageResource(R.drawable.ic_check)
                 },{
                     Toast.makeText(this@DownloadChallengeSetActivity,
                         "Could not download challenge set with name ${challengSet.name}.",

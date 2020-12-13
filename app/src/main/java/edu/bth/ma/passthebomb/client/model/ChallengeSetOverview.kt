@@ -1,9 +1,11 @@
 package edu.bth.ma.passthebomb.client.model
 
+import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 import edu.bth.ma.passthebomb.client.database.DbConstants
+import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -20,4 +22,9 @@ data class ChallengeSetOverview(
     //addedDate will be null when data is coming from server
     var addedDate: Date? = null,
     var downloads: Int? = 0
-)
+){
+    fun isOwnChallengeSet(context: Context): Boolean{
+        val personalId = PreferenceService.getInstance(context).getUniqueUserId()
+        return personalId==creatorId
+    }
+}
