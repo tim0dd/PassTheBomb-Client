@@ -15,7 +15,7 @@ import java.util.concurrent.TimeoutException
 
 const val WORKER_TAG = "passthebomb-restbackgroundworker"
 const val TIMEOUT_SECONDS: Long = 60
-const val REPEAT_PERIOD_DAYS: Long = 3
+const val REPEAT_PERIOD_DAYS: Long = 16
 const val NOTIFICATION_CHANNEL_ID = "passthebomb_notification_channel"
 
 class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters) :
@@ -67,7 +67,7 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
         private fun getWorkRequest(): PeriodicWorkRequest {
             return PeriodicWorkRequestBuilder<RestBackgroundWorker>(
                 REPEAT_PERIOD_DAYS,
-                TimeUnit.SECONDS
+                TimeUnit.MINUTES
             ).addTag(WORKER_TAG).build()
         }
     }
