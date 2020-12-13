@@ -7,7 +7,11 @@
     android:layout_height="match_parent"
     android:background="@mipmap/main_screen_bg"
     tools:context=".view.MainActivity">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/main_screen_bg" />
     <ImageView
         android:layout_width="314dp"
         android:layout_height="314dp"
