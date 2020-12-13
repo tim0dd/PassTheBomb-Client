@@ -22,14 +22,13 @@ const val NOTIFICATION_CHANNEL_ID = "passthebomb_notification_channel"
 class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
     override fun doWork(): Result {
-        notifyNewChallengeSets(context, 1)
         val preferenceService = PreferenceService(context)
-        val lastDownloadOverviewsDate = preferenceService.getLastDownloadOverviewsDate()
+        val lastDownloadOverviews = preferenceService.getLastDownloadOverviewsDate().time
         val myUserId = preferenceService.getUniqueUserId()
         val future: RequestFuture<JSONObject> = RequestFuture.newFuture()
         val request = JsonObjectRequest(
             Request.Method.GET,
-            REST_URL + API_NEW_SETS + API_NEW_SETS_USER_ID + myUserId + API_NEW_SETS_DWN_DATE + lastDownloadOverviewsDate,
+            REST_URL + API_NEW_SETS + API_NEW_SETS_USER_ID + myUserId + API_NEW_SETS_DWN_DATE + lastDownloadOverviews,
             null,
             future,
             future
@@ -38,9 +37,10 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
             RestService.getInstance(applicationContext).queue.add(request)
             val response = future[TIMEOUT_SECONDS, TimeUnit.SECONDS]
             val numberOfNewSets = response.getInt("numberOfNewSets")
-            if (numberOfNewSets > 0) {
+          /*  if (numberOfNewSets > 0) {
                 notifyNewChallengeSets(context, numberOfNewSets)
-            }
+            }*/
+            notifyNewChallengeSets(context, numberOfNewSets)
             Result.success()
         } catch (e: Exception) {
             // e.printStackTrace()
