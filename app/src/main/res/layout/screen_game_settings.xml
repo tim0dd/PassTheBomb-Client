@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Time Difficulty:"
-                android:textSize="20sp" />
+                android:textSize="24sp" />
 
             <SeekBar
                 android:id="@+id/seek_bar_time_modifier"
@@ -49,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:text="Grandma" />
+                    android:text="Grandma"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -58,7 +59,8 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:text="Chuck Norris"
-                    android:textAlignment="viewEnd" />
+                    android:textAlignment="viewEnd"
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -66,7 +68,7 @@
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="3dp"
             android:layout_marginTop="20dp"
             android:background="?android:attr/listDivider" />
 
@@ -82,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Bomb Sensitivity:"
-                android:textSize="20sp" />
+                android:textSize="24sp" />
 
             <SeekBar
                 android:id="@+id/seek_bar_bomb_sensitivity"
@@ -102,7 +104,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:text="Drunk Person" />
+                    android:text="Drunk Person"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_view_jenga_master"
@@ -111,7 +114,8 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:text="Jenga Master"
-                    android:textAlignment="viewEnd" />
+                    android:textAlignment="viewEnd"
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -123,7 +127,7 @@
             <View
                 android:id="@+id/divider_bomb_sensitivity"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:layout_marginTop="20dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintTop_toTopOf="parent"
@@ -132,7 +136,7 @@
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:layout_marginTop="20dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintTop_toBottomOf="@+id/edit_text_maximum_rounds" />
@@ -144,7 +148,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:text="Enable Sound:"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/switch_enable_sound"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/switch_enable_sound" />
@@ -167,7 +171,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:text="Number of Rounds"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_text_maximum_rounds"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/edit_text_maximum_rounds" />
@@ -190,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Choose Players Randomly:"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/switch_choose_player_randomly"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/switch_choose_player_randomly" />
@@ -212,7 +216,7 @@
             <View
                 android:id="@+id/divider3"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:layout_marginTop="20dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintTop_toBottomOf="@+id/switch_enable_sound" />
@@ -220,7 +224,7 @@
             <View
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:layout_marginTop="20dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintTop_toBottomOf="@+id/switch_choose_player_randomly"

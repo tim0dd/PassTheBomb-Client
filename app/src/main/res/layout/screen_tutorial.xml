@@ -6,12 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/other_screens_bg"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="42dp" />
+
     <TextView
         android:id="@+id/text_view_tutorial"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -28,6 +39,7 @@
         android:id="@+id/button_close_tutorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:height="@dimen/button_height"
         android:text=" Ok, that's easy!"
         android:textSize="18sp"

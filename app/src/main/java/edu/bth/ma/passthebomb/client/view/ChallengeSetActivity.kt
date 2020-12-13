@@ -47,6 +47,7 @@ class ChallengeSetActivity : ActionBarActivity() {
 
         vm.getChallengeSet(challengeSetId).observe(this, androidx.lifecycle.Observer {
             challengeSet = it
+            title = "Challenge Set " + it?.challengeSetOverview?.name
             if (it != null) {
                 recyclerView.adapter =
                     ChallengeListAdapter(

@@ -2,13 +2,14 @@ package edu.bth.ma.passthebomb.client.viewmodel
 
 import android.app.Activity
 import android.content.Intent
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.view.GameActivity
 
 class AddPlayerVm() : ViewModel() {
-    var playerNames = MutableLiveData<ArrayList<String>>(arrayListOf("karl", "Bernd", "Harald"))
+    var playerNames = MutableLiveData<ArrayList<String>>()
     lateinit var gameSettings: GameSettings
 
     fun init(gameSettings: GameSettings?){
@@ -16,8 +17,11 @@ class AddPlayerVm() : ViewModel() {
     }
 
     fun addPlayer(playerName: String){
-        val list = playerNames.value
-        list?.add(playerName)
+        var list = playerNames.value
+        if(list==null){
+            list = ArrayList()
+        }
+        list.add(playerName)
         playerNames.value = list
     }
 
@@ -28,6 +32,14 @@ class AddPlayerVm() : ViewModel() {
     }
 
     fun startGame(context: Activity){
+        if((playerNames.value?.size ?: 0) < 2){
+            Toast.makeText(
+                context,
+                "Please add at least two players.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
         val intent = Intent(context, GameActivity::class.java)
         gameSettings.playerList = playerNames.value ?: ArrayList<String>()
         intent.putExtra("GAME_SETTINGS", gameSettings)

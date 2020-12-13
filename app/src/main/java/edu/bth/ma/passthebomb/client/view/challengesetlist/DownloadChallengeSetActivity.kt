@@ -55,7 +55,6 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
             val progressBar = holder.view.findViewById<ProgressBar>(R.id.progress_bar_challenge_set_download)
             vm.getChallengeSet(dataset[position].id).observe(this@DownloadChallengeSetActivity,
             Observer {
-                progressBar.visibility = View.GONE
                 if(it==null){
                     imageView.setImageResource(R.drawable.ic_download)
                 }else{
@@ -70,6 +69,7 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
                 restService.getChallengeSet(challengSet.id,{
                     vm.addChallengeSet(it)
                     imageView.setImageResource(R.drawable.ic_check)
+                    progressBar.visibility = View.GONE
                 },{
                     Toast.makeText(this@DownloadChallengeSetActivity,
                         "Could not download challenge set with name ${challengSet.name}.",

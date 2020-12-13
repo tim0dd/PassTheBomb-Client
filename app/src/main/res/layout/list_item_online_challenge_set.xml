@@ -8,8 +8,9 @@
 
     <TextView
         android:id="@+id/textViewChallengeSetName"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:gravity="center"
         android:minHeight="80dp"
         android:tag="text_view_challenge_set_name"
@@ -23,11 +24,11 @@
         android:id="@+id/image_view_item_online_challenge_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewChallengeSetName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_download" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar_challenge_set_download"

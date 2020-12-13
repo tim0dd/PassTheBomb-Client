@@ -3,6 +3,7 @@ package edu.bth.ma.passthebomb.client.viewmodel.challengesetlist
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,14 @@ class SelectChallengeSetsVm(application: Application) :ChallengeSetListVm(applic
     }
 
     override fun onButton(activity: AppCompatActivity) {
+        if((selectedChallengeSetIndices.value?.size ?: 0) == 0){
+            Toast.makeText(
+                activity,
+                "Please select at least one challenge set.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
         val challengeSetIds = ArrayList<String>()
         val set: HashSet<Int> = selectedChallengeSetIndices.value ?: HashSet<Int>()
         for(index in set){

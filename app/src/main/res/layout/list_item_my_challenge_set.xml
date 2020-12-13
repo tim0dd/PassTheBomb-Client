@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linear_layout_my_challenge_sets"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
     android:background="?android:attr/selectableItemBackground">
 
 
     <TextView
         android:id="@+id/textViewChallengeSetName"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#00FFFFFF"
         android:tag="text_view_challenge_set_name"
         android:text="TextView"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/image_view_item_online_challenge_set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewChallengeSetName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewChallengeSetName"
         app:srcCompat="@drawable/arrow_right" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,8 +67,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:gravity="start|top"
+            android:gravity="center"
             android:inputType="textMultiLine"
+            android:text="Make loud monkey noises and jump like a monkey!"
+            android:textAlignment="gravity"
             android:textSize="25sp" />
 
     </androidx.cardview.widget.CardView>

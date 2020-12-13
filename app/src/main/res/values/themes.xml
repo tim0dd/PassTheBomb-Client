@@ -21,4 +21,8 @@
         <item name = "android:windowActionBar">false</item>
         <item name = "android:windowNoTitle">true</item>
     </style>
+
+    <style name = "Theme.PassTheBombClient.Dialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

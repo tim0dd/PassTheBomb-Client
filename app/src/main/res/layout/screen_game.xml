@@ -20,6 +20,7 @@
         android:visibility="visible">
 
         <ImageView
+            android:id="@+id/imageView8"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -37,6 +38,16 @@
             sothree:layout_constraintTop_toTopOf="parent"
             sothree:layout_constraintVertical_bias="0.0"
             sothree:srcCompat="@drawable/ic_bomb_color" />
+
+        <ImageView
+            android:id="@+id/image_view_game_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#CBFF0000"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintEnd_toEndOf="@+id/imageView8"
+            sothree:layout_constraintStart_toStartOf="@+id/imageView8"
+            sothree:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_game_left"
@@ -119,8 +130,12 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:width="300dp"
+            android:background="@color/black_transparent"
             android:gravity="center_vertical"
-            android:text="Make loud monkey noises"
+            android:text="Make loud monkey noises and jump like a monkey!"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
             sothree:layout_constraintBottom_toBottomOf="@+id/constraint_layout_boom"
             sothree:layout_constraintEnd_toEndOf="parent"
             sothree:layout_constraintStart_toStartOf="parent"
@@ -155,6 +170,8 @@
                 android:layout_marginStart="10dp"
                 android:background="#FFFFFF"
                 android:backgroundTint="#E8F80505"
+                android:foregroundGravity="center"
+                android:textAlignment="gravity"
                 sothree:layout_constraintBottom_toBottomOf="parent"
                 sothree:layout_constraintEnd_toEndOf="parent"
                 sothree:layout_constraintHorizontal_bias="1.0"

@@ -14,10 +14,7 @@ import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -96,7 +93,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val textViewChallenge = findViewById<TextView>(R.id.text_view_game_challenge)
         val progressBarTime = findViewById<ProgressBar>(R.id.prograss_bar_game_time)
         val constraint_layout_kaboom = findViewById<ConstraintLayout>(R.id.constraint_layout_boom)
-        val constraintLayoutGame = findViewById<ConstraintLayout>(R.id.constraint_layout_game)
+        val imageViewOverlay = findViewById<ImageView>(R.id.image_view_game_overlay)
         val slidingUpLayout = findViewById<SlidingUpPanelLayout>(R.id.sliding_up_layout_game)
         val buttonResume = findViewById<Button>(R.id.button_pause_resume)
         val buttonTutorial = findViewById<Button>(R.id.button_pause_tutorial)
@@ -196,13 +193,13 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         vm.gameState.observe(this, stateObserver)
 
         val accelerationObserver = Observer<Double> { acceleration ->
-            val interpolated = ((1.0 - Math.min(acceleration, 1.0)) * 255).toInt()
-            constraintLayoutGame.setBackgroundColor(
+            val interpolated = (Math.min(acceleration, 1.0) * 200).toInt()
+            imageViewOverlay.setBackgroundColor(
                 Color.argb(
-                    255,
-                    255,
                     interpolated,
-                    interpolated
+                    255,
+                    0,
+                    0
                 )
             )
         }
