@@ -46,7 +46,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     lateinit var sensorManager: SensorManager
     lateinit var mainHandler: Handler
     lateinit var bombGraph: GraphView
-    val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+    lateinit var vibrator: Vibrator
     var sensor: Sensor? = null
     var count = 0.0
     var lastAccelerationValue = 0.0
@@ -72,6 +72,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         //Wo do not want an action bar in the main game
         supportActionBar!!.hide()
+
+        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
 
         //register accelleration sensor
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -137,17 +139,17 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                 if (vm.gameSettings.enableSound) {
                     val kaboomSound: MediaPlayer = MediaPlayer.create(this, R.raw.bomb)
                     kaboomSound.start()
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        vibrator.vibrate(
-                            VibrationEffect.createOneShot(
-                                400,
-                                VibrationEffect.DEFAULT_AMPLITUDE
-                            )
-                        );
-                    } else {
-                        @Suppress("DEPRECATION")
-                        vibrator.vibrate(500)
-                    }
+                }
+                if (Build.VERSION.SDK_INT >= 26) {
+                    vibrator.vibrate(
+                        VibrationEffect.createOneShot(
+                            1000,
+                            VibrationEffect.DEFAULT_AMPLITUDE
+                        )
+                    );
+                } else {
+                    @Suppress("DEPRECATION")
+                    vibrator.vibrate(1000)
                 }
                 constraint_layout_kaboom.visibility = View.VISIBLE
             } else {
