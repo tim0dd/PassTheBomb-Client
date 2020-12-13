@@ -101,6 +101,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val buttonTutorial = findViewById<Button>(R.id.button_pause_tutorial)
         val buttonQuit = findViewById<Button>(R.id.button_pause_quit)
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar_game)
+        val switchSoundEnable = findViewById<Switch>(R.id.switch_game_sound_effects)
 
 
         bombGraph = findViewById(R.id.bombGraph)
@@ -130,10 +131,18 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         }
         vm.secondsLeft.observe(this, timeObserver)
 
+        val gameSettingsObjserver = Observer<GameSettings> {
+            switchSoundEnable.isChecked = it.enableSound
+        }
+        vm.gameSettings.observe(this, gameSettingsObjserver)
+        switchSoundEnable.setOnCheckedChangeListener { buttonView, isChecked ->
+            vm.setSountEnabled(isChecked)
+        }
+
         val stateObserver = Observer<GameState> { state ->
             //kaboom and challenge visibility
             if (state == GameState.KABOOM) {
-                if (vm.gameSettings.enableSound) {
+                if (vm.gameSettings.value?.enableSound == true) {
                     val kaboomSound: MediaPlayer = MediaPlayer.create(this, R.raw.bomb)
                     kaboomSound.start()
                 }
@@ -194,7 +203,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                 }
                 GameState.GAME_OVER -> {
                     val intent = Intent(this, GameOverActivity::class.java)
-                    intent.putExtra("GAME_SETTINGS", vm.gameSettings)
+                    intent.putExtra("GAME_SETTINGS", vm.gameSettings.value!!)
                     intent.putExtra("SCORES", vm.playerScores)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
