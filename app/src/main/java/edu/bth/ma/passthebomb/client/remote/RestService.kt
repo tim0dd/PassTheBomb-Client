@@ -1,6 +1,7 @@
 package edu.bth.ma.passthebomb.client.remote
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
@@ -12,7 +13,9 @@ import edu.bth.ma.passthebomb.client.database.ChallengeSetRepository
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
+import edu.bth.ma.passthebomb.client.utils.ObserveExtensions.Companion.observeOnce
 import java.util.*
+
 
 // 10.0.2.2 maps to localhost when using android emulator
 const val REST_URL = "http://192.168.0.101:8080"
@@ -64,6 +67,7 @@ class RestService constructor(private val context: Context) {
                 run {
                     val challengeSet = JsonConverters.jsonToChallengeSet(response)!!
                     onSuccess(challengeSet)
+                    //TODO: run as coroutine? But need viewModelScope for that :\
                     challengeSetRepository.addChallengeSetOverview(challengeSet.challengeSetOverview)
                     challengeSet.challenges.forEach { c -> challengeRepository.addChallenge(c) }
                 }
@@ -81,7 +85,11 @@ class RestService constructor(private val context: Context) {
         val request = JsonObjectRequest(Request.Method.POST,
             REST_URL + API_UPLOAD,
             JsonConverters.challengeSetToJson(challengeSet),
-            { onSuccess() },
+            {
+                run {
+                    onSuccess()
+                }
+            },
             { error: VolleyError? -> (onFail(error.toString())) })
         queue.add(request)
     }
@@ -103,3 +111,4 @@ class RestService constructor(private val context: Context) {
         }
     }
 }
+

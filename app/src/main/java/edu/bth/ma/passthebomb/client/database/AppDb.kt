@@ -11,7 +11,7 @@ import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 
 @Database(
     entities = [ChallengeSetOverview::class, Challenge::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

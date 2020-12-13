@@ -57,7 +57,7 @@ class DbTestActivity : AppCompatActivity() {
         val challenge1 = Challenge("0", uuid, now, "First challenge text", 100)
         val challenge2 = Challenge("1", uuid, now, "First challenge text", 100)
         val challenges = listOf(challenge1, challenge2)
-        val overview = ChallengeSetOverview(uuid, "0", "Animals", now, now, now, 1337)
+        val overview = ChallengeSetOverview(uuid, "0", "Animals", now, now, null, now, 1337)
         databaseVm.addChallengeSet(ChallengeSet(overview, challenges))
         /*   databaseVm.addChallenge(challenge1)
            databaseVm.addChallenge(challenge2)*/

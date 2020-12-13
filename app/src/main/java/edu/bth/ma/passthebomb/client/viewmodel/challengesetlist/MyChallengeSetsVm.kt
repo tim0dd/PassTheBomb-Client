@@ -32,7 +32,7 @@ class MyChallengeSetsVm(application: Application) : ChallengeSetListVm(applicati
                 val challengeSetId = ids.generateDbId()
                 val date = Date()
                 val newChallengeSetOverview = ChallengeSetOverview(challengeSetId,
-                    ids.getUserId(getApplication()), it, date, date, date, 0)
+                    ids.getUserId(getApplication()), it, date, date, null, date, 0)
                 val newChallengeSet = ChallengeSet(newChallengeSetOverview, ArrayList<Challenge>())
                 addChallengeSet(newChallengeSet)
                 val intent = Intent(activity, ChallengeSetActivity::class.java)

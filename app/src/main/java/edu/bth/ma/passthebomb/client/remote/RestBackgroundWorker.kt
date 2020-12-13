@@ -3,6 +3,7 @@ package edu.bth.ma.passthebomb.client.remote
 import android.content.Context
 import androidx.work.*
 import com.android.volley.Request
+import com.android.volley.TimeoutError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.RequestFuture
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
@@ -33,26 +34,17 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
             future,
             future
         )
-        RestService.getInstance(applicationContext).queue.add(request)
-        try {
+        return try {
+            RestService.getInstance(applicationContext).queue.add(request)
             val response = future[TIMEOUT_SECONDS, TimeUnit.SECONDS]
             val numberOfNewSets = response.getInt("numberOfNewSets")
             if (numberOfNewSets > 0) {
                 notifyNewChallengeSets(context, numberOfNewSets)
             }
-            return Result.success()
-        } catch (e: JSONException) {
-            e.printStackTrace()
-            return Result.failure()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-            return Result.failure()
-        } catch (e: ExecutionException) {
-            e.printStackTrace()
-            return Result.failure()
-        } catch (e: TimeoutException) {
-            e.printStackTrace()
-            return Result.failure()
+            Result.success()
+        } catch (e: Exception) {
+            // e.printStackTrace()
+            Result.failure()
         }
     }
 

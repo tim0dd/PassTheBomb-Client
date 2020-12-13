@@ -16,6 +16,7 @@ import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.remote.RestService
 import edu.bth.ma.passthebomb.client.utils.IdGenerator
+import edu.bth.ma.passthebomb.client.utils.ObserveExtensions.Companion.observeOnce
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
@@ -42,7 +43,7 @@ class ChallengeSetActivity : ActionBarActivity() {
 
         vm.getChallengeSet(challengeSetId).observe(this, androidx.lifecycle.Observer {
             challengeSet = it
-            if(it!=null){
+            if (it != null) {
                 recyclerView.adapter =
                     ChallengeListAdapter(
                         this,
@@ -53,9 +54,8 @@ class ChallengeSetActivity : ActionBarActivity() {
         })
 
 
-
-        val addChallengeButton:Button = findViewById(R.id.button_add_challenge)
-        addChallengeButton.setOnClickListener{
+        val addChallengeButton: Button = findViewById(R.id.button_add_challenge)
+        addChallengeButton.setOnClickListener {
             val intent = Intent(this, EditChallengeActivity::class.java)
             val newChallengeId = IdGenerator().generateDbId()
             val challenge = Challenge(newChallengeId, challengeSetId, Date(), "", 60)
@@ -66,25 +66,43 @@ class ChallengeSetActivity : ActionBarActivity() {
 
         val buttonUploadChallenge = findViewById<Button>(R.id.button_upload_challenge_set)
         buttonUploadChallenge.setOnClickListener {
-            if(challengeSet!=null){
+            if (challengeSet != null) {
                 val restService = RestService(this)
                 restService.uploadChallengeSet(challengeSet!!, {
-                    Toast.makeText(this,
+                    Toast.makeText(
+                        this,
                         "Successfully uploaded challenge set.",
-                        Toast.LENGTH_SHORT).show()
-                },{
-                    Toast.makeText(this,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    //set new uploaded date
+                    val liveData = vm.getChallengeSet(challengeSet!!.challengeSetOverview.id)
+                    liveData.observeOnce {
+                        if (it != null) {
+                            it.challengeSetOverview.uploadedDate = Date(System.currentTimeMillis())
+                            vm.updateChallengeSet(it.challengeSetOverview)
+                        }
+
+                    }
+                }, {
+                    Toast.makeText(
+                        this,
                         "Could not upload the challenge set.",
-                        Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_SHORT
+                    ).show()
                 })
             }
         }
     }
 
-    inner class ChallengeListAdapter(private val context: Context, val challenges: List<Challenge>) :
+    inner class ChallengeListAdapter(
+        private val context: Context,
+        val challenges: List<Challenge>
+    ) :
         RecyclerView.Adapter<ChallengeListAdapter.ItemViewHolder>() {
         inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-            val textViewChallengeText: TextView = view.findViewById(R.id.text_view_challenge_list_challenge)
+            val textViewChallengeText: TextView =
+                view.findViewById(R.id.text_view_challenge_list_challenge)
         }
 
         override fun getItemCount(): Int {
@@ -94,7 +112,7 @@ class ChallengeSetActivity : ActionBarActivity() {
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             val text = challenges.get(position).text
             holder.textViewChallengeText.text = text
-            holder.view.setOnClickListener{
+            holder.view.setOnClickListener {
                 val intent = Intent(context, EditChallengeActivity::class.java)
                 intent.putExtra("CHALLENGE_ID", challenges.get(position).id)
                 context.startActivity(intent)
