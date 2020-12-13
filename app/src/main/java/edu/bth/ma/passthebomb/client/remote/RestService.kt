@@ -27,14 +27,8 @@ const val API_NEW_SETS_USER_ID = "?userId="
 const val API_NEW_SETS_DWN_DATE = "&lastDownloadDate="
 
 class RestService constructor(private val context: Context) {
-    private val challengeSetRepository: ChallengeSetRepository =
-        AppDb.getDatabase(context).getChallengeSetRepository()
-
-    val challengeRepository: ChallengeRepository =
-        AppDb.getDatabase(context).getChallengeRepository()
 
     val queue = Volley.newRequestQueue(context)
-
 
     fun getChallengeSetOverviews(
         onSuccess: (result: List<ChallengeSetOverview>) -> Unit,
@@ -67,9 +61,6 @@ class RestService constructor(private val context: Context) {
                 run {
                     val challengeSet = JsonConverters.jsonToChallengeSet(response)!!
                     onSuccess(challengeSet)
-                    //TODO: run as coroutine? But need viewModelScope for that :\
-                    challengeSetRepository.addChallengeSetOverview(challengeSet.challengeSetOverview)
-                    challengeSet.challenges.forEach { c -> challengeRepository.addChallenge(c) }
                 }
             },
             { error: VolleyError? -> (onFail(error.toString())) })
