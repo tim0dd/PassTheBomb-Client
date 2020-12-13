@@ -19,7 +19,9 @@ const val REST_URL = "http://192.168.0.101:8080"
 const val API_GET_ALL = "/api/downloadOverviews"
 const val API_GET = "/api/download?globalId="
 const val API_UPLOAD = "/api/upload"
-const val API_NEW_SETS = "/api/getNumberOfNewSets?="
+const val API_NEW_SETS = "/api/getNumberOfNewSets"
+const val API_NEW_SETS_USER_ID = "?userId="
+const val API_NEW_SETS_DWN_DATE = "?lastDownloadDate="
 
 class RestService constructor(private val context: Context) {
     private val challengeSetRepository: ChallengeSetRepository =

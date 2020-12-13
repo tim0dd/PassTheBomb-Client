@@ -22,11 +22,13 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
     Worker(context, workerParams) {
     override fun doWork(): Result {
         notifyNewChallengeSets(context, 1)
-        val lastDownloadOverviewsDate = PreferenceService(context).getLastDownloadOverviewsDate()
+        val preferenceService = PreferenceService(context)
+        val lastDownloadOverviewsDate = preferenceService.getLastDownloadOverviewsDate()
+        val myUserId = preferenceService.getUniqueUserId()
         val future: RequestFuture<JSONObject> = RequestFuture.newFuture()
         val request = JsonObjectRequest(
             Request.Method.GET,
-            REST_URL + API_NEW_SETS + lastDownloadOverviewsDate.time,
+            REST_URL + API_NEW_SETS + API_NEW_SETS_USER_ID + myUserId + API_NEW_SETS_DWN_DATE + lastDownloadOverviewsDate,
             null,
             future,
             future
