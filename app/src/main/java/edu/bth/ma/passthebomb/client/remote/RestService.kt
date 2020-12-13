@@ -11,21 +11,24 @@ import edu.bth.ma.passthebomb.client.database.ChallengeRepository
 import edu.bth.ma.passthebomb.client.database.ChallengeSetRepository
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
+import edu.bth.ma.passthebomb.client.preferences.PreferenceService
+import java.util.*
 
-class RestService constructor(context: Context) {
+// 10.0.2.2 maps to localhost when using android emulator
+const val REST_URL = "http://10.0.2.2:8080"
+const val API_GET_ALL = "/api/downloadOverviews"
+const val API_GET = "/api/download?globalId="
+const val API_UPLOAD = "/api/upload"
+const val API_NEW_SETS = "/api/getNumberOfNewSets?="
+
+class RestService constructor(private val context: Context) {
     private val challengeSetRepository: ChallengeSetRepository =
         AppDb.getDatabase(context).getChallengeSetRepository()
 
     val challengeRepository: ChallengeRepository =
         AppDb.getDatabase(context).getChallengeRepository()
 
-    private val queue = Volley.newRequestQueue(context)
-
-    // 10.0.2.2 maps to localhost when using android emulator
-    private val localhostInEmulator = "http://10.0.2.2:8080"
-    private val getAllAPI = "/api/downloadOverviews"
-    private val getAPI = "/api/download?globalId="
-    private val uploadAPI = "/api/upload"
+    val queue = Volley.newRequestQueue(context)
 
 
     fun getChallengeSetOverviews(
@@ -33,9 +36,15 @@ class RestService constructor(context: Context) {
         onFail: (error: String) -> Unit
     ) {
         val request = JsonArrayRequest(Request.Method.GET,
-            localhostInEmulator + getAllAPI,
+            REST_URL + API_GET_ALL,
             null,
-            { response -> onSuccess(JsonConverters.jsonToChallengeSetOverviewList(response)!!) },
+            { response ->
+                run {
+                    val now = Date(System.currentTimeMillis())
+                    PreferenceService.getInstance(context).setLastDownloadOverviewsDate(now)
+                    onSuccess(JsonConverters.jsonToChallengeSetOverviewList(response)!!)
+                }
+            },
             { error: VolleyError? -> (onFail(error.toString())) })
         queue.add(request)
     }
@@ -47,7 +56,7 @@ class RestService constructor(context: Context) {
         onFail: (error: String) -> Unit
     ) {
         val request = JsonObjectRequest(Request.Method.GET,
-            localhostInEmulator + getAPI + id,
+            REST_URL + API_GET + id,
             null,
             { response ->
                 run {
@@ -68,13 +77,12 @@ class RestService constructor(context: Context) {
         onFail: (error: String) -> Unit
     ) {
         val request = JsonObjectRequest(Request.Method.POST,
-            localhostInEmulator + uploadAPI,
+            REST_URL + API_UPLOAD,
             JsonConverters.challengeSetToJson(challengeSet),
             { onSuccess() },
             { error: VolleyError? -> (onFail(error.toString())) })
         queue.add(request)
     }
-
 
     companion object {
         @Volatile

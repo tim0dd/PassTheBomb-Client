@@ -1,12 +1,13 @@
 package edu.bth.ma.passthebomb.client.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import edu.bth.ma.passthebomb.client.R
-import edu.bth.ma.passthebomb.client.database.AppDb
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
+import edu.bth.ma.passthebomb.client.remote.RestBackgroundWorker
+import edu.bth.ma.passthebomb.client.utils.Notification
 import edu.bth.ma.passthebomb.client.view.challengesetlist.DownloadChallengeSetActivity
 import edu.bth.ma.passthebomb.client.view.challengesetlist.MyChallengeSetsActivity
 import edu.bth.ma.passthebomb.client.view.challengesetlist.SelectChallengeSetsActivity
@@ -19,6 +20,12 @@ class MainActivity : AppCompatActivity() {
 
         //initialize singletons
         PreferenceService(this)
+
+        //initialize notification channel
+        Notification.createNotificationChannel(this)
+
+        //initialize rest notification worker
+        RestBackgroundWorker.registerWork(this)
 
         getSupportActionBar()?.hide();
 

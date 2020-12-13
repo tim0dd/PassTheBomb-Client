@@ -100,4 +100,8 @@ dependencies {
 
     // graph view library
     implementation 'com.jjoe64:graphview:4.2.2'
+
+    // worker for background tasks in the os
+    implementation "androidx.work:work-runtime-ktx:2.4.0"
+
 }

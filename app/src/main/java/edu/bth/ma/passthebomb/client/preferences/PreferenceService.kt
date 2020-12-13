@@ -7,12 +7,13 @@ import java.util.*
 
 
 const val PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
+const val LAST_DOWNLOAD_OVERVIEW = "LAST_DWN_OVERVIEW"
 
 class PreferenceService constructor(private val context: Context) {
     var uniqueId: String? = null
 
     @SuppressLint("ApplySharedPref")
-     fun getUniqueUserId() : String {
+    fun getUniqueUserId(): String {
         if (uniqueId == null) {
             val sharedPrefs: SharedPreferences = context.getSharedPreferences(
                 PREF_UNIQUE_ID, Context.MODE_PRIVATE
@@ -26,6 +27,23 @@ class PreferenceService constructor(private val context: Context) {
             }
         }
         return uniqueId as String
+    }
+
+    fun getLastDownloadOverviewsDate(): Date {
+        val sharedPrefs: SharedPreferences = context.getSharedPreferences(
+            LAST_DOWNLOAD_OVERVIEW, Context.MODE_PRIVATE
+        )
+        return Date(sharedPrefs.getLong(PREF_UNIQUE_ID, 0))
+
+    }
+
+    fun setLastDownloadOverviewsDate(date: Date) {
+        val sharedPrefs: SharedPreferences = context.getSharedPreferences(
+            LAST_DOWNLOAD_OVERVIEW, Context.MODE_PRIVATE
+        )
+        val editor = sharedPrefs.edit()
+        editor.putLong(LAST_DOWNLOAD_OVERVIEW, date.time)
+        editor.apply()
     }
 
 

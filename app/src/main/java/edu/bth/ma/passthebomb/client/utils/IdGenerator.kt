@@ -6,12 +6,16 @@ import java.util.*
 
 class IdGenerator {
 
-    fun generateDbId(): String{
+    fun generateDbId(): String {
         return UUID.randomUUID().toString()
     }
 
-    fun getUserId(context: Context): String{
+    fun getUserId(context: Context): String {
         val preferenceService = PreferenceService.getInstance(context)
         return preferenceService.getUniqueUserId()
+    }
+
+    fun getRandomIntId(): Int {
+        return (1000000..9999999).random()
     }
 }
