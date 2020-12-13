@@ -8,9 +8,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.MediaPlayer
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -43,10 +41,12 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
 
     val vm: GameVm by viewModels()
+
     //Acceleration Sensor
     lateinit var sensorManager: SensorManager
     lateinit var mainHandler: Handler
     lateinit var bombGraph: GraphView
+    val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
     var sensor: Sensor? = null
     var count = 0.0
     var lastAccelerationValue = 0.0
@@ -134,9 +134,20 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val stateObserver = Observer<GameState> { state ->
             //kaboom and challenge visibility
             if (state == GameState.KABOOM) {
-                if(vm.gameSettings.enableSound) {
+                if (vm.gameSettings.enableSound) {
                     val kaboomSound: MediaPlayer = MediaPlayer.create(this, R.raw.bomb)
                     kaboomSound.start()
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        vibrator.vibrate(
+                            VibrationEffect.createOneShot(
+                                400,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        );
+                    } else {
+                        @Suppress("DEPRECATION")
+                        vibrator.vibrate(500)
+                    }
                 }
                 constraint_layout_kaboom.visibility = View.VISIBLE
             } else {
@@ -147,12 +158,13 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                     textViewChallenge.visibility = View.INVISIBLE
                 }
             }
-            if(slidingUpLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED &&
-                state != GameState.PAUSED){
+            if (slidingUpLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED &&
+                state != GameState.PAUSED
+            ) {
                 slidingUpLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             }
             //button descriptions
-            when(state){
+            when (state) {
                 GameState.START -> {
                     buttonLeft.text = "Click One Side To Start"
                     buttonRight.text = "Click One Side To Start"
@@ -213,23 +225,22 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         }
         vm.playerName.observe(this, nextPlayerObserver)
 
-        val challengeObserver = Observer<Challenge>{
+        val challengeObserver = Observer<Challenge> {
             textViewChallenge.text = it.text
         }
         vm.currentChallenge.observe(this, challengeObserver)
 
         val loadingObserver = Observer<Boolean> {
-            if(it){
+            if (it) {
                 progressBar.visibility = View.VISIBLE
-            }else{
+            } else {
                 progressBar.visibility = View.GONE
             }
         }
         vm.isLoading.observe(this, loadingObserver)
 
-        buttonLeft.setOnTouchListener{
-        _, event ->
-            when(event.action){
+        buttonLeft.setOnTouchListener { _, event ->
+            when (event.action) {
                 MotionEvent.ACTION_DOWN -> vm.onLeftButtonDown()
                 MotionEvent.ACTION_UP -> vm.onLeftButtonUp()
             }
@@ -244,7 +255,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             true
         }
 
-        constraint_layout_kaboom.setOnClickListener{
+        constraint_layout_kaboom.setOnClickListener {
             vm.onKaboomClick()
         }
 
@@ -273,7 +284,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         buttonResume.setOnClickListener {
             vm.resumeGame()
-            if(slidingUpLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED){
+            if (slidingUpLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                 slidingUpLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             }
         }
@@ -328,7 +339,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         //rotate forward (last var becomes first one, others are shifted by 1)
         Collections.rotate(list, 1)
         relativeAccelerations = list.toDoubleArray()
-        relativeAccelerations[0] = (lastAccelerationValue + relativeAccelerations[1])/2
+        relativeAccelerations[0] = (lastAccelerationValue + relativeAccelerations[1]) / 2
         series.resetData(relativeAccelerations.map { acc -> DataPoint(count++, acc) }
             .toTypedArray())
     }
