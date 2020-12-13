@@ -10,9 +10,11 @@
         android:id="@+id/text_view_challenge_list_challenge"
         android:layout_width="300dp"
         android:layout_height="220dp"
+        android:layout_margin="5dp"
+        android:ellipsize="end"
         android:text="TextView"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

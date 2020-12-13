@@ -10,10 +10,13 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@mipmap/other_screens_bg" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linear_layout_challenge_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,8 +36,6 @@
             android:id="@+id/button_delete_challenge_set"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:height="@dimen/button_height"
             android:minWidth="0dp"
             android:textSize="18sp"
@@ -49,7 +50,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_layout_challenge_set">
 
@@ -57,7 +58,6 @@
             android:id="@+id/recycler_view_challenge_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="90dp"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/button_add_challenge"

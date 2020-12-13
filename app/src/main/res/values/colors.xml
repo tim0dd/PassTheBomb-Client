@@ -7,5 +7,6 @@
     <color name="teal_main">#0578A8</color>
     <color name="teal_variant">#38BDF5</color>
     <color name="black">#FF000000</color>
+    <color name="black_transparent">#44000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

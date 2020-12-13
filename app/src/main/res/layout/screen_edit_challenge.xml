@@ -5,119 +5,147 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.EditChallengeActivity">
+
     <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/other_screens_bg" />
+        android:src="@mipmap/other_screens_bg"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="42dp" />
+
     <Button
         android:id="@+id/button_challenge_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:height="@dimen/button_height"
+        android:padding="20dp"
         android:text="Delete"
         app:icon="@drawable/ic_trash"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
-    <EditText
-        android:id="@+id/multiline_text_challenge_text"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:width="300dp"
-        android:height="200dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32" />
+        app:cardBackgroundColor="@color/black_transparent"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/button_challenge_delete"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/text_view_challenge_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Challenge Text:"
+            android:textSize="24sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="336dp"
+        android:layout_height="269dp"
+        android:layout_marginTop="52dp"
+        android:foregroundGravity="center"
+        app:cardBackgroundColor="@color/black_transparent"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/button_challenge_delete"
+        tools:cardElevation="0">
+
+        <EditText
+            android:id="@+id/multiline_text_challenge_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:textSize="25sp" />
+
+    </androidx.cardview.widget.CardView>
 
     <View
         android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/orange_main"
+        android:backgroundTintMode="add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/multiline_text_challenge_text" />
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <TextView
-        android:id="@+id/text_view_challenge_time_limit_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time Limit:"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5"
-        app:srcCompat="@drawable/ic_time" />
+    <View
+        android:id="@+id/divider7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/orange_main"
+        android:backgroundTintMode="add"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_challenge_time"
+        tools:layout_editor_absoluteX="5dp" />
 
     <SeekBar
         android:id="@+id/seek_bar_challenge_time"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:max="@integer/MAXIMUM_CHALLENGE_TIME"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_challenge_time_limit_label" />
 
     <TextView
-        android:id="@+id/text_view_challenge_text_label"
+        android:id="@+id/text_view_challenge_time_limit_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Challenge Text:"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Time Limit:"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/multiline_text_challenge_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="20dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_bar_challenge_time" />
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/divider5"
+        app:srcCompat="@drawable/ic_time" />
 
     <Button
         android:id="@+id/button_challenge_cancel"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="28dp"
         android:height="@dimen/button_height"
         android:text="Cancel"
         android:textSize="18sp"
         app:icon="@drawable/ic_forbidden"
         app:layout_constraintBottom_toBottomOf="@+id/button_challenge_ok"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_challenge_ok" />
+        app:layout_constraintTop_toTopOf="@+id/button_challenge_ok"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_challenge_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="28dp"
         android:height="@dimen/button_height"
         android:text="Ok"
         android:textSize="18sp"
@@ -125,8 +153,8 @@
         app:iconSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider6"
-        app:layout_constraintVertical_bias="0.93" />
+        app:layout_constraintTop_toBottomOf="@+id/divider7"
+        app:layout_constraintVertical_bias="0.686" />
 
     <TextView
         android:id="@+id/text_view_challenge_time_limit"
