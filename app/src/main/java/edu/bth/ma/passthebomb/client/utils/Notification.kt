@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
+import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.remote.NOTIFICATION_CHANNEL_ID
 
 const val CHANNEL_ID = "passthebomb_notification_channel"
@@ -40,6 +41,8 @@ class Notification {
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             /*  .setStyle(NotificationCompat.BigTextStyle()
                   .bigText("Much longer text that cannot fit one line..."))*/
+                    .setSmallIcon(R.drawable.ic_download)
+
             with(NotificationManagerCompat.from(context)) {
                 notify(IdGenerator().getRandomIntId(), builder.build())
             }
