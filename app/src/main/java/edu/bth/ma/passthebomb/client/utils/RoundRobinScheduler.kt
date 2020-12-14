@@ -1,27 +1,27 @@
 package edu.bth.ma.passthebomb.client.utils
 
-import android.util.Log
-
-class RoundRobinScheduler(val numElements: Int, val randomShuffleEachRound: Boolean,
-                          val onNewRound: (Int) -> Unit) {
+class RoundRobinScheduler(
+    private val numElements: Int, private val randomShuffleEachRound: Boolean,
+    val onNewRound: (Int) -> Unit) {
 
     private val schedule: ArrayList<ArrayList<Int>> = ArrayList()
     private var nextActive = 0
     private var nextPosition = 0
-    private var round = 0
-    var currentValue = -1
+    var round = 0
+    var currentElement = -1
     init{
         schedule.add(ArrayList())
         schedule.add(ArrayList())
         scheduleRound(0)
+        nextElement()
     }
 
     private fun scheduleRound(slot: Int){
         var shuffledOrder:ArrayList<Int>
-        if(randomShuffleEachRound){
-            shuffledOrder = (0..numElements-1).shuffled().toCollection(ArrayList<Int>())
+        shuffledOrder = if(randomShuffleEachRound){
+            (0 until numElements).shuffled().toCollection(ArrayList<Int>())
         }else{
-            shuffledOrder = (0..numElements-1).toCollection(ArrayList<Int>())
+            (0 until numElements).toCollection(ArrayList<Int>())
         }
         schedule[slot] = shuffledOrder
     }
@@ -31,8 +31,7 @@ class RoundRobinScheduler(val numElements: Int, val randomShuffleEachRound: Bool
     }
 
     fun nextElement(): Int{
-        Log.i("SCHEDULER", "next")
-        currentValue = peekNextElement()
+        currentElement = peekNextElement()
         if(nextPosition==numElements-1){
             nextActive = (nextActive+1)%2
             do{
@@ -43,6 +42,6 @@ class RoundRobinScheduler(val numElements: Int, val randomShuffleEachRound: Bool
             round++
         }
         nextPosition = (nextPosition + 1) % numElements
-        return currentValue
+        return currentElement
     }
 }

@@ -1,6 +1,5 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.model.Challenge
@@ -23,6 +22,8 @@ enum class GameState {
 
 const val ACCELERATION_THRESH_MULTIPLYER = 2.0
 const val ATTENUATION_FACTOR = 0.5
+const val CHALLENGED_SOLVED_SCORE = 50
+const val BOMB_EXPLOSION_SCORE = -100
 var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLYER
 lateinit var previousGameState: GameState
 
@@ -67,7 +68,7 @@ class GameVm : ViewModel() {
     }
 
     fun restart() {
-        playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
+        playerName.value = gameSettings.value!!.playerList[playerScheduler.currentElement]
         gameState.value = GameState.START
     }
 
@@ -79,7 +80,7 @@ class GameVm : ViewModel() {
         }
         gameState.value = GameState.KABOOM
         countDownTimer = null //stops and destroys the timer
-        playerScores[playerScheduler.currentValue] -= 100
+        playerScores[playerScheduler.currentElement] += BOMB_EXPLOSION_SCORE
     }
 
     fun startNewChallenge() {
@@ -91,15 +92,20 @@ class GameVm : ViewModel() {
         secondsLeft.value = (currentChallenge.timeLimit * gameSettings.value!!.timeModifier).toFloat()
         val millisForChallenge: Long = (currentChallenge.timeLimit * 1000 * gameSettings.value!!.timeModifier).toLong()
         countDownTimer = BombCountDownTimer(millisForChallenge)
-        playerScheduler.nextElement()
         countDownTimer?.start()
+    }
+
+    fun challengeSolved() {
+        playerScores[playerScheduler.currentElement] += CHALLENGED_SOLVED_SCORE
+        playerScheduler.nextElement()
+        startNewChallenge()
     }
 
     fun currentTimeLimit(): Double {
         return (currentChallenge.value?.timeLimit ?: 0) * gameSettings.value!!.timeModifier
     }
 
-    fun setSountEnabled(soundEnabled: Boolean){
+    fun setSoundEnabled(soundEnabled: Boolean){
         val gS = gameSettings.value!!
         val newGS = GameSettings(gS.challengeSetIds, gS.playerList, gS.timeModifier,
             gS.bombSensitivity, gS.randomScheduling, soundEnabled, gS.numberRounds)
@@ -122,12 +128,12 @@ class GameVm : ViewModel() {
     fun onRightButtonUp() {
         when (gameState.value) {
             GameState.RIGHT_PRESSED -> {
-                playerName.value = gameSettings.value!!.playerList[playerScheduler.currentValue]
+                playerName.value = gameSettings.value!!.playerList[playerScheduler.currentElement]
                 gameState.value = GameState.CHALLENGE
                 countDownTimer?.start()
             }
             GameState.LEFT_RIGHT_PRESSED -> explode()
-            GameState.RIGHT_LEFT_PRESSED -> startNewChallenge()
+            GameState.RIGHT_LEFT_PRESSED -> challengeSolved()
             else -> {}
         }
     }
@@ -149,17 +155,18 @@ class GameVm : ViewModel() {
     fun onLeftButtonUp() {
         when (gameState.value) {
             GameState.LEFT_PRESSED -> {
-                playerName.value = gameSettings.value!!.playerList[playerScheduler.currentValue]
+                playerName.value = gameSettings.value!!.playerList[playerScheduler.currentElement]
                 gameState.value = GameState.CHALLENGE
                 countDownTimer?.start()
             }
             GameState.RIGHT_LEFT_PRESSED -> explode()
-            GameState.LEFT_RIGHT_PRESSED -> startNewChallenge()
+            GameState.LEFT_RIGHT_PRESSED -> challengeSolved()
             else -> {}
         }
     }
 
     fun onKaboomClick() {
+        playerScheduler.nextElement()
         restart()
     }
 

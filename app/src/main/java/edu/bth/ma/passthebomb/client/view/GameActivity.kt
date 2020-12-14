@@ -146,7 +146,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         }
         vm.gameSettings.observe(this, gameSettingsObjserver)
         switchSoundEnable.setOnCheckedChangeListener { buttonView, isChecked ->
-            vm.setSountEnabled(isChecked)
+            vm.setSoundEnabled(isChecked)
         }
 
         val stateObserver = Observer<GameState> { state ->
