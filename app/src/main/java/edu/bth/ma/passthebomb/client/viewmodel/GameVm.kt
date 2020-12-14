@@ -59,6 +59,7 @@ class GameVm : ViewModel() {
             if (round >= gameSettings.value!!.numberRounds) {
                 gameState.value = GameState.GAME_OVER
             }
+            this.challenges.shuffle()
         }
         playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
         gameState.value = GameState.START
