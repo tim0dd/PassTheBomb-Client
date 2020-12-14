@@ -30,7 +30,6 @@ import edu.bth.ma.passthebomb.client.viewmodel.GameState
 import edu.bth.ma.passthebomb.client.viewmodel.GameVm
 import java.util.*
 
-
 const val BOMB_GRAPH_UPDATE_INTERVAL: Long = 100
 const val BOMB_GRAPH_NUMBER_OF_VALUES: Int = 200
 
@@ -70,7 +69,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
 
-        //register accelleration sensor
+        //register acceleration sensor
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
@@ -103,7 +102,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val textViewPlayer = findViewById<TextView>(R.id.text_view_game_player)
         val textViewChallenge = findViewById<TextView>(R.id.text_view_game_challenge)
         val progressBarTime = findViewById<ProgressBar>(R.id.prograss_bar_game_time)
-        val constraint_layout_kaboom = findViewById<ConstraintLayout>(R.id.constraint_layout_boom)
+        val constraintLayoutKaboom = findViewById<ConstraintLayout>(R.id.constraint_layout_boom)
         val imageViewOverlay = findViewById<ImageView>(R.id.image_view_game_overlay)
         val slidingUpLayout = findViewById<SlidingUpPanelLayout>(R.id.sliding_up_layout_game)
         val buttonResume = findViewById<Button>(R.id.button_pause_resume)
@@ -127,12 +126,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         bombGraph.viewport.setMaxX(1.0)
         val orange = resources.getColor(R.color.orange_main, theme)
         val bgColor = Color.argb(120, Color.red(orange), Color.green(orange), Color.blue(orange))
-        //for some reason the java functions have to be used here
         series.isDrawBackground = true
         series.color = orange
         series.backgroundColor = bgColor
         bombGraph.addSeries(series)
-
 
         val timeObserver = Observer<Float> {
             progressBarTime.max = (vm.currentTimeLimit() * 10).toInt()
@@ -166,9 +163,9 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                     @Suppress("DEPRECATION")
                     vibrator.vibrate(1000)
                 }
-                constraint_layout_kaboom.visibility = View.VISIBLE
+                constraintLayoutKaboom.visibility = View.VISIBLE
             } else {
-                constraint_layout_kaboom.visibility = View.INVISIBLE
+                constraintLayoutKaboom.visibility = View.INVISIBLE
                 if (state == GameState.CHALLENGE) {
                     textViewChallenge.visibility = View.VISIBLE
                 } else {
@@ -237,7 +234,13 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         vm.relativeAcceleration.observe(this, accelerationObserver)
 
         val nextPlayerObserver = Observer<String> { player ->
-            textViewPlayer.text = "It's " + player + "'s turn" //TODO
+            var text: String = ""
+            if(player.endsWith("s")){
+                text = "It's ${player}' turn"
+            }else{
+                text = "It's ${player}'s turn"
+            }
+            textViewPlayer.text = text
         }
         vm.playerName.observe(this, nextPlayerObserver)
 
@@ -271,7 +274,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             true
         }
 
-        constraint_layout_kaboom.setOnClickListener {
+        constraintLayoutKaboom.setOnClickListener {
             vm.onKaboomClick()
         }
 
@@ -313,9 +316,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        //TODO
-    }
+    //needs to be implemented to fulfill the interface but we do not need it
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent?) {
         val mySensor: Sensor? = event?.sensor
@@ -328,7 +330,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             }
         }
     }
-
 
     override fun onPause() {
         super.onPause()

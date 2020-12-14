@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         //initialize rest notification worker
         RestBackgroundWorker.registerWork(this)
 
-        getSupportActionBar()?.hide();
+        supportActionBar?.hide();
 
         val buttonMyChallengeSets: Button = findViewById(R.id.buttonMyChallengeSets)
         buttonMyChallengeSets.setOnClickListener {

@@ -1,17 +1,12 @@
 package edu.bth.ma.passthebomb.client.view
 
-import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
@@ -20,7 +15,7 @@ import edu.bth.ma.passthebomb.client.viewmodel.AddPlayerVm
 
 
 class AddPlayerActivity : ActionBarActivity() {
-    val vm: AddPlayerVm by viewModels()
+    private val vm: AddPlayerVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +29,6 @@ class AddPlayerActivity : ActionBarActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_add_player)
         val adapter =
             PlayerListAdapter(
-                this,
                 vm
             )
         recyclerView.adapter = adapter
@@ -57,7 +51,7 @@ class AddPlayerActivity : ActionBarActivity() {
         }
     }
 
-    class PlayerListAdapter(private val context: Context, var vm: AddPlayerVm)
+    class PlayerListAdapter(var vm: AddPlayerVm)
         : RecyclerView.Adapter<PlayerListAdapter.ItemViewHolder>(){
         class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val textViewPlayerName: TextView = view.findViewById(R.id.text_view_player_name)

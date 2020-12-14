@@ -17,27 +17,26 @@ import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.remote.RestService
 import edu.bth.ma.passthebomb.client.utils.IdGenerator
-import edu.bth.ma.passthebomb.client.utils.ObserveExtensions.Companion.observeOnce
 import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import java.util.*
 
 class ChallengeSetActivity : ActionBarActivity() {
-    val vm: DatabaseVm by viewModels()
+    private val vm: DatabaseVm by viewModels()
     var challengeSet: ChallengeSet? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_challenge_set)
 
-        title = "Challenge Set" //TODO: add challenge set name in title
+        title = "Challenge Set"
 
         val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
         lateinit var challengeSetId: String
-        if (challengeSetIdUnsafe == null) {
+        challengeSetId = if (challengeSetIdUnsafe == null) {
             finish()
-            challengeSetId = ""
+            ""
         } else {
-            challengeSetId = challengeSetIdUnsafe
+            challengeSetIdUnsafe
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_challenge_list)
@@ -114,9 +113,6 @@ class ChallengeSetActivity : ActionBarActivity() {
                         ).show()
                     })
                 }
-
-
-
             }
         }
 
@@ -130,7 +126,7 @@ class ChallengeSetActivity : ActionBarActivity() {
 
     inner class ChallengeListAdapter(
         private val context: Context,
-        val challenges: List<Challenge>
+        private val challenges: List<Challenge>
     ) :
         RecyclerView.Adapter<ChallengeListAdapter.ItemViewHolder>() {
         inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
