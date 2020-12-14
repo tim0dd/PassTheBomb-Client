@@ -3,25 +3,25 @@
     <string name="tutorial_text">
         Welcome to the tutorial of <b>Pass the Bomb</b>!
         \n\n
-        The game is actually pretty simple. Just pass the phone around as it was a hot bomb.
+        <li>The game is actually pretty simple. Just pass the phone around as it was a hot bomb.
         Be careful to not shake it because otherwise it might explode. In addition the phone will
         show you some challenges which have to be solved in time because otherwise - you might
-        already guessed it - the bomb will explode.
+            have already guessed it - the bomb will explode.</li>
         \n\n
-        When the game is started or the bomb has exploded the name of a player to (re-)start the
-        game is shown. This player gets the phone and clicks on one side bar.
+        <li>When the game is started or the bomb has exploded the name of a player to (re-)start the
+            game is shown. This player gets the phone and clicks on one side bar.</li>
         \n\n
-        When it is your turn, a challenge is show which you have to solve
+        <li>When it is your turn, a challenge is show which you have to solve.</li>
         \n\n
-        Prevent the bomb from exploding by holding the phone steady
-        and solve the challenge before your time runs out!
+        <li>Prevent the bomb from exploding by holding the phone steady
+            and solve the challenge before your time runs out!</li>
         \n\n
-        When you\'re finished solving your challenge press and hold on of the side-bars
-        and the phone will tell you to whom the bomb should be passed.
+        <li>When you\'re finished solving your challenge press and hold on of the side-bars
+        and the phone will tell you to whom the bomb should be passed.</li>
         \n\n
-        The next player has to press and hold the other side bar to receive the bomb.
+        <li>The next player has to press and hold the other side bar to receive the bomb.
         When the next player is holding the side-bar you can release your side. Then the next player
-        gets a new challenge to solve.
+            gets a new challenge to solve.</li>
     </string>
 
 
