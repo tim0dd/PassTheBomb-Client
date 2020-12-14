@@ -9,7 +9,7 @@ class RoundRobinScheduler(val numElements: Int, val randomShuffleEachRound: Bool
     private var nextActive = 0
     private var nextPosition = 0
     private var round = 0
-    var currentValue = 0
+    var currentValue = -1
     init{
         schedule.add(ArrayList())
         schedule.add(ArrayList())

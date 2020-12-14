@@ -1,5 +1,6 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.bth.ma.passthebomb.client.model.Challenge
@@ -34,7 +35,7 @@ class GameVm : ViewModel() {
     var secondsLeft: MutableLiveData<Float> = MutableLiveData()
     val currentChallenge: MutableLiveData<Challenge> = MutableLiveData()
     val gameState = MutableLiveData<GameState>()
-    lateinit var countDownTimer: BombCountDownTimer
+    var countDownTimer: BombCountDownTimer? = null
     lateinit var playerScores: ArrayList<Int>
     lateinit var playerScheduler: RoundRobinScheduler
     var relativeAcceleration = MutableLiveData<Double>(0.0)
@@ -62,6 +63,10 @@ class GameVm : ViewModel() {
             }
             this.challenges.shuffle()
         }
+        restart()
+    }
+
+    fun restart() {
         playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
         gameState.value = GameState.START
     }
@@ -73,6 +78,7 @@ class GameVm : ViewModel() {
             return
         }
         gameState.value = GameState.KABOOM
+        countDownTimer = null //stops and destroys the timer
         playerScores[playerScheduler.currentValue] -= 100
     }
 
@@ -86,7 +92,7 @@ class GameVm : ViewModel() {
         val millisForChallenge: Long = (currentChallenge.timeLimit * 1000 * gameSettings.value!!.timeModifier).toLong()
         countDownTimer = BombCountDownTimer(millisForChallenge)
         playerScheduler.nextElement()
-        countDownTimer.start()
+        countDownTimer?.start()
     }
 
     fun currentTimeLimit(): Double {
@@ -106,9 +112,10 @@ class GameVm : ViewModel() {
             GameState.CHALLENGE -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
                 gameState.value = GameState.RIGHT_PRESSED
-                countDownTimer.pause()
+                countDownTimer?.pause()
             }
             GameState.LEFT_PRESSED -> gameState.value = GameState.LEFT_RIGHT_PRESSED
+            else -> {}
         }
     }
 
@@ -117,10 +124,11 @@ class GameVm : ViewModel() {
             GameState.RIGHT_PRESSED -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.currentValue]
                 gameState.value = GameState.CHALLENGE
-                countDownTimer.start()
+                countDownTimer?.start()
             }
             GameState.LEFT_RIGHT_PRESSED -> explode()
             GameState.RIGHT_LEFT_PRESSED -> startNewChallenge()
+            else -> {}
         }
     }
 
@@ -130,9 +138,11 @@ class GameVm : ViewModel() {
             GameState.CHALLENGE -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
                 gameState.value = GameState.LEFT_PRESSED
-                countDownTimer.pause()
+                countDownTimer?.pause()
             }
             GameState.RIGHT_PRESSED -> gameState.value = GameState.RIGHT_LEFT_PRESSED
+            else -> {}
+
         }
     }
 
@@ -141,15 +151,16 @@ class GameVm : ViewModel() {
             GameState.LEFT_PRESSED -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.currentValue]
                 gameState.value = GameState.CHALLENGE
-                countDownTimer.start()
+                countDownTimer?.start()
             }
             GameState.RIGHT_LEFT_PRESSED -> explode()
             GameState.LEFT_RIGHT_PRESSED -> startNewChallenge()
+            else -> {}
         }
     }
 
     fun onKaboomClick() {
-        start()
+        restart()
     }
 
     fun onLinearAcceleration(x: Float, y: Float, z: Float): Double {
@@ -171,7 +182,7 @@ class GameVm : ViewModel() {
         }
         previousGameState = gameState.value!!
         gameState.value = GameState.PAUSED
-        countDownTimer.pause()
+        countDownTimer?.pause()
     }
 
     fun resumeGame() {
@@ -179,7 +190,7 @@ class GameVm : ViewModel() {
             return
         }
         gameState.value = previousGameState
-        countDownTimer.start()
+        countDownTimer?.start()
     }
 
 
@@ -195,10 +206,4 @@ class GameVm : ViewModel() {
 
     }
 }
-
-
-
-
-
-
 

@@ -53,7 +53,6 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application) 
         runCoroutine { challengeSetRepo.addChallengeSetOverview(challengeSetOverview) }
     }
 
-
     fun addChallengeSet(challengeSet: ChallengeSet) {
         runCoroutine { challengeSetRepo.addChallengeSetOverview(challengeSet.challengeSetOverview) }
         challengeSet.challenges.forEach { runCoroutine { challengeRepo.addChallenge(it) } }

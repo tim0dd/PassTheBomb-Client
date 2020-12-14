@@ -2,13 +2,9 @@ package edu.bth.ma.passthebomb.client.viewmodel
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import edu.bth.ma.passthebomb.client.database.MockDatabase
 import edu.bth.ma.passthebomb.client.model.Challenge
-import java.util.*
 
 class EditChallengeVm(application: Application) : DatabaseVm(application) {
     var challenge: MutableLiveData<Challenge> = MutableLiveData()

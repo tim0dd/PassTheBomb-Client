@@ -7,16 +7,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import edu.bth.ma.passthebomb.client.database.MockDatabase
-import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.view.GameSettingsActivity
 
 class SelectChallengeSetsVm(application: Application) :ChallengeSetListVm(application) {
     val selectedChallengeSetIndices = MutableLiveData<HashSet<Int>>(HashSet<Int>())
 
-    override fun init(activity: AppCompatActivity){
-        getAllChallengeSets().observe(activity,
+    override fun init(context: AppCompatActivity){
+        getAllChallengeSets().observe(context,
             Observer {
                 challengeSetOverviews.value = ArrayList(it)
             })
