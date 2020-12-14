@@ -29,20 +29,6 @@
             tools:visibility="gone" />
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:alpha="0.3"
-            sothree:layout_constraintBottom_toBottomOf="parent"
-            sothree:layout_constraintEnd_toEndOf="parent"
-            sothree:layout_constraintHorizontal_bias="0.56"
-            sothree:layout_constraintStart_toStartOf="parent"
-            sothree:layout_constraintTop_toTopOf="parent"
-            sothree:layout_constraintVertical_bias="0.0"
-            sothree:srcCompat="@drawable/ic_bomb_color"
-            tools:visibility="gone" />
-
-        <ImageView
             android:id="@+id/image_view_game_overlay"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -55,48 +41,68 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bombLayout"
-            android:layout_width="395dp"
-            android:layout_height="68dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="300dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="15dp"
             sothree:layout_constraintEnd_toStartOf="@+id/button_game_right"
             sothree:layout_constraintStart_toEndOf="@+id/button_game_left"
             sothree:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/bomb"
-                android:layout_width="61dp"
-                android:layout_height="53dp"
-                sothree:layout_constraintBottom_toBottomOf="parent"
-                sothree:layout_constraintEnd_toStartOf="@+id/bombGraph"
-                sothree:layout_constraintHorizontal_bias="0.823"
-                sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toTopOf="parent"
-                sothree:layout_constraintVertical_bias="0.8"
-                sothree:srcCompat="@drawable/bomb" />
-
-            <ImageView
-                android:id="@+id/bomb_fire"
-                android:layout_width="31dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="80dp"
-                android:layout_marginEnd="138dp"
-                android:layout_marginBottom="32dp"
-                sothree:layout_constraintBottom_toBottomOf="@+id/bomb"
-                sothree:layout_constraintEnd_toEndOf="@+id/bomb"
-                sothree:layout_constraintHorizontal_bias="0.365"
-                sothree:layout_constraintStart_toStartOf="@+id/bomb"
-                sothree:srcCompat="@drawable/burning" />
-
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/bombGraph"
-                android:layout_width="256dp"
-                android:layout_height="61dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bombGraphCard"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:visibility="visible"
+                sothree:cardBackgroundColor="@color/orange_main"
+                sothree:cardCornerRadius="20dp"
+                sothree:cardElevation="5dp"
                 sothree:layout_constraintBottom_toBottomOf="parent"
                 sothree:layout_constraintEnd_toEndOf="parent"
-                sothree:layout_constraintHorizontal_bias="0.683"
                 sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toTopOf="parent"
-                sothree:layout_constraintVertical_bias="0.571" />
+                sothree:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/bombGraph"
+                        android:layout_width="197dp"
+                        android:layout_height="43dp"
+                        sothree:layout_constraintBottom_toBottomOf="parent"
+                        sothree:layout_constraintEnd_toEndOf="parent"
+                        sothree:layout_constraintStart_toEndOf="@+id/bomb"
+                        sothree:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/bomb"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginBottom="3dp"
+                        sothree:layout_constraintBottom_toBottomOf="parent"
+                        sothree:layout_constraintStart_toStartOf="parent"
+                        sothree:layout_constraintTop_toTopOf="parent"
+                        sothree:layout_constraintVertical_bias="0.8"
+                        sothree:srcCompat="@drawable/bomb" />
+
+                    <ImageView
+                        android:id="@+id/bomb_fire"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginBottom="36dp"
+                        sothree:layout_constraintBottom_toBottomOf="@+id/bomb"
+                        sothree:layout_constraintEnd_toEndOf="@+id/bomb"
+                        sothree:layout_constraintStart_toStartOf="@+id/bomb"
+                        sothree:layout_constraintTop_toTopOf="@+id/bomb"
+                        sothree:srcCompat="@drawable/burning" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
@@ -136,37 +142,41 @@
 
         <TextView
             android:id="@+id/text_view_game_player"
-            android:layout_width="130dp"
-            android:layout_height="38dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="It's Obama's turn:"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold"
-            sothree:layout_constraintBottom_toTopOf="@+id/layoutChallengeCard"
             sothree:layout_constraintEnd_toStartOf="@+id/button_game_right"
             sothree:layout_constraintStart_toEndOf="@+id/button_game_left"
-            sothree:layout_constraintTop_toTopOf="@+id/constraint_layout_boom" />
+            sothree:layout_constraintTop_toBottomOf="@+id/bombLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutChallengeCard"
-            android:layout_width="305dp"
-            android:layout_height="233dp"
+            android:layout_width="297dp"
+            android:layout_height="217dp"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="20dp"
             android:foregroundGravity="center"
             android:visibility="visible"
-            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintBottom_toTopOf="@+id/layoutTimeProgress"
             sothree:layout_constraintEnd_toStartOf="@+id/button_game_right"
             sothree:layout_constraintStart_toEndOf="@+id/button_game_left"
-            sothree:layout_constraintTop_toBottomOf="@+id/bombLayout"
+            sothree:layout_constraintTop_toBottomOf="@+id/text_view_game_player"
             tools:visibility="visible">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/orange_main"
+                android:id="@+id/challengeCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
                 android:visibility="visible"
-                sothree:cardCornerRadius="5dp"
-                sothree:layout_constraintBottom_toBottomOf="parent"
+                sothree:cardBackgroundColor="@color/orange_main"
+                sothree:cardCornerRadius="20dp"
+                sothree:cardElevation="5dp"
                 sothree:layout_constraintEnd_toEndOf="parent"
                 sothree:layout_constraintStart_toStartOf="parent"
                 sothree:layout_constraintTop_toTopOf="parent">
@@ -175,7 +185,7 @@
                     android:id="@+id/text_view_game_challenge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/orange2_main"
+                    android:background="@android:color/transparent"
                     android:gravity="center_vertical"
                     android:text="Make loud monkey noises and jump like a monkey!"
                     android:textAlignment="center"
@@ -191,26 +201,27 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             sothree:layout_constraintBottom_toBottomOf="parent"
             sothree:layout_constraintEnd_toEndOf="@+id/button_game_right"
             sothree:layout_constraintStart_toStartOf="@+id/button_game_left"
             sothree:layout_constraintTop_toTopOf="@+id/constraint_layout_boom"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutTimeProgress"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="407dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="10dp"
             sothree:layout_constraintBottom_toBottomOf="@+id/constraint_layout_boom"
             sothree:layout_constraintEnd_toStartOf="@+id/button_game_right"
-            sothree:layout_constraintStart_toEndOf="@+id/button_game_left"
-            sothree:layout_constraintTop_toBottomOf="@+id/layoutChallengeCard">
+            sothree:layout_constraintStart_toEndOf="@+id/button_game_left">
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="35dp"
                 android:layout_height="33dp"
+                android:layout_marginStart="1dp"
                 sothree:layout_constraintBottom_toBottomOf="parent"
                 sothree:layout_constraintEnd_toEndOf="parent"
                 sothree:layout_constraintHorizontal_bias="0.06"
@@ -222,12 +233,15 @@
             <ProgressBar
                 android:id="@+id/prograss_bar_game_time"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="191dp"
-                android:layout_height="10dp"
+                android:layout_width="263dp"
+                android:layout_height="7dp"
+                android:layout_marginEnd="30dp"
                 sothree:layout_constraintBottom_toBottomOf="parent"
                 sothree:layout_constraintEnd_toEndOf="parent"
+                sothree:layout_constraintHorizontal_bias="0.236"
                 sothree:layout_constraintStart_toEndOf="@+id/imageView3"
-                sothree:layout_constraintTop_toTopOf="parent" />
+                sothree:layout_constraintTop_toTopOf="parent"
+                sothree:layout_constraintVertical_bias="0.516" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
