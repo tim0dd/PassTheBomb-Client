@@ -1,12 +1,14 @@
 package edu.bth.ma.passthebomb.client.remote
 
 import android.content.Context
+import android.util.Log
 import androidx.work.*
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.RequestFuture
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import edu.bth.ma.passthebomb.client.utils.Notification.Companion.notifyNewChallengeSets
+import org.json.JSONException
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +34,7 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
         return try {
             RestService.getInstance(applicationContext).queue.add(request)
             val response = future[TIMEOUT_SECONDS, TimeUnit.SECONDS]
-            val numberOfNewSets = response.getInt("numberOfNewSets")
+            val numberOfNewSets = response.getInt("response")
           /*  if (numberOfNewSets > 0) {
                 notifyNewChallengeSets(context, numberOfNewSets)
             }*/
