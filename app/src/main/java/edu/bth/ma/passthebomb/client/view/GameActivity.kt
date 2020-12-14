@@ -35,8 +35,6 @@ const val BOMB_GRAPH_UPDATE_INTERVAL: Long = 100
 const val BOMB_GRAPH_NUMBER_OF_VALUES: Int = 200
 
 class GameActivity : AppCompatActivity(), SensorEventListener {
-
-
     val vm: GameVm by viewModels()
 
     //Acceleration Sensor
@@ -81,13 +79,24 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         val gameSettings: GameSettings? =
             intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
+        val challengeList: ArrayList<Challenge>? = intent.getParcelableArrayListExtra("challenges")
         if (gameSettings == null) {
             Toast.makeText(this, "No game settings, cannot start game this way", Toast.LENGTH_SHORT)
                 .show()
             finish()
-            return;
+            return
         }
-        vm.init(this, gameSettings!!)
+        if (challengeList == null || challengeList.isEmpty()) {
+            Toast.makeText(
+                this,
+                "No challenges available, cannot start game this way",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+            finish()
+            return
+        }
+        vm.init(gameSettings, challengeList)
 
         val buttonLeft = findViewById<Button>(R.id.button_game_left)
         val buttonRight = findViewById<Button>(R.id.button_game_right)
@@ -152,7 +161,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                             1000,
                             VibrationEffect.DEFAULT_AMPLITUDE
                         )
-                    );
+                    )
                 } else {
                     @Suppress("DEPRECATION")
                     vibrator.vibrate(1000)
@@ -178,7 +187,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                     buttonRight.text = "Click One Side To Start"
                     val mainHandler = Handler(Looper.getMainLooper())
                     mainHandler.post(updateGraphTask)
-
                 }
                 GameState.CHALLENGE -> {
                     buttonLeft.text = "Press One Side When Finished"
@@ -338,11 +346,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
     fun updateGraph() {
         var count = 0.0
-        /*   bombGraph.removeAllSeries()
-           val series: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>(
-               relativeAccelerations.map { acc -> DataPoint(count++, acc) }.toTypedArray()
-           )
-           bombGraph.addSeries(series)*/
         val list = relativeAccelerations.toList()
         //rotate forward (last var becomes first one, others are shifted by 1)
         Collections.rotate(list, 1)

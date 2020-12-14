@@ -3,16 +3,12 @@ package edu.bth.ma.passthebomb.client.remote
 import android.content.Context
 import androidx.work.*
 import com.android.volley.Request
-import com.android.volley.TimeoutError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.RequestFuture
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import edu.bth.ma.passthebomb.client.utils.Notification.Companion.notifyNewChallengeSets
-import org.json.JSONException
 import org.json.JSONObject
-import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 
 const val WORKER_TAG = "passthebomb-restbackgroundworker"
 const val TIMEOUT_SECONDS: Long = 60

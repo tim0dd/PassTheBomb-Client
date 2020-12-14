@@ -1,23 +1,14 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
-import android.app.Activity
-import android.app.Application
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.observe
-import edu.bth.ma.passthebomb.client.database.MockDatabase
 import edu.bth.ma.passthebomb.client.model.Challenge
-import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.GameSettings
 import edu.bth.ma.passthebomb.client.utils.CountDownTimerPausable
 import edu.bth.ma.passthebomb.client.utils.RoundRobinScheduler
-import kotlin.random.Random
 
 
-enum class GameState{
+enum class GameState {
     START,
     CHALLENGE,
     LEFT_PRESSED,
@@ -34,9 +25,9 @@ const val ATTENUATION_FACTOR = 0.5
 var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLYER
 lateinit var previousGameState: GameState
 
-class GameVm(application: Application): DatabaseVm(application) {
+class GameVm : ViewModel() {
     val gameSettings = MutableLiveData<GameSettings>()
-    val challenges = ArrayList<Challenge>()
+    lateinit var challenges: ArrayList<Challenge>
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val playerName: MutableLiveData<String> = MutableLiveData()
@@ -47,21 +38,20 @@ class GameVm(application: Application): DatabaseVm(application) {
     lateinit var playerScores: ArrayList<Int>
     lateinit var playerScheduler: RoundRobinScheduler
     var relativeAcceleration = MutableLiveData<Double>(0.0)
+    var currentChallengeIndex = -1
 
-    fun init(activity: AppCompatActivity, gameSettings: GameSettings){
+    fun init(gameSettings: GameSettings, challenges: ArrayList<Challenge>) {
         this.gameSettings.value = gameSettings
-        isLoading.value = true
+        isLoading.value = false
         playerScores = ArrayList(MutableList(gameSettings.playerList.size) { 0 })
         accelerationThresh = ACCELERATION_THRESH_MULTIPLYER / (gameSettings.bombSensitivity + 0.01)
-
-        getChallengesByOverviewIds(gameSettings.challengeSetIds).observe(activity, Observer {
-            challenges.addAll(it)
-            isLoading.value = false
-            start()
-        })
+        this.challenges = arrayListOf()
+        this.challenges.addAll(challenges)
+        this.challenges.shuffle()
+        start()
     }
 
-    fun start(){
+    fun start() {
         playerScheduler = RoundRobinScheduler(
             gameSettings.value!!.playerList.size,
             gameSettings.value!!.randomScheduling
@@ -74,18 +64,21 @@ class GameVm(application: Application): DatabaseVm(application) {
         gameState.value = GameState.START
     }
 
-    fun explode(){
-        if(gameState.value == GameState.START || gameState.value == GameState.PAUSED
-            || gameState.value == GameState.KABOOM){
+    fun explode() {
+        if (gameState.value == GameState.START || gameState.value == GameState.PAUSED
+            || gameState.value == GameState.KABOOM
+        ) {
             return
         }
         gameState.value = GameState.KABOOM
         playerScores[playerScheduler.currentValue] -= 100
     }
 
-    fun startNewChallenge(){
+    fun startNewChallenge() {
         gameState.value = GameState.CHALLENGE
-        val currentChallenge = challenges[Random.nextInt(challenges.size)]
+        currentChallengeIndex++
+        if (currentChallengeIndex == challenges.size) currentChallengeIndex = 0
+        val currentChallenge = challenges[currentChallengeIndex]
         this.currentChallenge.value = currentChallenge
         secondsLeft.value = (currentChallenge.timeLimit * gameSettings.value!!.timeModifier).toFloat()
         val millisForChallenge: Long = (currentChallenge.timeLimit * 1000 * gameSettings.value!!.timeModifier).toLong()
@@ -105,8 +98,8 @@ class GameVm(application: Application): DatabaseVm(application) {
         gameSettings.value = newGS
     }
 
-    fun onRightButtonDown(){
-        when(gameState.value){
+    fun onRightButtonDown() {
+        when (gameState.value) {
             GameState.START -> startNewChallenge()
             GameState.CHALLENGE -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
@@ -117,8 +110,8 @@ class GameVm(application: Application): DatabaseVm(application) {
         }
     }
 
-    fun onRightButtonUp(){
-        when(gameState.value){
+    fun onRightButtonUp() {
+        when (gameState.value) {
             GameState.RIGHT_PRESSED -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.currentValue]
                 gameState.value = GameState.CHALLENGE
@@ -129,8 +122,8 @@ class GameVm(application: Application): DatabaseVm(application) {
         }
     }
 
-    fun onLeftButtonDown(){
-        when(gameState.value){
+    fun onLeftButtonDown() {
+        when (gameState.value) {
             GameState.START -> startNewChallenge()
             GameState.CHALLENGE -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.peekNextElement()]
@@ -141,8 +134,8 @@ class GameVm(application: Application): DatabaseVm(application) {
         }
     }
 
-    fun onLeftButtonUp(){
-        when(gameState.value){
+    fun onLeftButtonUp() {
+        when (gameState.value) {
             GameState.LEFT_PRESSED -> {
                 playerName.value = gameSettings.value!!.playerList[playerScheduler.currentValue]
                 gameState.value = GameState.CHALLENGE
@@ -169,8 +162,9 @@ class GameVm(application: Application): DatabaseVm(application) {
     }
 
     fun pauseGame() {
-        if(gameState.value == GameState.PAUSED || gameState.value == GameState.START
-            || gameState.value == GameState.KABOOM){
+        if (gameState.value == GameState.PAUSED || gameState.value == GameState.START
+            || gameState.value == GameState.KABOOM
+        ) {
             return
         }
         previousGameState = gameState.value!!
@@ -178,8 +172,8 @@ class GameVm(application: Application): DatabaseVm(application) {
         countDownTimer.pause()
     }
 
-    fun resumeGame(){
-        if(gameState.value != GameState.PAUSED){
+    fun resumeGame() {
+        if (gameState.value != GameState.PAUSED) {
             return
         }
         gameState.value = previousGameState
@@ -187,8 +181,8 @@ class GameVm(application: Application): DatabaseVm(application) {
     }
 
 
-    inner class BombCountDownTimer(millisInFuture: Long)
-        : CountDownTimerPausable(millisInFuture, 100){
+    inner class BombCountDownTimer(millisInFuture: Long) :
+        CountDownTimerPausable(millisInFuture, 100) {
         override fun onFinish() {
             explode()
         }

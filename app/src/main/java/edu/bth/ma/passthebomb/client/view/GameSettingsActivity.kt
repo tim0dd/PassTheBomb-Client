@@ -1,7 +1,6 @@
 package edu.bth.ma.passthebomb.client.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -39,9 +38,9 @@ class GameSettingsActivity : ActionBarActivity() {
         val button = findViewById<Button>(R.id.button_game_settings_start_game)
         button.setOnClickListener {
             var timeModifier: Double = (SEEK_BAR_MAX - seekBarTimeModifier.progress)/ SEEK_BAR_DIVIDER
-            timeModifier *= 2;
+            timeModifier *= 2
             var bombSensitivity: Double = seekBarBombSensetivity.progress / SEEK_BAR_DIVIDER
-            bombSensitivity *= 2;
+            bombSensitivity *= 2
             val shuffleRandomly: Boolean = switchRandomPlayerOrder.isChecked
             val enableSound: Boolean = switchEnableSound.isChecked
             val numberRounds: Int = editTextNumberRounds.text.toString().toInt()
