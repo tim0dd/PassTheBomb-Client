@@ -12,6 +12,7 @@ import android.os.*
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -110,6 +111,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val buttonQuit = findViewById<Button>(R.id.button_pause_quit)
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar_game)
         val switchSoundEnable = findViewById<Switch>(R.id.switch_game_sound_effects)
+        val bombFire = findViewById<ImageView>(R.id.bomb_fire)
 
 
         bombGraph = findViewById(R.id.bombGraph)
@@ -132,6 +134,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         bombGraph.addSeries(series)
 
         val timeObserver = Observer<Float> {
+            //animate once per second if ((it % .1) in 0.09..0.11)
+            animateFire(bombFire)
             progressBarTime.max = (vm.currentTimeLimit() * 10).toInt()
             progressBarTime.progress = (it * 10).toInt()
         }
@@ -356,4 +360,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             .toTypedArray())
     }
 
+    fun animateFire(bombFire: ImageView) {
+        bombFire.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake)); }
 }

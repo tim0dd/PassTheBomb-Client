@@ -2,6 +2,7 @@
 
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sliding_up_layout_game"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,7 +38,43 @@
             sothree:layout_constraintStart_toStartOf="parent"
             sothree:layout_constraintTop_toTopOf="parent"
             sothree:layout_constraintVertical_bias="0.0"
-            sothree:srcCompat="@drawable/ic_bomb_color" />
+            sothree:srcCompat="@drawable/ic_bomb_color"
+            tools:visibility="invisible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bombLayout"
+            android:layout_width="430dp"
+            android:layout_height="405dp"
+            sothree:layout_constraintBottom_toBottomOf="@+id/imageView8"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintHorizontal_bias="0.5"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toTopOf="@+id/imageView8">
+
+            <ImageView
+                android:id="@+id/bomb"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                sothree:layout_constraintBottom_toBottomOf="parent"
+                sothree:layout_constraintEnd_toEndOf="parent"
+                sothree:layout_constraintStart_toStartOf="parent"
+                sothree:layout_constraintTop_toTopOf="parent"
+                sothree:layout_constraintVertical_bias="0.847"
+                sothree:srcCompat="@drawable/bomb" />
+
+            <ImageView
+                android:id="@+id/bomb_fire"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="86dp"
+                android:layout_marginEnd="138dp"
+                android:layout_marginBottom="180dp"
+                sothree:layout_constraintBottom_toBottomOf="@+id/bomb"
+                sothree:layout_constraintEnd_toEndOf="@+id/bomb"
+                sothree:layout_constraintHorizontal_bias="0.758"
+                sothree:layout_constraintStart_toStartOf="@+id/bomb"
+                sothree:srcCompat="@drawable/burning" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/image_view_game_overlay"
@@ -47,7 +84,8 @@
             sothree:layout_constraintBottom_toBottomOf="parent"
             sothree:layout_constraintEnd_toEndOf="@+id/imageView8"
             sothree:layout_constraintStart_toStartOf="@+id/imageView8"
-            sothree:layout_constraintTop_toTopOf="parent" />
+            sothree:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible" />
 
         <Button
             android:id="@+id/button_game_left"
@@ -156,11 +194,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationZ="10dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             sothree:layout_constraintBottom_toBottomOf="parent"
             sothree:layout_constraintEnd_toEndOf="parent"
             sothree:layout_constraintStart_toStartOf="parent"
-            sothree:layout_constraintTop_toTopOf="parent">
+            sothree:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible">
 
 
             <ImageView

@@ -48,6 +48,7 @@ class GameVm : ViewModel() {
         this.challenges = arrayListOf()
         this.challenges.addAll(challenges)
         this.challenges.shuffle()
+        currentChallenge.value = challenges[0]
         start()
     }
 
