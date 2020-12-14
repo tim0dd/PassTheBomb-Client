@@ -32,7 +32,7 @@ class MyChallengeSetsVm(application: Application) : ChallengeSetListVm(applicati
     }
 
     override fun onButton(activity: AppCompatActivity) {
-        val dia = Dialogs(getApplication())
+        val dia = Dialogs(activity)
         dia.showStringInputDialog("Challenge Set Name"){
             if(it != ""){
                 val ids = IdGenerator()
