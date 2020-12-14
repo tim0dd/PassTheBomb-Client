@@ -4,25 +4,22 @@ import android.app.Application
 import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
-import edu.bth.ma.passthebomb.client.remote.MockRest
 import edu.bth.ma.passthebomb.client.remote.RestService
 
 class DownloadChallengeSetsVm(application: Application) : ChallengeSetListVm(application) {
-    val challeneSetOverviews = MutableLiveData<List<ChallengeSetOverview>>()
 
-    fun init(){
-        val context = getApplication<Application>()
-        if(challeneSetOverviews.value==null){
-
-        }
+    override fun init(context: AppCompatActivity){
+        val restService = RestService(context)
+        restService.getChallengeSetOverviews({
+            challengeSetOverviews.value = ArrayList(it)
+        },{
+            Toast.makeText(context,
+                "Could not retrieve the list of challenge sets from the server.",
+                Toast.LENGTH_SHORT).show()
+        })
     }
 
-    override fun onChallengeSetClick(index: Int, context: Context) {
-        TODO("Not yet implemented")
-    }
+    override fun onChallengeSetClick(index: Int, context: Context) {}
 
     override fun onButton(activity: AppCompatActivity) {}
 }

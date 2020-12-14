@@ -24,18 +24,15 @@ class MyChallengeSetsActivity : ChallengeSetListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "My Challenge Sets"
-
-        databaseVm.getAllChallengeSets().observe(this,
-        Observer {
-            val myChallengeSetsAdapter = MyChallengeSetsAdapter(this@MyChallengeSetsActivity, it)
-            this@MyChallengeSetsActivity.challengeSetsAdapter = myChallengeSetsAdapter
-            vm.init(it)
-        })
     }
 
     override fun initButton(){
         val addButton = findViewById<Button>(R.id.button_add_challenge_set)
         addButton.visibility = View.VISIBLE
+    }
+
+    override fun createChallengeSetsAdapter(challengeSetOverviews: List<ChallengeSetOverview>): ChallengeSetsAdapter {
+        return MyChallengeSetsAdapter(this, challengeSetOverviews)
     }
 
     inner class MyChallengeSetsAdapter(private val context: Context,

@@ -26,22 +26,16 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Download Challenge Sets"
-
-        val restService = RestService(this)
-        restService.getChallengeSetOverviews({
-            val adapter = DownloadChallengeSetsAdapter(this, it)
-            this.challengeSetsAdapter = adapter
-        },{
-            Toast.makeText(this,
-                "Could not retrieve the list of challenge sets from the server.",
-                Toast.LENGTH_SHORT).show()
-        })
     }
 
 
     override fun initButton(){
         val addButton = findViewById<Button>(R.id.button_add_challenge_set)
         addButton.visibility = View.GONE
+    }
+
+    override fun createChallengeSetsAdapter(challengeSetOverviews: List<ChallengeSetOverview>): ChallengeSetsAdapter {
+        return DownloadChallengeSetsAdapter(this, challengeSetOverviews)
     }
 
     inner class DownloadChallengeSetsAdapter(private val context: Context,

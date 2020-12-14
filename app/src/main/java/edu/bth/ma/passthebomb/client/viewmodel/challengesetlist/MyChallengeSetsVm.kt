@@ -4,8 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import edu.bth.ma.passthebomb.client.database.MockDatabase
+import androidx.lifecycle.Observer
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
@@ -17,15 +16,23 @@ import kotlin.collections.ArrayList
 
 class MyChallengeSetsVm(application: Application) : ChallengeSetListVm(application) {
 
+    override fun init(context: AppCompatActivity){
+        getAllChallengeSets().observe(context,
+            Observer {
+                challengeSetOverviews.value = ArrayList(it)
+            })
+    }
+
     override fun onChallengeSetClick(index: Int, context: Context){
-        val intent = Intent(context, ChallengeSetActivity::class.java)
-        intent.putExtra("CHALLENGE_SET_ID", challengeSetOverviews[index].id)
-        context.startActivity(intent)
+        if(challengeSetOverviews.value!=null){
+            val intent = Intent(getApplication(), ChallengeSetActivity::class.java)
+            intent.putExtra("CHALLENGE_SET_ID", challengeSetOverviews.value!![index].id)
+            getApplication<Application>().startActivity(intent)
+        }
     }
 
     override fun onButton(activity: AppCompatActivity) {
-        var challengeSetName = ""
-        val dia = Dialogs(activity)
+        val dia = Dialogs(getApplication())
         dia.showStringInputDialog("Challenge Set Name"){
             if(it != ""){
                 val ids = IdGenerator()

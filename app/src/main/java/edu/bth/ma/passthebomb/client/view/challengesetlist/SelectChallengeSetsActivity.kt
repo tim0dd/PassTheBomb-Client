@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
-import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
 import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.SelectChallengeSetsVm
 
 class SelectChallengeSetsActivity : ChallengeSetListActivity() {
@@ -21,12 +20,6 @@ class SelectChallengeSetsActivity : ChallengeSetListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Select Challenge Sets"
-        vm.getAllChallengeSets().observe(this,
-            Observer {
-                val myChallengeSetsAdapter = SelectChallengeSetsAdapter(this@SelectChallengeSetsActivity, it)
-                this@SelectChallengeSetsActivity.challengeSetsAdapter = myChallengeSetsAdapter
-                vm.init(it)
-            })
     }
 
 
@@ -36,8 +29,13 @@ class SelectChallengeSetsActivity : ChallengeSetListActivity() {
         startButton.visibility = View.VISIBLE
     }
 
-    inner class SelectChallengeSetsAdapter(private val context: Context,
-                                     private val dataset: List<ChallengeSetOverview>
+    override fun createChallengeSetsAdapter(challengeSetOverviews: List<ChallengeSetOverview>): ChallengeSetsAdapter {
+        return SelectChallengeSetsAdapter(this, challengeSetOverviews)
+    }
+
+    inner class SelectChallengeSetsAdapter(
+        context: Context,
+        dataset: List<ChallengeSetOverview>
     ) : ChallengeSetsAdapter(context, dataset){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

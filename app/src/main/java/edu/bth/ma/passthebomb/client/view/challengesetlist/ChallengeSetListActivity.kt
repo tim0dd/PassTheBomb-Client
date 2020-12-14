@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
@@ -16,18 +17,8 @@ import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetList
 abstract class ChallengeSetListActivity : ActionBarActivity() {
 
     lateinit var recyclerView: RecyclerView
-
-    var challengeSetsAdapter: ChallengeSetsAdapter? = null
-    set(value){
-        val loadingSpinner = findViewById<ProgressBar>(R.id.progress_bar_challenge_set_list)
-        loadingSpinner.visibility = View.GONE
-        field = value
-        recyclerView = findViewById<RecyclerView>(R.id.recycleviewMyChallengeSets)
-        recyclerView.adapter = value
-        recyclerView.setHasFixedSize(true)
-    }
-
     abstract val vm: ChallengeSetListVm
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +26,21 @@ abstract class ChallengeSetListActivity : ActionBarActivity() {
         initButton()
         val button : Button = findViewById<Button>(R.id.button_add_challenge_set)
         button.setOnClickListener{vm.onButton(this)}
+
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar_challenge_set_list)
+
+        vm.init(this)
+        vm.challengeSetOverviews.observe(this, Observer {
+            recyclerView = findViewById<RecyclerView>(R.id.recycleviewMyChallengeSets)
+            recyclerView.adapter = createChallengeSetsAdapter(it)
+            recyclerView.setHasFixedSize(true)
+            progressBar.visibility = View.GONE
+        })
     }
 
     abstract fun initButton()
+
+    abstract fun createChallengeSetsAdapter(challengeSetOverviews: List<ChallengeSetOverview>): ChallengeSetsAdapter
 
     abstract inner class ChallengeSetsAdapter(private val context: Context,
                                         private val dataset: List<ChallengeSetOverview>
