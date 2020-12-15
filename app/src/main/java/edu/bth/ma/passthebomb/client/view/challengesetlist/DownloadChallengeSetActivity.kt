@@ -11,17 +11,16 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import edu.bth.ma.passthebomb.client.R
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.remote.RestService
-
-import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetListVm
-import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.DownloadChallengeSetsVm
+import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
+import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.DownloadChallengeSetVm
 
 class DownloadChallengeSetActivity : ChallengeSetListActivity() {
 
-    override val vm: ChallengeSetListVm by viewModels<DownloadChallengeSetsVm>()
+    override val vm by viewModels<DownloadChallengeSetVm>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +33,38 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
         addButton.visibility = View.GONE
     }
 
-    override fun createChallengeSetsAdapter(challengeSetOverviews: List<ChallengeSetOverview>): ChallengeSetsAdapter {
-        return DownloadChallengeSetsAdapter(this, challengeSetOverviews)
+    override fun onButtonClick(view: View) {}
+
+    override fun onChallengeSetClick(view: View, challengeSets: ArrayList<ChallengeSetOverview>, position: Int) {
+        val imageView = view.findViewById<ImageView>(R.id.image_view_item_online_challenge_set)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar_challenge_set_download)
+        progressBar.visibility = View.VISIBLE
+        imageView.setImageResource(0)
+        val restService = RestService(this@DownloadChallengeSetActivity)
+        val challengeSet = challengeSets[position]
+        restService.getChallengeSet(challengeSet.id,{
+            vm.addChallengeSet(it)
+            imageView.setImageResource(R.drawable.ic_check)
+            progressBar.visibility = View.GONE
+        },{
+            Toast.makeText(this@DownloadChallengeSetActivity,
+                "Could not download challenge set with name ${challengeSet.name}.",
+                Toast.LENGTH_SHORT).show()
+            progressBar.visibility = View.GONE
+        })
     }
 
-    inner class DownloadChallengeSetsAdapter(private val context: Context,
-                                       private val dataset: List<ChallengeSetOverview>
+    override fun getChallengeSetsAdapter(challengeSets: ArrayList<ChallengeSetOverview>): ChallengeSetsAdapter {
+        return DownloadChallengeSetsAdapter(this, challengeSets)
+    }
+
+    inner class DownloadChallengeSetsAdapter(
+        context: Context,
+        override val dataset: ArrayList<ChallengeSetOverview>
     ) : ChallengeSetsAdapter(context, dataset){
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            val challengeSet = dataset[position]
-            holder.textViewChallengeSetName.text =  challengeSet.name
+            super.onBindViewHolder(holder, position)
             val imageView = holder.view.findViewById<ImageView>(R.id.image_view_item_online_challenge_set)
             val progressBar = holder.view.findViewById<ProgressBar>(R.id.progress_bar_challenge_set_download)
             vm.getChallengeSet(dataset[position].id).observe(this@DownloadChallengeSetActivity,
@@ -56,20 +76,7 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
                 }
             })
             holder.view.setOnClickListener{
-                progressBar.visibility = View.VISIBLE
-                imageView.setImageResource(0)
-                val restService = RestService(this@DownloadChallengeSetActivity)
-                val challengSet = dataset[position]
-                restService.getChallengeSet(challengSet.id,{
-                    vm.addChallengeSet(it)
-                    imageView.setImageResource(R.drawable.ic_check)
-                    progressBar.visibility = View.GONE
-                },{
-                    Toast.makeText(this@DownloadChallengeSetActivity,
-                        "Could not download challenge set with name ${challengSet.name}.",
-                        Toast.LENGTH_SHORT).show()
-                    progressBar.visibility = View.GONE
-                })
+
             }
         }
 

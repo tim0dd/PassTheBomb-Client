@@ -1,11 +1,14 @@
 package edu.bth.ma.passthebomb.client.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +18,7 @@ import edu.bth.ma.passthebomb.client.viewmodel.AddPlayerVm
 
 
 class AddPlayerActivity : ActionBarActivity() {
-    private val vm: AddPlayerVm by viewModels()
+    override val vm: AddPlayerVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +50,12 @@ class AddPlayerActivity : ActionBarActivity() {
 
         val startGameButton = findViewById<Button>(R.id.button_start_game_for_real)
         startGameButton.setOnClickListener{
-            vm.startGame(this)
+            if(vm.checkConfiguration()){
+                val intent = Intent(this, GameActivity::class.java)
+                intent.putExtra("GAME_SETTINGS", vm.getGameSettingsWithPlayer())
+                intent.putParcelableArrayListExtra("challenges", vm.challenges)
+                startActivity(intent)
+            }
         }
     }
 

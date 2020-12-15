@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
+import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.view.ActionBarActivity
 
@@ -16,23 +18,19 @@ import edu.bth.ma.passthebomb.client.viewmodel.challengesetlist.ChallengeSetList
 
 abstract class ChallengeSetListActivity : ActionBarActivity() {
 
-    lateinit var recyclerView: RecyclerView
-    abstract val vm: ChallengeSetListVm
-
+    override val vm by viewModels<ChallengeSetListVm>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_challenge_set_list)
         initButton()
         val button : Button = findViewById<Button>(R.id.button_add_challenge_set)
-        button.setOnClickListener{vm.onButton(this)}
+        button.setOnClickListener{onButtonClick(it)}
 
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar_challenge_set_list)
-
-        vm.init(this)
+        val recyclerView = findViewById<RecyclerView>(R.id.recycleviewMyChallengeSets)
         vm.challengeSetOverviews.observe(this, Observer {
-            recyclerView = findViewById<RecyclerView>(R.id.recycleviewMyChallengeSets)
-            recyclerView.adapter = createChallengeSetsAdapter(it)
+            recyclerView.adapter = getChallengeSetsAdapter(it)
             recyclerView.setHasFixedSize(true)
             progressBar.visibility = View.GONE
         })
@@ -40,10 +38,14 @@ abstract class ChallengeSetListActivity : ActionBarActivity() {
 
     abstract fun initButton()
 
-    abstract fun createChallengeSetsAdapter(challengeSetOverviews: List<ChallengeSetOverview>): ChallengeSetsAdapter
+    abstract fun onButtonClick(view: View)
+
+    abstract fun onChallengeSetClick(view: View, challengeSets: ArrayList<ChallengeSetOverview>, position: Int)
+
+    abstract fun getChallengeSetsAdapter(challengeSets: ArrayList<ChallengeSetOverview>): ChallengeSetsAdapter
 
     abstract inner class ChallengeSetsAdapter(private val context: Context,
-                                        private val dataset: List<ChallengeSetOverview>
+                                        protected open val dataset: ArrayList<ChallengeSetOverview>
     ) : RecyclerView.Adapter<ChallengeSetsAdapter.ItemViewHolder>(){
         inner class ItemViewHolder(public val view: View) : RecyclerView.ViewHolder(view) {
             val textViewChallengeSetName: TextView = view.findViewWithTag("text_view_challenge_set_name")
@@ -57,7 +59,7 @@ abstract class ChallengeSetListActivity : ActionBarActivity() {
             val challengeSet = dataset[position]
             holder.textViewChallengeSetName.text =  challengeSet.name
             holder.view.setOnClickListener{
-                vm.onChallengeSetClick(position, this@ChallengeSetListActivity)
+                onChallengeSetClick(it, dataset, position)
             }
         }
     }

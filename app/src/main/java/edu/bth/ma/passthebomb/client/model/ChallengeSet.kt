@@ -15,4 +15,11 @@ data class ChallengeSet(
     fun isOwnChallengeSet(context: Context):Boolean{
         return challengeSetOverview.isOwnChallengeSet(context)
     }
+
+    companion object{
+        fun generateNewFromContext(context: Context, name: String) : ChallengeSet{
+            val newOverview = ChallengeSetOverview.generateNewFromContext(context, name)
+            return ChallengeSet(newOverview, ArrayList<Challenge>())
+        }
+    }
 }

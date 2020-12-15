@@ -41,36 +41,25 @@ class AddPlayerVm(application: Application) : DatabaseVm(application) {
         playerNames.value = list
     }
 
-    fun startGame(context: Activity) {
+    fun checkConfiguration(): Boolean{
         if ((playerNames.value?.size ?: 0) < 2) {
-            Toast.makeText(
-                context,
-                "Please add at least two players.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
+            shortUserMessage("Please add at least two players.")
+            return false
         }
-        val intent = Intent(context, GameActivity::class.java)
-        gameSettings.playerList = playerNames.value ?: ArrayList<String>()
-        intent.putExtra("GAME_SETTINGS", gameSettings)
+        if (challenges.isEmpty()) {
+            shortUserMessage("No challenges found in selected challenge sets")
+            return false
+        }
+        //this should never happen since the database should be way faster then the user, but just to make sure...
+        if(challengesLiveData.hasActiveObservers()){
+            shortUserMessage("We are still loading your challenges in background, please wait a bit before starting the game.")
+        }
+        return true
+    }
 
-        //fetching challenges should be easily done by now, but we can make sure to wait if it is not
-        while (challengesLiveData.hasActiveObservers()) {
-            Thread.sleep(20)
-        }
-        if (challenges.isNotEmpty()) {
-            val list = arrayListOf<Parcelable>()
-            list.addAll(challenges)
-            intent.putParcelableArrayListExtra("challenges", list)
-            context.startActivity(intent)
-        } else {
-            Toast.makeText(
-                context,
-                "No challenges found in selected challenge sets",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
+    fun getGameSettingsWithPlayer(): GameSettings{
+        gameSettings.playerList = playerNames.value ?: ArrayList()
+        return gameSettings
     }
 }
 

@@ -1,8 +1,11 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
 import android.app.Application
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import edu.bth.ma.passthebomb.client.database.ChallengeRepository
 import edu.bth.ma.passthebomb.client.database.AppDb
@@ -14,12 +17,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-open class DatabaseVm(application: Application) : AndroidViewModel(application) {
+open class DatabaseVm(application: Application) : AndroidViewModel(application), EventCreator {
+
+    override val events = MutableLiveData<(AppCompatActivity) -> Unit>()
 
     private val challengeSetRepo: ChallengeSetRepository =
         AppDb.getDatabase(application).getChallengeSetRepository()
     private val challengeRepo: ChallengeRepository =
         AppDb.getDatabase(application).getChallengeRepository()
+
+
+    fun scheduleEvent(event: (AppCompatActivity) -> Unit){
+        events.value = event
+    }
+
+    fun shortUserMessage(message: String){
+        scheduleEvent { context ->
+            Toast.makeText(
+                context,
+                message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     fun getAllChallenges(): LiveData<List<Challenge>> {
         return challengeRepo.getAllChallenges()

@@ -14,15 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.Challenge
-import edu.bth.ma.passthebomb.client.model.ChallengeSet
 import edu.bth.ma.passthebomb.client.remote.RestService
 import edu.bth.ma.passthebomb.client.utils.IdGenerator
-import edu.bth.ma.passthebomb.client.viewmodel.DatabaseVm
+import edu.bth.ma.passthebomb.client.viewmodel.ChallengeSetVm
 import java.util.*
 
 class ChallengeSetActivity : ActionBarActivity() {
-    private val vm: DatabaseVm by viewModels()
-    var challengeSet: ChallengeSet? = null
+    override val vm by viewModels<ChallengeSetVm>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +42,7 @@ class ChallengeSetActivity : ActionBarActivity() {
         val addChallengeButton: Button = findViewById(R.id.button_add_challenge)
         val buttonDeleteChallengeSet = findViewById<Button>(R.id.button_delete_challenge_set)
 
-        vm.getChallengeSet(challengeSetId).observe(this, androidx.lifecycle.Observer {
-            challengeSet = it
+        vm.challengeSet.observe(this, androidx.lifecycle.Observer {
             title = "Challenge Set: " + it?.challengeSetOverview?.name
             if (it != null) {
                 recyclerView.adapter =
@@ -78,18 +75,19 @@ class ChallengeSetActivity : ActionBarActivity() {
         }
 
         buttonUploadChallenge.setOnClickListener {
+            val challengeSet = vm.challengeSet.value
             if (challengeSet != null) {
                 val restService = RestService(this)
-                if(challengeSet!!.isOwnChallengeSet(this)){
-                    restService.uploadChallengeSet(challengeSet!!, {
+                if(challengeSet.isOwnChallengeSet(this)){
+                    restService.uploadChallengeSet(challengeSet, {
                         Toast.makeText(
                             this,
                             "Successfully uploaded challenge set.",
                             Toast.LENGTH_SHORT
                         ).show()
                         //set new uploaded date
-                        challengeSet!!.challengeSetOverview.uploadedDate = Date()
-                        vm.updateChallengeSet(challengeSet!!)
+                        challengeSet.challengeSetOverview.uploadedDate = Date()
+                        vm.updateChallengeSet(challengeSet)
                     }, {
                         Toast.makeText(
                             this,
@@ -117,8 +115,9 @@ class ChallengeSetActivity : ActionBarActivity() {
         }
 
         buttonDeleteChallengeSet.setOnClickListener{
+            val challengeSet = vm.challengeSet.value
             if(challengeSet!=null){
-                vm.deleteChallengeSet(this.challengeSet!!)
+                vm.deleteChallengeSet(challengeSet)
             }
             finish()
         }
@@ -139,6 +138,7 @@ class ChallengeSetActivity : ActionBarActivity() {
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+            val challengeSet = vm.challengeSet.value
             val text = challenges.get(position).text
             holder.textViewChallengeText.text = text
             holder.view.setOnClickListener {

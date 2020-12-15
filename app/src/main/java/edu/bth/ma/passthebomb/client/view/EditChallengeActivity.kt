@@ -2,10 +2,7 @@ package edu.bth.ma.passthebomb.client.view
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import edu.bth.ma.passthebomb.client.R
@@ -14,7 +11,7 @@ import edu.bth.ma.passthebomb.client.viewmodel.EditChallengeVm
 
 class EditChallengeActivity : ActionBarActivity(){
 
-    val vm:EditChallengeVm by viewModels()
+    override val vm:EditChallengeVm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,21 +35,36 @@ class EditChallengeActivity : ActionBarActivity(){
             }
         })
 
-
-
         val saveButton: Button = findViewById(R.id.button_challenge_ok)
         saveButton.setOnClickListener{
             vm.setChallengeText(editTextChallenge.text.toString())
-            vm.onSave(this)
+            val challenge = vm.challenge.value
+            if(challenge!=null){
+                if(challenge.text != ""){
+                    vm.updateChallenge(challenge)
+                }else{
+                    Toast.makeText(this,"No challenge text, deleting challenge!", Toast.LENGTH_SHORT).show();
+                    vm.deleteChallenge(challenge.id)
+                }
+            }
+            finish()
         }
         val cancelButton:Button = findViewById(R.id.button_challenge_cancel)
         cancelButton.setOnClickListener{
-            vm.onCancel(this)
+            val challenge = vm.challenge.value
+            if(challenge!=null && challenge.text == ""){
+                vm.deleteChallenge(challenge.id)
+            }
+            finish()
         }
 
         val deleteButton:Button = findViewById(R.id.button_challenge_delete)
         deleteButton.setOnClickListener {
-            vm.onDelete(this)
+            val challenge = vm.challenge.value
+            if(challenge!=null){
+                vm.deleteChallenge(challenge.id)
+            }
+            finish()
         }
 
         seekBarChallengeTime.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
@@ -83,6 +95,4 @@ class EditChallengeActivity : ActionBarActivity(){
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
 }

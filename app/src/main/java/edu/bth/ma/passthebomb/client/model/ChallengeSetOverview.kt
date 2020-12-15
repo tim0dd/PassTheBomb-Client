@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 import edu.bth.ma.passthebomb.client.database.DbConstants
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
+import edu.bth.ma.passthebomb.client.utils.IdGenerator
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -26,5 +27,15 @@ data class ChallengeSetOverview(
     fun isOwnChallengeSet(context: Context): Boolean{
         val personalId = PreferenceService.getInstance(context).getUniqueUserId()
         return personalId==creatorId
+    }
+
+    companion object{
+        fun generateNewFromContext(context: Context, name: String): ChallengeSetOverview{
+            val ids = IdGenerator()
+            val challengeSetId = ids.generateDbId()
+            val date = Date()
+            return ChallengeSetOverview(challengeSetId,
+                ids.getUserId(context), name, date, date, null, date, 0)
+        }
     }
 }
