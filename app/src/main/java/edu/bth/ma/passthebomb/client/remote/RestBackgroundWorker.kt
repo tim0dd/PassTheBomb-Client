@@ -1,20 +1,18 @@
 package edu.bth.ma.passthebomb.client.remote
 
 import android.content.Context
-import android.util.Log
 import androidx.work.*
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.RequestFuture
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import edu.bth.ma.passthebomb.client.utils.Notification.Companion.notifyNewChallengeSets
-import org.json.JSONException
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 const val WORKER_TAG = "passthebomb-restbackgroundworker"
 const val TIMEOUT_SECONDS: Long = 60
-const val REPEAT_PERIOD_DAYS: Long = 16
+const val REPEAT_PERIOD_MINUTES: Long = 16
 const val NOTIFICATION_CHANNEL_ID = "passthebomb_notification_channel"
 
 class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters) :
@@ -58,7 +56,7 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
 
         private fun getWorkRequest(): PeriodicWorkRequest {
             return PeriodicWorkRequestBuilder<RestBackgroundWorker>(
-                REPEAT_PERIOD_DAYS,
+                REPEAT_PERIOD_MINUTES,
                 TimeUnit.MINUTES
             ).addTag(WORKER_TAG).build()
         }
