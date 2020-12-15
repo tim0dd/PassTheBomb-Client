@@ -1,1 +1,4 @@
-see freepic.com for license. We need to attribute freepic e.g.: <a href="https://www.freepik.com/vectors/background">Background vector created by brgfx - www.freepik.com</a>
+see freepic.com for license.
+
+For distribution this link can be used:
+<a href="https://www.freepik.com/vectors/background">Background vector created by brgfx - www.freepik.com</a>
