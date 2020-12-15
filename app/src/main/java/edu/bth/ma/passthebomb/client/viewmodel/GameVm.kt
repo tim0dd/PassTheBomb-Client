@@ -20,33 +20,33 @@ enum class GameState {
     GAME_OVER
 }
 
-const val ACCELERATION_THRESH_MULTIPLYER = 2.0
+const val ACCELERATION_THRESH_MULTIPLIER = 2.0
 const val ATTENUATION_FACTOR = 0.5
 const val CHALLENGED_SOLVED_SCORE = 50
 const val BOMB_EXPLOSION_SCORE = -100
-var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLYER
+var accelerationThresh: Double = ACCELERATION_THRESH_MULTIPLIER
 lateinit var previousGameState: GameState
 
 class GameVm : ViewModel() {
     val gameSettings = MutableLiveData<GameSettings>()
-    lateinit var challenges: ArrayList<Challenge>
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val playerName: MutableLiveData<String> = MutableLiveData()
     var secondsLeft: MutableLiveData<Float> = MutableLiveData()
     val currentChallenge: MutableLiveData<Challenge> = MutableLiveData()
     val gameState = MutableLiveData<GameState>()
-    var countDownTimer: BombCountDownTimer? = null
-    lateinit var playerScores: ArrayList<Int>
-    lateinit var playerScheduler: RoundRobinScheduler
+    private lateinit var challenges: ArrayList<Challenge>
     var relativeAcceleration = MutableLiveData<Double>(0.0)
-    var currentChallengeIndex = -1
+    private var countDownTimer: BombCountDownTimer? = null
+    lateinit var playerScores: ArrayList<Int>
+    private lateinit var playerScheduler: RoundRobinScheduler
+    private var currentChallengeIndex = -1
 
     fun init(gameSettings: GameSettings, challenges: ArrayList<Challenge>) {
         this.gameSettings.value = gameSettings
         isLoading.value = false
         playerScores = ArrayList(MutableList(gameSettings.playerList.size) { 0 })
-        accelerationThresh = ACCELERATION_THRESH_MULTIPLYER / (gameSettings.bombSensitivity + 0.01)
+        accelerationThresh = ACCELERATION_THRESH_MULTIPLIER / (gameSettings.bombSensitivity + 0.01)
         this.challenges = arrayListOf()
         this.challenges.addAll(challenges)
         this.challenges.shuffle()
@@ -79,7 +79,9 @@ class GameVm : ViewModel() {
             return
         }
         gameState.value = GameState.KABOOM
-        countDownTimer = null //stops and destroys the timer
+        countDownTimer?.pause() //stop and destroys the timer
+        countDownTimer = null
+        secondsLeft.value = 0f
         playerScores[playerScheduler.currentElement] += BOMB_EXPLOSION_SCORE
     }
 
@@ -165,9 +167,11 @@ class GameVm : ViewModel() {
         }
     }
 
-    fun onKaboomClick() {
-        playerScheduler.nextElement()
-        restart()
+    fun restartAfterKaboom() {
+        if(gameState.value == GameState.KABOOM){
+            playerScheduler.nextElement()
+            restart()
+        }
     }
 
     fun onLinearAcceleration(x: Float, y: Float, z: Float): Double {

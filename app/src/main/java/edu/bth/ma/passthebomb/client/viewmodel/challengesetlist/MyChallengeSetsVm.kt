@@ -8,8 +8,10 @@ import kotlin.collections.ArrayList
 class MyChallengeSetsVm(application: Application) : ChallengeSetListVm(application) {
 
     init{
-        getAllChallengeSets().observeOnce {
-            challengeSetOverviews.value = ArrayList(it)
+        scheduleEvent { context ->
+            getAllChallengeSets().observe(context, Observer {
+                challengeSetOverviews.value = ArrayList(it)
+            })
         }
     }
 }
