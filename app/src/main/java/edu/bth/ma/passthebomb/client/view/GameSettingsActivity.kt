@@ -40,9 +40,9 @@ class GameSettingsActivity : ActionBarActivity() {
             bombSensitivity *= 2
             val shuffleRandomly: Boolean = switchRandomPlayerOrder.isChecked
             val enableSound: Boolean = switchEnableSound.isChecked
-            val numberRounds: Int = 1
+            var numberRounds: Int = 1
             try {
-                editTextNumberRounds.text.toString().toInt()
+                numberRounds = editTextNumberRounds.text.toString().toInt()
             } catch (e: Exception) {
                 Toast.makeText(this, "Invalid number of rounds!",
                     Toast.LENGTH_SHORT).show()
