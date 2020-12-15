@@ -8,6 +8,7 @@ import java.util.*
 
 const val PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
 const val LAST_DOWNLOAD_OVERVIEW = "LAST_DWN_OVERVIEW"
+const val PLAYERS = "PLAYERS"
 
 class PreferenceService constructor(private val context: Context) {
     var uniqueId: String? = null
@@ -44,6 +45,22 @@ class PreferenceService constructor(private val context: Context) {
         val editor = sharedPrefs.edit()
         editor.putLong(LAST_DOWNLOAD_OVERVIEW, date.time)
         editor.apply()
+    }
+
+    fun setPlayerNames(playerNames: Set<String>) {
+        val sharedPrefs: SharedPreferences = context.getSharedPreferences(
+            PLAYERS, Context.MODE_PRIVATE
+        )
+        val editor = sharedPrefs.edit()
+        editor.putStringSet(PLAYERS, playerNames)
+        editor.apply()
+    }
+
+    fun getPlayerNames(): Set<String> {
+        val sharedPrefs: SharedPreferences = context.getSharedPreferences(
+            PLAYERS, Context.MODE_PRIVATE
+        )
+        return sharedPrefs.getStringSet(PLAYERS, setOf<String>())!!
     }
 
 

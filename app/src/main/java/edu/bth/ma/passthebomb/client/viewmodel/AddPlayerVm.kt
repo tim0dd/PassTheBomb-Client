@@ -1,16 +1,12 @@
 package edu.bth.ma.passthebomb.client.viewmodel
 
-import android.app.Activity
 import android.app.Application
-import android.content.Intent
-import android.os.Parcelable
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.GameSettings
+import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import edu.bth.ma.passthebomb.client.utils.ObserveExtensions.Companion.observeOnce
-import edu.bth.ma.passthebomb.client.view.GameActivity
 
 class AddPlayerVm(application: Application) : DatabaseVm(application) {
     var playerNames = MutableLiveData<ArrayList<String>>()
@@ -24,6 +20,9 @@ class AddPlayerVm(application: Application) : DatabaseVm(application) {
         challengesLiveData.observeOnce {
             challenges.addAll(it)
         }
+        val namesArray = arrayListOf<String>()
+        namesArray.addAll(PreferenceService.getInstance(getApplication()).getPlayerNames())
+        playerNames.value = namesArray
     }
 
     fun addPlayer(playerName: String) {
@@ -33,12 +32,16 @@ class AddPlayerVm(application: Application) : DatabaseVm(application) {
         }
         list.add(playerName)
         playerNames.value = list
+        if (list != null) PreferenceService.getInstance(getApplication())
+            .setPlayerNames(list.toSet())
     }
 
     fun deletePlayer(index: Int) {
         val list = playerNames.value
         list?.removeAt(index)
         playerNames.value = list
+        if (list != null) PreferenceService.getInstance(getApplication())
+            .setPlayerNames(list.toSet())
     }
 
     fun checkConfiguration(): Boolean{
