@@ -33,9 +33,9 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
             RestService.getInstance(applicationContext).queue.add(request)
             val response = future[TIMEOUT_SECONDS, TimeUnit.SECONDS]
             val numberOfNewSets = response.getInt("response")
-          /*  if (numberOfNewSets > 0) {
+            if (numberOfNewSets > 0) {
                 notifyNewChallengeSets(context, numberOfNewSets)
-            }*/
+            }
             notifyNewChallengeSets(context, numberOfNewSets)
             Result.success()
         } catch (e: Exception) {
