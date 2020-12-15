@@ -12,12 +12,12 @@ class ChallengeSetVm(application: Application) : DatabaseVm(application) {
     lateinit var challengeSetId: String
     val challengeSet = MutableLiveData<ChallengeSet>()
 
-    fun init(challengeSetId: String){
-        if(!this::challengeSetId.isInitialized){
+    fun init(challengeSetId: String) {
             this.challengeSetId = challengeSetId
-            getChallengeSet(challengeSetId).observeOnce {
+        scheduleEvent {context ->
+            getChallengeSet(challengeSetId).observe(context, Observer {
                 challengeSet.value = it
-            }
+            })
         }
     }
 }
