@@ -58,8 +58,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttachedToWindow() {
         //disable notification bar
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -70,6 +69,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         setContentView(R.layout.screen_game)
 
