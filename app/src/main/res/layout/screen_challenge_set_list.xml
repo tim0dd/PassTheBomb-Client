@@ -12,7 +12,7 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/other_screens_bg" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_add_challenge_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,6 +21,7 @@
         android:drawableLeft="@android:drawable/ic_menu_add"
         android:text="Add"
         android:textSize="18sp"
+        app:icon="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

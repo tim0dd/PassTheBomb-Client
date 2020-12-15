@@ -36,7 +36,7 @@
         android:height="@dimen/button_height"
         android:text="Start Game For Real"
         android:textSize="18sp"
-        app:icon="@drawable/arrow_right"
+        app:icon="@drawable/ic_arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

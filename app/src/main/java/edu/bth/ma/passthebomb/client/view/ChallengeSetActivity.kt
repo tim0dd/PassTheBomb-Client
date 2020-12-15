@@ -42,6 +42,7 @@ class ChallengeSetActivity : ActionBarActivity() {
         val addChallengeButton: Button = findViewById(R.id.button_add_challenge)
         val buttonDeleteChallengeSet = findViewById<Button>(R.id.button_delete_challenge_set)
 
+        vm.init(challengeSetId)
         vm.challengeSet.observe(this, androidx.lifecycle.Observer {
             title = "Challenge Set: " + it?.challengeSetOverview?.name
             if (it != null) {

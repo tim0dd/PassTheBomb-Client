@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.button.MaterialButton
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.ChallengeSetOverview
 import edu.bth.ma.passthebomb.client.view.GameSettingsActivity
@@ -27,7 +28,8 @@ class SelectChallengeSetsActivity : ChallengeSetListActivity() {
 
 
     override fun initButton(){
-        val startButton = findViewById<Button>(R.id.button_add_challenge_set)
+        val startButton = findViewById<MaterialButton>(R.id.button_add_challenge_set)
+        startButton.setIconResource(R.drawable.ic_arrow_right)
         startButton.text = "Start Game!"
         startButton.visibility = View.VISIBLE
     }

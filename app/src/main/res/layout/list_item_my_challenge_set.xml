@@ -31,6 +31,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/textViewChallengeSetName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewChallengeSetName"
-        app:srcCompat="@drawable/arrow_right" />
+        app:srcCompat="@drawable/ic_arrow_right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
