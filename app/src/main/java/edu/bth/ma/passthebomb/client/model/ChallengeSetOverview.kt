@@ -29,6 +29,14 @@ data class ChallengeSetOverview(
         return personalId==creatorId
     }
 
+    fun isBundledChallengeSet(): Boolean {
+        return creatorId=="BUNDLED"
+    }
+
+    fun isDownloadedChallengeSet(context: Context): Boolean {
+        return !isBundledChallengeSet() && !isOwnChallengeSet(context)
+    }
+
     companion object{
         fun generateNewFromContext(context: Context, name: String): ChallengeSetOverview{
             val ids = IdGenerator()

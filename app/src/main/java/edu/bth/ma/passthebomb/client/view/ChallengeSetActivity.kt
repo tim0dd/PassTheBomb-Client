@@ -38,13 +38,25 @@ class ChallengeSetActivity : ActionBarActivity() {
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_challenge_list)
-        val buttonUploadChallenge = findViewById<MaterialButton>(R.id.button_upload_challenge_set)
+        val buttonSynchronize = findViewById<MaterialButton>(R.id.button_upload_challenge_set)
         val addChallengeButton: Button = findViewById(R.id.button_add_challenge)
         val buttonDeleteChallengeSet = findViewById<Button>(R.id.button_delete_challenge_set)
 
         vm.init(challengeSetId)
         vm.challengeSet.observe(this, androidx.lifecycle.Observer {
-            title = "Challenge Set: " + it?.challengeSetOverview?.name
+            if(it.isOwnChallengeSet(this)){
+                title = "Own Set: " + it?.challengeSetOverview?.name
+            }else if(it.isBundledChallengeSet()){
+                title = "Bundled Set: " + it?.challengeSetOverview?.name
+            }else if(it.isDownloadedChallengeSet(this)){
+                title = "Downloaded Set: " + it?.challengeSetOverview?.name
+            }else{
+                title = "Challenge Set: " + it?.challengeSetOverview?.name
+            }
+            if(it.isBundledChallengeSet()){
+                buttonSynchronize.visibility = View.GONE
+                buttonDeleteChallengeSet.visibility = View.GONE
+            }
             if (it != null) {
                 recyclerView.adapter =
                     ChallengeListAdapter(
@@ -54,14 +66,14 @@ class ChallengeSetActivity : ActionBarActivity() {
                 recyclerView.setHasFixedSize(true)
                 if (it.isOwnChallengeSet(this)) {
                     if (it.challengeSetOverview.uploadedDate != null) {
-                        buttonUploadChallenge.text = "Reupload"
+                        buttonSynchronize.text = "Reupload"
                     } else {
-                        buttonUploadChallenge.text = "Upload"
+                        buttonSynchronize.text = "Upload"
                     }
-                    buttonUploadChallenge.setIconResource(R.drawable.ic_upload)
+                    buttonSynchronize.setIconResource(R.drawable.ic_upload)
                 } else {
-                    buttonUploadChallenge.text = "Redownload"
-                    buttonUploadChallenge.setIconResource(R.drawable.ic_download)
+                    buttonSynchronize.text = "Redownload"
+                    buttonSynchronize.setIconResource(R.drawable.ic_download)
                 }
             }
         })
@@ -75,7 +87,7 @@ class ChallengeSetActivity : ActionBarActivity() {
             this.startActivity(intent)
         }
 
-        buttonUploadChallenge.setOnClickListener {
+        buttonSynchronize.setOnClickListener {
             val challengeSet = vm.challengeSet.value
             if (challengeSet != null) {
                 val restService = RestService(this)
