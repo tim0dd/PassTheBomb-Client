@@ -40,7 +40,7 @@ class EditChallengeActivity : ActionBarActivity(){
             vm.setChallengeText(editTextChallenge.text.toString())
             val challenge = vm.challenge.value
             if(challenge!=null){
-                if(challenge.text != ""){
+                if(challenge.text.trim().isNotEmpty()){
                     vm.updateChallenge(challenge)
                 }else{
                     Toast.makeText(this,"No challenge text, deleting challenge!", Toast.LENGTH_SHORT).show();

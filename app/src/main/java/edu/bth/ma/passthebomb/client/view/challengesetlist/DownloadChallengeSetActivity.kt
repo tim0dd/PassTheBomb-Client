@@ -66,7 +66,6 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             val imageView = holder.view.findViewById<ImageView>(R.id.image_view_item_online_challenge_set)
-            val progressBar = holder.view.findViewById<ProgressBar>(R.id.progress_bar_challenge_set_download)
             vm.getChallengeSet(dataset[position].id).observe(this@DownloadChallengeSetActivity,
             Observer {
                 if(it==null){
@@ -75,9 +74,6 @@ class DownloadChallengeSetActivity : ChallengeSetListActivity() {
                     imageView.setImageResource(R.drawable.ic_check)
                 }
             })
-            holder.view.setOnClickListener{
-
-            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
