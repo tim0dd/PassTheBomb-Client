@@ -1,5 +1,7 @@
 # PassTheBomb-Client
 
+To be fully function the app relies on a REST server. The code for the server can be found here: https://github.com/tditt/PassTheBomb-Server
+
 ## Testing
 - **In emulator**:  For testing the server capabilities with android emulator, the preset IP will work if the server is running on the same system as the emulator.
   
