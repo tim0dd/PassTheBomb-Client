@@ -7,34 +7,34 @@
         android:duration="5"
         android:fromXDelta="0%p"
         android:startOffset="25"
-        android:toXDelta="0.15%p" />
+        android:toXDelta="0.0075%p" />
 
     <translate
         android:duration="5"
         android:fromXDelta="0%p"
         android:startOffset="68"
-        android:toXDelta="-.3%p" />
+        android:toXDelta="-0.015%p" />
 
 
     <translate
         android:duration="5"
         android:fromXDelta="0%p"
         android:startOffset="65"
-        android:toXDelta="1%p" />
+        android:toXDelta="0.1%p" />
 
 
     <translate
         android:duration="5"
         android:fromXDelta="0%p"
         android:startOffset="90"
-        android:toXDelta="-0.1%p" />
+        android:toXDelta="-0.005%p" />
 
 
     <translate
         android:duration="5"
         android:fromXDelta="0%p"
         android:startOffset="127"
-        android:toXDelta=".25%p" />
+        android:toXDelta=".025%p" />
     <rotate
         android:duration="70"
         android:fromDegrees="-3"

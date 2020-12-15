@@ -131,10 +131,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         bombGraph.viewport.isYAxisBoundsManual = true
         bombGraph.viewport.setMinX(0.0)
         bombGraph.viewport.setMaxX(1.0)
-        val orange = resources.getColor(R.color.orange_main, theme)
-        val bgColor = Color.argb(120, Color.red(orange), Color.green(orange), Color.blue(orange))
+        val teal = resources.getColor(R.color.teal_main, theme)
+        val bgColor = Color.argb(120, Color.red(teal), Color.green(teal), Color.blue(teal))
         series.isDrawBackground = true
-        series.color = orange
+        series.color = teal
         series.backgroundColor = bgColor
         bombGraph.addSeries(series)
 
