@@ -30,7 +30,7 @@ class ChallengeSetActivity : ActionBarActivity() {
 
         title = "Challenge Set"
 
-        val challengeSetIdUnsafe: String? = getIntent().getStringExtra("CHALLENGE_SET_ID")
+        val challengeSetIdUnsafe: String? = intent.getStringExtra("CHALLENGE_SET_ID")
         lateinit var challengeSetId: String
         challengeSetId = if (challengeSetIdUnsafe == null) {
             finish()
@@ -46,7 +46,7 @@ class ChallengeSetActivity : ActionBarActivity() {
 
         vm.getChallengeSet(challengeSetId).observe(this, androidx.lifecycle.Observer {
             challengeSet = it
-            title = "Challenge Set " + it?.challengeSetOverview?.name
+            title = "Challenge Set: " + it?.challengeSetOverview?.name
             if (it != null) {
                 recyclerView.adapter =
                     ChallengeListAdapter(
@@ -54,14 +54,14 @@ class ChallengeSetActivity : ActionBarActivity() {
                         it.challenges
                     )
                 recyclerView.setHasFixedSize(true)
-                if(it.isOwnChallengeSet(this)){
-                    if(it.challengeSetOverview.uploadedDate!=null){
+                if (it.isOwnChallengeSet(this)) {
+                    if (it.challengeSetOverview.uploadedDate != null) {
                         buttonUploadChallenge.text = "Reupload"
-                    }else{
+                    } else {
                         buttonUploadChallenge.text = "Upload"
                     }
                     buttonUploadChallenge.setIconResource(R.drawable.ic_upload)
-                }else{
+                } else {
                     buttonUploadChallenge.text = "Redownload"
                     buttonUploadChallenge.setIconResource(R.drawable.ic_download)
                 }
