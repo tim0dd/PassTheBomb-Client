@@ -36,7 +36,6 @@ class RestBackgroundWorker(val context: Context, workerParams: WorkerParameters)
             if (numberOfNewSets > 0) {
                 notifyNewChallengeSets(context, numberOfNewSets)
             }
-            notifyNewChallengeSets(context, numberOfNewSets)
             Result.success()
         } catch (e: Exception) {
             // e.printStackTrace()
