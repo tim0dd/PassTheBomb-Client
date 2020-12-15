@@ -22,11 +22,11 @@ abstract class AppDb : RoomDatabase() {
 
     abstract fun challengeDao(): ChallengeDao
 
-    public fun getChallengeSetRepository() :ChallengeSetRepository {
+    fun getChallengeSetRepository(): ChallengeSetRepository {
         return ChallengeSetRepository(challengeSetDao())
     }
 
-    public fun getChallengeRepository() :ChallengeRepository {
+    fun getChallengeRepository(): ChallengeRepository {
         return ChallengeRepository(challengeDao())
     }
 
@@ -44,7 +44,8 @@ abstract class AppDb : RoomDatabase() {
                     context.applicationContext,
                     AppDb::class.java,
                     DATABASE_NAME
-                ).fallbackToDestructiveMigration().build()
+                ).createFromAsset("db/pass_the_bomb_bundled_db")
+                    .fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }
