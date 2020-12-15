@@ -101,6 +101,7 @@ open class DatabaseVm(application: Application) : AndroidViewModel(application),
 
     fun deleteChallengeSet(challengeSet: ChallengeSet) {
         runCoroutine { challengeSetRepo.deleteChallengeSetOverview(challengeSet.challengeSetOverview) }
+        challengeSet.challenges.forEach { runCoroutine { challengeRepo.deleteChallenge(it) } }
     }
 
     fun deleteChallengeSet(challengeSetOverview: ChallengeSetOverview) {

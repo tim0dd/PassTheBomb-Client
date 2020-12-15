@@ -2,13 +2,17 @@ package edu.bth.ma.passthebomb.client.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.remote.NOTIFICATION_CHANNEL_ID
+import edu.bth.ma.passthebomb.client.view.challengesetlist.DownloadChallengeSetActivity
 
 const val CHANNEL_ID = "passthebomb_notification_channel"
 const val NAME = "Pass the bomb"
@@ -34,13 +38,18 @@ class Notification {
         }
 
         fun notifyNewChallengeSets(context: Context, numberOfNewSets: Int) {
-            //TODO: create notification link to open DownloadChallengeSets activity
+            val resultIntent = Intent(context, DownloadChallengeSetActivity::class.java)
+            val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(context).run {
+                addNextIntentWithParentStack(resultIntent)
+                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            }
             val builder =
                 NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID).setContentTitle(NAME)
+                    .setContentIntent(resultPendingIntent)
                     .setContentText("There is $numberOfNewSets new challenge sets available!")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            /*  .setStyle(NotificationCompat.BigTextStyle()
-                  .bigText("Much longer text that cannot fit one line..."))*/
+                    /*  .setStyle(NotificationCompat.BigTextStyle()
+                          .bigText("Much longer text that cannot fit one line..."))*/
                     .setSmallIcon(R.drawable.ic_download)
 
             with(NotificationManagerCompat.from(context)) {

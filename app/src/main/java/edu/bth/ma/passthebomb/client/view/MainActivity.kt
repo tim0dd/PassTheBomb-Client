@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.preferences.PreferenceService
 import edu.bth.ma.passthebomb.client.remote.RestBackgroundWorker
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_main)
+
+        //disable night mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         //initialize singletons
         PreferenceService(this)
