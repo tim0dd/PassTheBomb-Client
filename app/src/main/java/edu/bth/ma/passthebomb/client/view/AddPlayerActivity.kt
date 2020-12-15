@@ -44,7 +44,12 @@ class AddPlayerActivity : ActionBarActivity() {
         addPlayerButton.setOnClickListener {
             val dia = Dialogs(this)
             dia.showStringInputDialog("Player Name") {
-                vm.addPlayer(it)
+                if(it.trim().isNotEmpty()){
+                    vm.addPlayer(it)
+                }else{
+                    Toast.makeText(this, "No empty player names, please!",
+                        Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
