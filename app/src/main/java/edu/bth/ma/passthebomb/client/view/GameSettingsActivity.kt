@@ -2,10 +2,7 @@ package edu.bth.ma.passthebomb.client.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.SeekBar
-import android.widget.Switch
+import android.widget.*
 import edu.bth.ma.passthebomb.client.R
 import edu.bth.ma.passthebomb.client.model.GameSettings
 
@@ -43,8 +40,14 @@ class GameSettingsActivity : ActionBarActivity() {
             bombSensitivity *= 2
             val shuffleRandomly: Boolean = switchRandomPlayerOrder.isChecked
             val enableSound: Boolean = switchEnableSound.isChecked
-            val numberRounds: Int = editTextNumberRounds.text.toString().toInt()
-
+            val numberRounds: Int = 1
+            try {
+                editTextNumberRounds.text.toString().toInt()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Invalid number of rounds!",
+                    Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val gameSettings = GameSettings(challengeSetIds, ArrayList(), timeModifier,
                     bombSensitivity, shuffleRandomly, enableSound, numberRounds)
             val intent = Intent(this, AddPlayerActivity::class.java)

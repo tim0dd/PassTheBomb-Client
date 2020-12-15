@@ -117,9 +117,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val buttonRight = findViewById<Button>(R.id.button_game_right)
         val textViewPlayer = findViewById<TextView>(R.id.text_view_game_player)
         val textViewChallenge = findViewById<TextView>(R.id.text_view_game_challenge)
-        textViewChallenge.setOnClickListener{
-            Log.d("DEBUG", "click")
-        }
         val progressBarTime = findViewById<ProgressBar>(R.id.prograss_bar_game_time)
         val constraintLayoutKaboom = findViewById<ConstraintLayout>(R.id.constraint_layout_boom)
         val imageViewOverlay = findViewById<ImageView>(R.id.image_view_game_overlay)

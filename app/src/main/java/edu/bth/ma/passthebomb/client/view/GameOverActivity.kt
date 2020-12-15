@@ -38,8 +38,8 @@ class GameOverActivity : ActionBarActivity() {
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("GAME_SETTINGS", gameSettings)
             val list = arrayListOf<Parcelable>()
-            val challengesMaybeNull: java.util.ArrayList<Challenge>? =
-                intent.getParcelableArrayListExtra("challenges")
+            val challengesMaybeNull: ArrayList<Challenge>? =
+                this.intent.getParcelableArrayListExtra("challenges")
             list.addAll(challengesMaybeNull!!)
             intent.putParcelableArrayListExtra("challenges", list)
             startActivity(intent)
