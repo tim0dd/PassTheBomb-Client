@@ -9,7 +9,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.os.*
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
@@ -258,10 +257,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         val nextPlayerObserver = Observer<String> { player ->
             var text: String = ""
-            if(player.endsWith("s")){
-                text = "It's ${player}' turn"
+            text = if(player.endsWith("s")){
+                "It's ${player}' turn"
             }else{
-                text = "It's ${player}'s turn"
+                "It's ${player}'s turn"
             }
             textViewPlayer.text = text
         }

@@ -49,13 +49,13 @@ class AddPlayerVm(application: Application) : DatabaseVm(application) {
             shortUserMessage("Please add at least two players.")
             return false
         }
-        if (challenges.isEmpty()) {
-            shortUserMessage("No challenges found in selected challenge sets")
-            return false
-        }
         //this should never happen since the database should be way faster then the user, but just to make sure...
         if(challengesLiveData.hasActiveObservers()){
             shortUserMessage("We are still loading your challenges in background, please wait a bit before starting the game.")
+        }
+        if (challenges.isEmpty()) {
+            shortUserMessage("No challenges found in selected challenge sets")
+            return false
         }
         return true
     }
