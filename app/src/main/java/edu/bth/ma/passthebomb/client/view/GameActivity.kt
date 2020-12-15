@@ -47,7 +47,9 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     var lastAccelerationValue = 0.0
     var relativeAccelerations = DoubleArray(BOMB_GRAPH_NUMBER_OF_VALUES) { 0.0 }
 
-    val series: LineGraphSeries<DataPoint> = LineGraphSeries(
+    lateinit var challenges: ArrayList<Challenge>
+
+    private val series: LineGraphSeries<DataPoint> = LineGraphSeries(
         relativeAccelerations.map { acc -> DataPoint(count++, acc) }.toTypedArray()
     )
 
@@ -79,14 +81,16 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         val gameSettings: GameSettings? =
             intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
-        val challengeList: ArrayList<Challenge>? = intent.getParcelableArrayListExtra("challenges")
         if (gameSettings == null) {
             Toast.makeText(this, "No game settings, cannot start game this way", Toast.LENGTH_SHORT)
                 .show()
             finish()
             return
         }
-        if (challengeList == null || challengeList.isEmpty()) {
+
+        val challengesMaybeNull: ArrayList<Challenge>? =
+            intent.getParcelableArrayListExtra("challenges")
+        if (challengesMaybeNull == null || challengesMaybeNull.isEmpty()) {
             Toast.makeText(
                 this,
                 "No challenges available, cannot start game this way",
@@ -96,7 +100,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             finish()
             return
         }
-        vm.init(gameSettings, challengeList)
+        challenges = challengesMaybeNull
+        vm.init(gameSettings, challenges)
 
         val buttonLeft = findViewById<Button>(R.id.button_game_left)
         val buttonRight = findViewById<Button>(R.id.button_game_right)
@@ -214,6 +219,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                     val intent = Intent(this, GameOverActivity::class.java)
                     intent.putExtra("GAME_SETTINGS", vm.gameSettings.value!!)
                     intent.putExtra("SCORES", vm.playerScores)
+                    // put challenges in intent in case the game is restarted
+                    val list = arrayListOf<Parcelable>()
+                    list.addAll(challenges)
+                    intent.putParcelableArrayListExtra("challenges", list)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
                 }

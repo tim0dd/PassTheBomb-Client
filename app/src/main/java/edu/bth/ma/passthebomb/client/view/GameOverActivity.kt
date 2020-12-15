@@ -3,6 +3,7 @@ package edu.bth.ma.passthebomb.client.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.bth.ma.passthebomb.client.R
+import edu.bth.ma.passthebomb.client.model.Challenge
 import edu.bth.ma.passthebomb.client.model.GameSettings
 
 class GameOverActivity : ActionBarActivity() {
@@ -21,7 +23,7 @@ class GameOverActivity : ActionBarActivity() {
         setContentView(R.layout.screen_game_over)
 
         title = "Results"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val gameSettings: GameSettings = intent.getSerializableExtra("GAME_SETTINGS") as GameSettings?
                 ?: GameSettings()
@@ -35,6 +37,11 @@ class GameOverActivity : ActionBarActivity() {
         buttonRestartGame.setOnClickListener{
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("GAME_SETTINGS", gameSettings)
+            val list = arrayListOf<Parcelable>()
+            val challengesMaybeNull: java.util.ArrayList<Challenge>? =
+                intent.getParcelableArrayListExtra("challenges")
+            list.addAll(challengesMaybeNull!!)
+            intent.putParcelableArrayListExtra("challenges", list)
             startActivity(intent)
         }
         val buttonBackToMenu : Button = findViewById(R.id.button_scores_back_to_menu)
