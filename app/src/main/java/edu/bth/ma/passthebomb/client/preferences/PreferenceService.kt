@@ -34,7 +34,7 @@ class PreferenceService constructor(private val context: Context) {
         val sharedPrefs: SharedPreferences = context.getSharedPreferences(
             LAST_DOWNLOAD_OVERVIEW, Context.MODE_PRIVATE
         )
-        return Date(sharedPrefs.getLong(PREF_UNIQUE_ID, 0))
+        return Date(sharedPrefs.getLong(LAST_DOWNLOAD_OVERVIEW, 0))
 
     }
 
