@@ -132,6 +132,7 @@ class ChallengeSetActivity : ActionBarActivity() {
         inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val textViewChallengeText: TextView =
                 view.findViewById(R.id.text_view_challenge_list_challenge)
+            val textViewRunningNumber: TextView = view.findViewById(R.id.text_view_challenge_number)
         }
 
         override fun getItemCount(): Int {
@@ -140,8 +141,9 @@ class ChallengeSetActivity : ActionBarActivity() {
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             val challengeSet = vm.challengeSet.value
-            val text = challenges.get(position).text
+            val text = challenges[position].text
             holder.textViewChallengeText.text = text
+            holder.textViewRunningNumber.text = "#" + (position + 1).toString()
             holder.view.setOnClickListener {
                 if(challengeSet?.isOwnChallengeSet(this@ChallengeSetActivity) == true){
                     val intent = Intent(context, EditChallengeActivity::class.java)
